@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4xu67kk2sds2"]
+[gd_scene load_steps=7 format=3 uid="uid://c4xu67kk2sds2"]
 
 [ext_resource type="Texture2D" uid="uid://b0q78ik8ygp5y" path="res://assets/sprites/tiles_1.png" id="1_i3wkb"]
 [ext_resource type="PackedScene" uid="uid://d2l0t1tx054pt" path="res://assets/scenes/player.tscn" id="2_sv561"]
+[ext_resource type="PackedScene" uid="uid://bhti4ybxk2aot" path="res://assets/scenes/moving_platform_large.tscn" id="3_lrawt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lk64i"]
 texture = ExtResource("1_i3wkb")
@@ -330,6 +331,13 @@ terrain_set_0/terrain_1/name = "oneWayGround 1"
 terrain_set_0/terrain_1/color = Color(0.583376, 0.193784, 0.863338, 1)
 sources/0 = SubResource("TileSetAtlasSource_lk64i")
 
+[sub_resource type="Curve2D" id="Curve2D_24ec3"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -32)
+}
+point_count = 2
+
 [node name="area1" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -343,3 +351,6 @@ layer_1/tile_data = PackedInt32Array(65532, 65536, 0, 131076, 65536, 2, 65540, 6
 [node name="player" parent="." instance=ExtResource("2_sv561")]
 position = Vector2(7, -10)
 jumpPower = 8
+
+[node name="movingPlatformLarge" parent="." instance=ExtResource("3_lrawt")]
+curve = SubResource("Curve2D_24ec3")
