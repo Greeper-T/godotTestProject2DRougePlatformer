@@ -7,7 +7,7 @@ class_name PlayerController
 var speedMultiplier = 30
 var jumpMultiplier = -30
 var direction = 0
-var jumpsLeft = 1
+var jumpsLeft = 10
 var sprintSpeed = speed + 3
 
 
@@ -27,8 +27,10 @@ func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+		if Input.is_action_pressed("moveDown") and velocity.y > 0:
+			velocity.y += 40000 * delta
 	else:
-		jumpsLeft = 1
+		jumpsLeft = 10
 
 	# Handle jump.
 	if Input.is_action_pressed("moveDown") and Input.is_action_pressed("jump"):
