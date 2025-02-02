@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://c4xu67kk2sds2"]
+[gd_scene load_steps=12 format=3 uid="uid://c4xu67kk2sds2"]
 
 [ext_resource type="Texture2D" uid="uid://b0q78ik8ygp5y" path="res://assets/sprites/tiles_1.png" id="1_i3wkb"]
+[ext_resource type="PackedScene" uid="uid://dup6wt0aonxxc" path="res://HUD.tscn" id="1_qarri"]
 [ext_resource type="PackedScene" uid="uid://d2l0t1tx054pt" path="res://assets/scenes/player.tscn" id="2_sv561"]
 [ext_resource type="PackedScene" uid="uid://bhti4ybxk2aot" path="res://assets/scenes/moving_platform_large.tscn" id="3_lrawt"]
 
@@ -367,6 +368,10 @@ _data = {
 point_count = 2
 
 [node name="area1" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("1_qarri")]
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_0x5rg")
