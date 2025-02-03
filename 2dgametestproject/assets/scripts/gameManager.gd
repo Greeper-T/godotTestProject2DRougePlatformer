@@ -1,11 +1,10 @@
 extends Node
 
+var currentArea = 1
+var areaPath = "res://assets/scenes/playable/"
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func nextLevel():
+	currentArea += 1
+	var fullPath = areaPath + "area_" + str(currentArea) + ".tscn"
+	get_tree().change_scene_to_file(fullPath)
+	print("entered portal")
