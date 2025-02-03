@@ -1,21 +1,23 @@
 extends Node2D
 
 @export var playerController : PlayerController
-@export var animationPlayer : AnimationPlayer
-@export var sprite : Sprite2D
+
+@onready var animatedSprite: AnimatedSprite2D = $AnimatedSprite2D
+
 
 func _process(delta: float) -> void:
 	if playerController.direction == 1:
-		sprite.flip_h = false
+		animatedSprite.flip_h = false
 	elif playerController.direction == -1:
-		sprite.flip_h = true
+		animatedSprite.flip_h = true
 		
 	if abs(playerController.velocity.x) > 0:
-		animationPlayer.play("move")
+		animatedSprite.play("move")
 	else:
-		animationPlayer.play("idle")
+		animatedSprite.play("idle")
+		
 		
 	if playerController.velocity.y < 0:
-		animationPlayer.play("jump")
+		animatedSprite.play("jump")
 	elif playerController.velocity.y > 0:
-		animationPlayer.play("fall")
+		animatedSprite.play("fall")
