@@ -17,11 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameManager="*res://assets/scripts/game_manager.gd"
 
-[global_group]
-
-hud=""
+GameManager="*res://assets/scripts/gameManager.gd"
 
 [input]
 
@@ -56,6 +53,7 @@ moveDown={
 2d_physics/layer_1="player"
 2d_physics/layer_9="ground"
 2d_physics/layer_10="oneWayGround"
+2d_physics/layer_17="transitions"
 
 [rendering]
 
