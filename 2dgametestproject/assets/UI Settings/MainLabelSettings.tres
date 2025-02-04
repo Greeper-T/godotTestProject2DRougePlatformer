@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://br488fer1vt01"]
+
+[ext_resource type="FontFile" uid="uid://8sgb1bqkm23q" path="res://assets/Fonts/04B_30__.TTF" id="1_f247r"]
+
+[resource]
+font = ExtResource("1_f247r")
+font_size = 38
+font_color = Color(0, 0, 0, 1)
+outline_size = 18
