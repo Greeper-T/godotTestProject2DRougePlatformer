@@ -1,59 +1,60 @@
-[gd_scene load_steps=19 format=3 uid="uid://d2l0t1tx054pt"]
+[gd_scene load_steps=20 format=3 uid="uid://d2l0t1tx054pt"]
 
-[ext_resource type="Script" path="res://assets/scripts/playerController.gd" id="1_3xbbv"]
-[ext_resource type="Texture2D" uid="uid://2x2hl1f71e77" path="res://assets/sprites/player.png" id="1_381pq"]
-[ext_resource type="Script" path="res://assets/scripts/player_animator.gd" id="2_4y2mp"]
+[ext_resource type="Script" path="res://assets/scripts/playerController.gd" id="1_layom"]
+[ext_resource type="Script" path="res://assets/scripts/player_animator.gd" id="2_1rjcr"]
+[ext_resource type="Texture2D" uid="uid://2x2hl1f71e77" path="res://assets/sprites/player.png" id="3_h55n8"]
+[ext_resource type="PackedScene" uid="uid://ctcrgjuc2gwmc" path="res://assets/scenes/playerStuff/gun.tscn" id="4_x0kyn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4le1s"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(0, 48, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iddn4"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_igab3"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bo65r"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o0pk2"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yp7ka"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(64, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o2k2w"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(80, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dif6c"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(96, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7xkua"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(0, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_scby7"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(0, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q52nk"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(16, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2tyrr"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(32, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v8bee"]
-atlas = ExtResource("1_381pq")
+atlas = ExtResource("3_h55n8")
 region = Rect2(48, 16, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mwu2u"]
@@ -129,7 +130,7 @@ height = 14.0
 
 [node name="player" type="CharacterBody2D"]
 collision_mask = 768
-script = ExtResource("1_3xbbv")
+script = ExtResource("1_layom")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(0.29676, 0.79437)
@@ -138,7 +139,7 @@ position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
 [node name="playerAnimator" type="Node2D" parent="." node_paths=PackedStringArray("playerController")]
-script = ExtResource("2_4y2mp")
+script = ExtResource("2_1rjcr")
 playerController = NodePath("..")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="playerAnimator"]
@@ -150,3 +151,6 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_qo5t3")
+
+[node name="gun" parent="." instance=ExtResource("4_x0kyn")]
+position = Vector2(4, -5)
