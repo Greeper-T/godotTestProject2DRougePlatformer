@@ -1,5 +1,8 @@
 extends Node2D
 
+const BULLET = preload("res://assets/scenes/playerStuff/bullet.tscn")
+@onready var muzzle: Marker2D = $Marker2D
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -15,3 +18,9 @@ func _process(delta: float) -> void:
 		scale.y  = -1
 	else:
 		scale.y = 1
+	
+	if Input.is_action_just_pressed("fireBullet"):
+		var bulletInatance = BULLET.instantiate()
+		get_tree().root.add_child(bulletInatance)
+		bulletInatance.global_position = muzzle.global_position
+		bulletInatance.rotation = rotation
