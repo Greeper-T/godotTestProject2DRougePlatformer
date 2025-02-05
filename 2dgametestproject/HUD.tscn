@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dup6wt0aonxxc"]
+[gd_scene load_steps=4 format=3 uid="uid://drrnwii5dn4f0"]
 
 [ext_resource type="Script" path="res://assets/scripts/hud.gd" id="1_775se"]
 [ext_resource type="Texture2D" uid="uid://fshvpxi7vycp" path="res://assets/sprites/potion.png" id="1_d0qte"]
