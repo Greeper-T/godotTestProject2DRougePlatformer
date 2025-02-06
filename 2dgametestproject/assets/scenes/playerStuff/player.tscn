@@ -1,4 +1,3 @@
-
 [gd_scene load_steps=20 format=3 uid="uid://d2l0t1tx054pt"]
 
 [ext_resource type="Script" path="res://assets/scripts/playerController.gd" id="1_layom"]
@@ -129,7 +128,7 @@ animations = [{
 radius = 4.0
 height = 14.0
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 collision_mask = 768
 script = ExtResource("1_layom")
 
