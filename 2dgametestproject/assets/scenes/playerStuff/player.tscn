@@ -1,9 +1,15 @@
-[gd_scene load_steps=20 format=3 uid="uid://d2l0t1tx054pt"]
+[gd_scene load_steps=22 format=3 uid="uid://d2l0t1tx054pt"]
 
 [ext_resource type="Script" path="res://assets/scripts/playerController.gd" id="1_layom"]
 [ext_resource type="Script" path="res://assets/scripts/player_animator.gd" id="2_1rjcr"]
 [ext_resource type="Texture2D" uid="uid://2x2hl1f71e77" path="res://assets/sprites/player.png" id="3_h55n8"]
 [ext_resource type="PackedScene" uid="uid://ctcrgjuc2gwmc" path="res://assets/scenes/playerStuff/gun.tscn" id="4_x0kyn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4j7nx"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tyyuy"]
+bg_color = Color(0.862374, 0, 0.0692985, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4le1s"]
 atlas = ExtResource("3_h55n8")
@@ -137,6 +143,16 @@ scale = Vector2(0.29676, 0.79437)
 zoom = Vector2(4.74, 4.74)
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
+
+[node name="healthBar" type="ProgressBar" parent="."]
+offset_left = -10.0
+offset_top = -18.0
+offset_right = 10.0
+offset_bottom = -14.0
+theme_override_styles/background = SubResource("StyleBoxFlat_4j7nx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tyyuy")
+value = 50.0
+show_percentage = false
 
 [node name="playerAnimator" type="Node2D" parent="." node_paths=PackedStringArray("playerController")]
 script = ExtResource("2_1rjcr")
