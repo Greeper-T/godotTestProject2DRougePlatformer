@@ -1,4 +1,4 @@
-extends Area2D
+extends CharacterBody2D
 
 @onready var health_bar: ProgressBar = $healthBar
 @onready var bullet: Node2D = $"."
@@ -18,8 +18,11 @@ func _process(delta: float) -> void:
 
 func updateHealth():
 	health_bar.value = hp
+	if hp == 0:
+		queue_free()
 
 
-func _on_hurtbox_area_entered(area: Area2D) -> void:
+
+func _on_hurtbox_body_entered(body: Node2D) -> void:
 	hp -= 1
 	updateHealth()

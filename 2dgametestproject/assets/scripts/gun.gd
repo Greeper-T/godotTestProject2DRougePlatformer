@@ -21,6 +21,6 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("fireBullet"):
 		var bulletInatance = BULLET.instantiate()
-		get_tree().root.add_child(bulletInatance)
 		bulletInatance.global_position = muzzle.global_position
-		bulletInatance.rotation = rotation
+		bulletInatance.rotation = global_rotation
+		get_tree().root.add_child(bulletInatance)

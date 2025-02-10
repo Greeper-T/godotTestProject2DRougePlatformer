@@ -6,7 +6,6 @@ class_name PlayerController
 
 @onready var healthBar: ProgressBar = $healthBar
 
-var hp = 50
 var speedMultiplier = 30
 var jumpMultiplier = -30
 var direction = 0
@@ -19,6 +18,9 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("jump") and jumpsLeft >= 1 and !Input.is_action_pressed("moveDown"):
 		velocity.y = jumpPower * jumpMultiplier
 		jumpsLeft -= 1
+	if event.is_action_pressed("heal"):
+		PlayerData.addHp(100)
+		updateHealth()
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -54,4 +56,9 @@ func _ready() -> void:
 	updateHealth()
 
 func updateHealth():
-	healthBar.value = hp
+	healthBar.value = PlayerData.hp
+
+
+func _on_hurtbox_body_entered(body: Node2D) -> void:
+	PlayerData.takeDamage(10)
+	updateHealth()
