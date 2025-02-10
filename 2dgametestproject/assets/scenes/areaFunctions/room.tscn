@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bam612j5wp6n7"]
+
+[ext_resource type="Script" path="res://assets/scripts/rigid_body_2d.gd" id="1_a6kwv"]
+
+[node name="RandomLevelGeneration" type="Node2D"]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+lock_rotation = true
+script = ExtResource("1_a6kwv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]

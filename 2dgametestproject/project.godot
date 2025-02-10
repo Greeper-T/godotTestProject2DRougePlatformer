@@ -60,6 +60,10 @@ fireBullet={
 2d_physics/layer_10="oneWayGround"
 2d_physics/layer_17="transitions"
 
+[physics]
+
+2d/default_gravity=0.0
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
