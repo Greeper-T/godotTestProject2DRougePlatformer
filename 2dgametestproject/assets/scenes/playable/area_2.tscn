@@ -11,9 +11,7 @@ layer_1/tile_data = PackedInt32Array(65532, 65536, 0, 131073, 65536, 1, 65537, 6
 [node name="portal" parent="." index="2"]
 position = Vector2(744, -126)
 
-[node name="player" parent="." index="3" groups=["player"]]
-
-[node name="Potions" type="Node2D" parent="." index="4"]
+[node name="Potions" type="Node2D" parent="." index="3"]
 
 [node name="Potion1" parent="Potions" index="0" instance=ExtResource("2_r3oqk")]
 position = Vector2(-262, -24)

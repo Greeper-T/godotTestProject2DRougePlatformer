@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://fshvpxi7vycp" path="res://assets/sprites/potion.png" id="2_lm30c"]
 [ext_resource type="LabelSettings" uid="uid://br488fer1vt01" path="res://assets/UI Settings/MainLabelSettings.tres" id="3_eqf4t"]
 
-[node name="HUD" type="Control" node_paths=PackedStringArray("potion_label") groups=["hud"]]
+[node name="HUD" type="Control" node_paths=PackedStringArray("potion_label", "item_label") groups=["hud"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,6 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_hnacu")
 potion_label = NodePath("potionTexture/potionLabel")
+item_label = NodePath("mainLabel")
 
 [node name="potionTexture" type="TextureRect" parent="."]
 layout_mode = 0
