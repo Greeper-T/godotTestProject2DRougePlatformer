@@ -135,12 +135,9 @@ animations = [{
 radius = 4.0
 height = 14.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r3n6l"]
-radius = 4.0
-height = 14.0
+[node name="player" type="CharacterBody2D" groups=["player"]]
+collision_mask = 768
 
-[node name="player" type="CharacterBody2D"]
-collision_mask = 770
 script = ExtResource("1_layom")
 
 [node name="Camera2D" type="Camera2D" parent="."]

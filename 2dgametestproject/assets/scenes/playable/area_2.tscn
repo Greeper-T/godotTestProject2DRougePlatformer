@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://by16mygflqk70"]
+[gd_scene load_steps=3 format=3 uid="uid://by16mygflqk70"]
 
 [ext_resource type="PackedScene" uid="uid://wcax7nv42gkc" path="res://assets/scenes/areaFunctions/area_template.tscn" id="1_padqd"]
+[ext_resource type="PackedScene" uid="uid://bhqmyii0v61d8" path="res://assets/scenes/items/PotionItem.tscn" id="2_r3oqk"]
 
 [node name="area2" instance=ExtResource("1_padqd")]
 
@@ -9,3 +10,14 @@ layer_1/tile_data = PackedInt32Array(65532, 65536, 0, 131073, 65536, 1, 65537, 6
 
 [node name="portal" parent="." index="2"]
 position = Vector2(744, -126)
+
+[node name="Potions" type="Node2D" parent="." index="3"]
+
+[node name="Potion1" parent="Potions" index="0" instance=ExtResource("2_r3oqk")]
+position = Vector2(-262, -24)
+
+[node name="Potion2" parent="Potions" index="1" instance=ExtResource("2_r3oqk")]
+position = Vector2(-221, -25)
+
+[node name="Potion3" parent="Potions" index="2" instance=ExtResource("2_r3oqk")]
+position = Vector2(-173, -25)

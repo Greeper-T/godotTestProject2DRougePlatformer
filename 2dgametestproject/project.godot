@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 GameManager="*res://assets/scripts/gameManager.gd"
 PlayerData="*res://assets/scripts/playerData.gd"
 
+[global_group]
+
+hud=""
+
 [input]
 
 jump={
