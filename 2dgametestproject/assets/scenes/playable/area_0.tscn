@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bn48o68en2ssh"]
+
+[ext_resource type="Script" path="res://assets/scripts/dungeon_generator.gd" id="1_lpmro"]
+
+[node name="DungeonGenerator" type="Node2D"]
+script = ExtResource("1_lpmro")
