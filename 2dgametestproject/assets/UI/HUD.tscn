@@ -1,17 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://drrnwii5dn4f0"]
 
-[ext_resource type="Script" path="res://assets/scripts/hud.gd" id="1_775se"]
-[ext_resource type="Texture2D" uid="uid://fshvpxi7vycp" path="res://assets/sprites/potion.png" id="1_d0qte"]
-[ext_resource type="LabelSettings" uid="uid://br488fer1vt01" path="res://assets/UI Settings/MainLabelSettings.tres" id="2_0o5id"]
+[ext_resource type="Script" path="res://assets/scripts/hud.gd" id="1_hnacu"]
+[ext_resource type="Texture2D" uid="uid://fshvpxi7vycp" path="res://assets/sprites/potion.png" id="2_lm30c"]
+[ext_resource type="LabelSettings" uid="uid://br488fer1vt01" path="res://assets/UI Settings/MainLabelSettings.tres" id="3_eqf4t"]
 
-[node name="HUD" type="Control" groups=["hud"]]
+[node name="HUD" type="Control" node_paths=PackedStringArray("potion_label", "item_label") groups=["hud"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_775se")
+script = ExtResource("1_hnacu")
+potion_label = NodePath("potionTexture/potionLabel")
+item_label = NodePath("mainLabel")
 
 [node name="potionTexture" type="TextureRect" parent="."]
 layout_mode = 0
@@ -19,7 +21,7 @@ offset_left = 48.0
 offset_top = 64.0
 offset_right = 152.0
 offset_bottom = 168.0
-texture = ExtResource("1_d0qte")
+texture = ExtResource("2_lm30c")
 
 [node name="potionLabel" type="Label" parent="potionTexture"]
 layout_mode = 1
@@ -32,7 +34,7 @@ offset_right = 257.0
 offset_bottom = 55.0
 grow_vertical = 2
 text = "x0"
-label_settings = ExtResource("2_0o5id")
+label_settings = ExtResource("3_eqf4t")
 
 [node name="mainLabel" type="Label" parent="."]
 layout_mode = 0
@@ -41,4 +43,4 @@ offset_top = 32.0
 offset_right = 123.0
 offset_bottom = 55.0
 text = "Potions"
-label_settings = ExtResource("2_0o5id")
+label_settings = ExtResource("3_eqf4t")
