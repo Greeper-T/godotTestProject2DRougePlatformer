@@ -1,8 +1,8 @@
 [gd_scene load_steps=24 format=3 uid="uid://d2l0t1tx054pt"]
 
-[ext_resource type="Script" path="res://assets/scripts/playerController.gd" id="1_layom"]
-[ext_resource type="Script" path="res://assets/scripts/player_animator.gd" id="2_1rjcr"]
-[ext_resource type="Texture2D" uid="uid://2x2hl1f71e77" path="res://assets/sprites/player.png" id="3_h55n8"]
+[ext_resource type="Script" path="res://assets/scripts/playerScripts/playerController.gd" id="1_layom"]
+[ext_resource type="Script" path="res://assets/scripts/playerScripts/player_animator.gd" id="2_1rjcr"]
+[ext_resource type="Texture2D" uid="uid://2x2hl1f71e77" path="res://assets/sprites/playerSprites/player.png" id="3_h55n8"]
 [ext_resource type="PackedScene" uid="uid://ctcrgjuc2gwmc" path="res://assets/scenes/playerStuff/gun.tscn" id="4_x0kyn"]
 [ext_resource type="PackedScene" uid="uid://8nw6luhhkyku" path="res://assets/scenes/areaFunctions/hurtbox.tscn" id="5_fkiva"]
 

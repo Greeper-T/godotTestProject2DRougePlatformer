@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://q2gn568u8qi3"
-path="res://.godot/imported/enemy_1.png-460e42ad744f9aa16eb7d7784d056fd7.ctex"
+uid="uid://fshvpxi7vycp"
+path="res://.godot/imported/potion.png-dc325710051f20a6366411235f076498.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/enemy_1.png"
-dest_files=["res://.godot/imported/enemy_1.png-460e42ad744f9aa16eb7d7784d056fd7.ctex"]
+source_file="res://assets/sprites/itemSprites/potion.png"
+dest_files=["res://.godot/imported/potion.png-dc325710051f20a6366411235f076498.ctex"]
 
 [params]
 
