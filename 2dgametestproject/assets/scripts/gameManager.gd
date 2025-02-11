@@ -1,6 +1,6 @@
 extends Node
 
-var currentArea = -1
+var currentArea = 1
 var areaPath = "res://assets/scenes/playable/"
 
 func nextLevel():

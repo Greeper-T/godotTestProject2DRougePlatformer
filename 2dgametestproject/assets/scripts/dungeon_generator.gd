@@ -4,11 +4,12 @@ extends Node2D
 const WIDTH = 80
 const HEIGHT = 60
 const CELL_SIZE = 10
-const MIN_ROOM_SIZE = 5
-const MAX_ROOM_SIZE = 10
-const MAX_ROOMS = 10
+const MIN_ROOM_SIZE = 10
+const MAX_ROOM_SIZE = 15
+const MAX_ROOMS = 15
  
 # Arrays to hold the grid data and the list of rooms
+var firstRoom = false
 var grid = []
 var rooms = []
  
