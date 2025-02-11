@@ -19,12 +19,14 @@ func _ready():
 	
 
 func nextLevel():
+	hud = get_tree().get_first_node_in_group("hud")
 	currentArea += 1
 	var fullPath = areaPath + "area_" + str(currentArea) + ".tscn"
+
 	get_tree().change_scene_to_file(fullPath)
 	print_debug("entered portal")
 	print(hud)
-	
+	hud.update_potion_label(potions)
 
 
 
@@ -37,9 +39,21 @@ func add_potion():
 	potions += 1
 	hud.update_potion_label(potions)
  
+func usePotion():
+	hud = get_tree().get_first_node_in_group("hud")
+	if 	potions > 0:
+		potions -=1
+		hud.update_potion_label(potions)
+		return true
+	return false
+
 
 func reset_potions():
+	hud = get_tree().get_first_node_in_group("hud")
 	potions = 0
 	print(potions)
 	hud.update_potion_label(potions)
 	
+func hudUpdate():
+	hud = get_tree().get_first_node_in_group("hud")
+	hud.update_potion_label(potions)

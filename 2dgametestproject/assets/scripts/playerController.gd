@@ -54,6 +54,7 @@ func _physics_process(delta: float) -> void:
 	
 func _ready() -> void:
 	updateHealth()
+	GameManager.hudUpdate()
 
 func updateHealth():
 	healthBar.value = PlayerData.hp

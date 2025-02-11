@@ -8,4 +8,6 @@ func takeDamage(amount: int):
 	print("HP:", hp)  # Replace with actual UI update logic
 
 func addHp(amount: int):
-	hp = min(hp + amount, maxHp)
+	if GameManager.usePotion():
+		hp = min(hp + amount, maxHp)
+	
