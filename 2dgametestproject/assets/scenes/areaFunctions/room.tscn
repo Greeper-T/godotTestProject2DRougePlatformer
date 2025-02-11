@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://bynj1ult1e24h"]
+
+[sub_resource type="GDScript" id="GDScript_h707c"]
+script/source = "extends RigidBody2D
+
+var size
+
+func make_room(_pos,_size):
+	position = _pos
+	size = _size
+	var s = RectangleShape2D.new
+	s.extents = size
+	$CollisionShape2D.shape = s
+"
+
+[node name="RandomLevelGeneration" type="Node2D"]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+lock_rotation = true
+script = SubResource("GDScript_h707c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
