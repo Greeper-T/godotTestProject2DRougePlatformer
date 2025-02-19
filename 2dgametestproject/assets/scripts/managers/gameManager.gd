@@ -22,7 +22,7 @@ func nextLevel():
 	hud = get_tree().get_first_node_in_group("hud")
 	currentArea += 1
 	var fullPath = areaPath + "area_" + str(currentArea) + ".tscn"
-
+	
 	get_tree().change_scene_to_file(fullPath)
 	print_debug("entered portal")
 	print(hud)
