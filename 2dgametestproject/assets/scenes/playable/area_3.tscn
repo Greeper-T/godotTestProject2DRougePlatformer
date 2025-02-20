@@ -21,7 +21,7 @@ layer_1/tile_data = PackedInt32Array(65532, 65536, 0, 131073, 65536, 1, 65537, 6
 position = Vector2(2652, -378)
 
 [node name="player" parent="." index="3"]
-position = Vector2(841, -125)
+position = Vector2(936, -131)
 
 [node name="movingPlatformLarge" parent="." index="4" instance=ExtResource("2_0056e")]
 position = Vector2(148, -2)
@@ -30,14 +30,5 @@ pathTime = 5.0
 ease = 2
 transition = 4
 
-[node name="enemy" parent="." index="5" instance=ExtResource("3_r7ja2")]
-position = Vector2(191, -186)
-
-[node name="enemy2" parent="." index="6" instance=ExtResource("3_r7ja2")]
-position = Vector2(543, -179)
-
-[node name="enemy3" parent="." index="7" instance=ExtResource("3_r7ja2")]
-position = Vector2(764, -68)
-
-[node name="enemy4" parent="." index="8" instance=ExtResource("3_r7ja2")]
-position = Vector2(898, -129)
+[node name="enemy4" parent="." index="5" instance=ExtResource("3_r7ja2")]
+position = Vector2(898, -116)

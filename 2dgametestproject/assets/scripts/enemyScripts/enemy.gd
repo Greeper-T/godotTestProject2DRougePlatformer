@@ -26,8 +26,10 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = 0
 	
-	
-	if is_on_wall() or not ray_cast_2d.is_colliding():
+	print("ray cast: ", ray_cast_2d.is_colliding())
+	if (is_on_wall() or not ray_cast_2d.is_colliding()) and timer.is_stopped() and not isStopped:
+		print("on wall: ", is_on_wall())
+		
 		isStopped = true
 		animated_sprite_2d.play("idle")
 		timer.start()
@@ -46,7 +48,7 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 
 
 func _on_timer_timeout() -> void:
-	scale.x *= -1
-	direction *= -1
 	isStopped = false
-	print("moving")
+	await get_tree().create_timer(0.1).timeout
+	self.scale.x *= -1
+	direction *= -1
