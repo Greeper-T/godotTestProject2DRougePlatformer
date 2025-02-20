@@ -46,7 +46,7 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 
 
 func _on_timer_timeout() -> void:
-	direction *= -1
 	scale.x *= -1
+	direction *= -1
 	isStopped = false
 	print("moving")
