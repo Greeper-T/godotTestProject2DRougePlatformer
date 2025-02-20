@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://bxvxdr1qg7pne"]
+
+[ext_resource type="Texture2D" uid="uid://bjxkrvg30ffu" path="res://assets/sprites/itemSprites/speedSoup.png" id="1_e54fn"]
+[ext_resource type="Script" path="res://assets/scripts/itemScripts/itemData.gd" id="2_3ppws"]
+
+[resource]
+script = ExtResource("2_3ppws")
+type = 0
+itemName = "Speed Soup"
+itemId = 0
+itemDamage = 0
+itemDefense = 0
+itemCritAdd = 0
+itemCritMult = 0
+itemHealthIncrease = 0
+itemAbility = "Jump Add"
+itemDescription = "Strengthens the legs of whoever consumes it!!! +1 Jump"
+itemTexture = ExtResource("1_e54fn")
