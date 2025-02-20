@@ -107,15 +107,14 @@ func connect_rooms(room1, room2, corridor_width=1):
 					grid[current.x + i][current.y + j] = 0  # Set cells to floor
  
 # Draws the dungeon on the screen by creating visual representations of the grid
+@onready var tilemap = $TileMap  # Ensure you have a TileMap in your scene
+
 func draw_dungeon():
 	# Loop through each cell in the grid
 	for x in range(WIDTH):
 		for y in range(HEIGHT):
 			# Create a ColorRect to represent each cell
-			var cell = ColorRect.new()
-			cell.size = Vector2(CELL_SIZE, CELL_SIZE)  # Set the size of each cell
-			cell.position = Vector2(x * CELL_SIZE, y * CELL_SIZE)  # Position the cell on the grid
-			# Set the color based on whether the cell is a floor or wall
-			cell.color = Color.WHITE if grid[x][y] == 0 else Color.BLACK
-			# Add the cell to the scene as a child node
-			add_child(cell)
+			var tile_id = 0  # Default to walls
+			if grid[x][y] == 0:
+				tile_id = 1  # Floor tile
+			tilemap.set_cell(0, Vector2i(x, y), 0, Vector2i(tile_id, 0))
