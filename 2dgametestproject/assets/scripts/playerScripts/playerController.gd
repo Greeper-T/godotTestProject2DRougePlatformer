@@ -9,15 +9,27 @@ class_name PlayerController
 var speedMultiplier = 30
 var jumpMultiplier = -30
 var direction = 0
-var jumpsLeft = 10
+var jumpsLeft = 1
 var sprintSpeed = speed + 3
+var wallJumpPushback = 1000
+var wallGravity = 100
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("jump") and is_on_floor() and !Input.is_action_pressed("moveDown"):
-		velocity.y = jumpPower * jumpMultiplier
-	elif event.is_action_pressed("jump") and jumpsLeft >= 1 and !Input.is_action_pressed("moveDown"):
-		velocity.y = jumpPower * jumpMultiplier
-		jumpsLeft -= 1
+	#handles jumping events such as double jump and wall jumps
+	if event.is_action_pressed("jump") and !Input.is_action_pressed("moveDown"):
+		if is_on_floor():
+			velocity.y = jumpPower * jumpMultiplier
+		elif is_on_wall() and (Input.is_action_pressed("moveRight")):
+			velocity.y = jumpPower * jumpMultiplier
+			velocity.x = -wallJumpPushback
+		elif is_on_wall() and Input.is_action_pressed("moveLeft"):
+			velocity.y = jumpPower * jumpMultiplier
+			velocity.x = wallJumpPushback
+		elif jumpsLeft >= 1:
+			velocity.y = jumpPower * jumpMultiplier
+			jumpsLeft -= 1
+	
+	#deals with healing
 	if event.is_action_pressed("heal"):
 		PlayerData.addHp(100)
 		updateHealth()
@@ -25,11 +37,15 @@ func _input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
-		velocity += get_gravity() * delta
+		if is_on_wall():
+			velocity.y += wallGravity * delta
+			velocity.y = min(velocity.y, wallGravity)
+		else:
+			velocity += get_gravity() * delta
 		if Input.is_action_pressed("moveDown") and velocity.y > 0:
 			velocity.y += 40000 * delta
 	else:
-		jumpsLeft = 10
+		jumpsLeft = 1
 
 	# Handle jump.
 	if Input.is_action_pressed("moveDown") and Input.is_action_pressed("jump"):
