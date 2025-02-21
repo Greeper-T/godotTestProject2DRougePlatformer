@@ -1,5 +1,5 @@
 class_name InventoryItem
-extends Resource
+extends TextureRect
 
 @export var data: ItemData
 
