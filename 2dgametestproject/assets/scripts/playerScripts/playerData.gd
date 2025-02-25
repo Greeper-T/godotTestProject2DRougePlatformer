@@ -3,6 +3,9 @@ extends Node
 var hp = 50
 var maxHp = 100
 
+enum PlayerState { IDLE, MOVING, JUMPING, FALLING, GROUND_POUND, SPRINTING}
+var currentState = PlayerState.IDLE
+
 func takeDamage(amount: int):
 	hp = max(hp - amount, 0)  # Prevents negative HP
 	if hp == 0:

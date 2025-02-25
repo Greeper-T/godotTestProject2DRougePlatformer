@@ -7,14 +7,12 @@ class_name PlayerController
 @onready var healthBar: ProgressBar = $healthBar
 @onready var animator: AnimatedSprite2D = $playerAnimator/AnimatedSprite2D
 
-enum PlayerState { IDLE, MOVING, JUMPING, FALLING, GROUND_POUND, SPRINTING}
-var currentState = PlayerState.IDLE
-
 var speedMultiplier = 30
 var jumpMultiplier = -30
 var direction = 0
 var jumpsLeft = 1
 var sprintSpeed = speed + 3
+var lastDirection = 1
 
 func _input(event: InputEvent) -> void:
 	#handles jumping events such as double jump and wall jumps
@@ -38,9 +36,9 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_pressed("moveDown") and velocity.y > 0:
 			velocity.y += 40000 * delta
 		if velocity.y < 0:
-			currentState = PlayerState.JUMPING
+			PlayerData.currentState = PlayerData.PlayerState.JUMPING
 		else:
-			currentState = PlayerState.FALLING
+			PlayerData.currentState = PlayerData.PlayerState.FALLING
 	else:
 		jumpsLeft = 1
 
@@ -52,23 +50,28 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_pressed("sprint"):
 		speed = sprintSpeed
-		currentState = PlayerState.SPRINTING
+		PlayerData.currentState = PlayerData.PlayerState.SPRINTING
 	else:
 		speed = sprintSpeed - 3
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	direction = Input.get_axis("moveLeft", "moveRight")
+	
+	if Input.is_action_pressed("moveleft"):
+		direction = -1
+	elif Input.is_action_pressed("moveRight"):
+		direction = 1
 	if direction:
 		velocity.x = direction * speed * speedMultiplier
 		if is_on_floor():
-			currentState = PlayerState.MOVING
-		
+			PlayerData.currentState = PlayerData.PlayerState.MOVING
+		if direction != lastDirection:
+			scale.x = direction
+			lastDirection = direction
 	else:
 		velocity.x = move_toward(velocity.x, 0, speedMultiplier * speed)
 		if is_on_floor():
-			currentState = PlayerState.IDLE
-	
+			PlayerData.currentState = PlayerData.PlayerState.IDLE
 	playerAnimations()
 	move_and_slide()
 	
@@ -85,13 +88,13 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 	updateHealth()
 
 func playerAnimations():
-	if currentState == PlayerState.IDLE:
+	if PlayerData.currentState == PlayerData.PlayerState.IDLE:
 		animator.play("idle")
-	elif  currentState == PlayerState.MOVING:
+	elif  PlayerData.currentState == PlayerData.PlayerState.MOVING:
 		animator.play("move")
-	elif currentState == PlayerState.JUMPING:
+	elif PlayerData.currentState == PlayerData.PlayerState.JUMPING:
 		animator.play("jump")
-	elif currentState == PlayerState.FALLING:
+	elif PlayerData.currentState == PlayerData.PlayerState.FALLING:
 		animator.play("fall")
 			
 			
