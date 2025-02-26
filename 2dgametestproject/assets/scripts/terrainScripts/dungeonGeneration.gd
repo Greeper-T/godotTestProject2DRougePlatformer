@@ -1,47 +1,40 @@
 extends Node2D
-
-# Constants defining the grid size, cell size, and room parameters
-const WIDTH = 80
-const HEIGHT = 60
-const CELL_SIZE = 10
-const MIN_ROOM_SIZE = 10
-const MAX_ROOM_SIZE = 15
-const MAX_ROOMS = 15
+@onready var tile_map_layer = $TileMapLayer
  
-# Arrays to hold the grid data and the list of rooms
-var firstRoom = false
+var floor_tile := Vector2i(1,1)
+var wall_tile_bottom := Vector2i(1,5)
+var wall_tile_top := Vector2i(1,7)
+ 
+
+const WIDTH = 150
+const HEIGHT = 30
+const CELL_SIZE = 10
+const MIN_ROOM_SIZE = 5
+const MAX_ROOM_SIZE = 10
+const MAX_ROOMS = 10
+ 
 var grid = []
 var rooms = []
  
-# _ready is called when the node is added to the scene
+
 func _ready():
-	# Initialize the random number generator
 	randomize()
-	# Create the grid filled with walls
 	initialize_grid()
-	# Generate the dungeon by placing rooms and connecting them
 	generate_dungeon()
-	# Draw the dungeon on the screen
 	draw_dungeon()
  
-# Initializes the grid with all cells set to walls (represented by 1)
 func initialize_grid():
 	for x in range(WIDTH):
-		grid.append([])  # Add a new row to the grid
+		grid.append([])  
 		for y in range(HEIGHT):
-			grid[x].append(1)  # Fill each cell in the row with 1 (wall)
+			grid[x].append(1) 
  
-# Main function to generate the dungeon by placing rooms and connecting them
 func generate_dungeon():
 	for i in range(MAX_ROOMS):
-		# Generate a room with random size and position
 		var room = generate_room()
-		# Attempt to place the room in the grid
 		if place_room(room):
-			# If this isn't the first room, connect it to the previous room
 			if rooms.size() > 0:
-				connect_rooms(rooms[-1], room)  # Connect the new room to the last placed room
-			# Add the room to the list of rooms in the dungeon
+				connect_rooms(rooms[-1], room)
 			rooms.append(room)
  
 # Generates a room with random width, height, and position within the grid
@@ -107,14 +100,23 @@ func connect_rooms(room1, room2, corridor_width=1):
 					grid[current.x + i][current.y + j] = 0  # Set cells to floor
  
 # Draws the dungeon on the screen by creating visual representations of the grid
-@onready var tilemap = $TileMap  # Ensure you have a TileMap in your scene
-
 func draw_dungeon():
 	# Loop through each cell in the grid
 	for x in range(WIDTH):
 		for y in range(HEIGHT):
-			# Create a ColorRect to represent each cell
-			var tile_id = 0  # Default to walls
+			var tile_position = Vector2i(x, y)
 			if grid[x][y] == 0:
-				tile_id = 1  # Floor tile
-			tilemap.set_cell(0, Vector2i(x, y), 0, Vector2i(tile_id, 0))
+				tile_map_layer.set_cell(tile_position,0,floor_tile)
+			elif grid[x][y] == 1:
+				if y < HEIGHT - 1 and grid[x][y + 1] == 0:
+					tile_map_layer.set_cell(tile_position, 0, wall_tile_bottom)
+				elif y > 0 and grid[x][y - 1] == 0:
+					tile_map_layer.set_cell(tile_position, 0, wall_tile_top)
+				elif x > 0 and grid[x - 1][y] == 0:
+					tile_map_layer.set_cell(tile_position, 0, wall_tile_bottom)
+				elif x < WIDTH - 1 and grid[x+1][y] == 0:
+					tile_map_layer.set_cell(tile_position, 0, wall_tile_bottom)
+				else:
+					tile_map_layer.set_cell(tile_position, 0, Vector2i(-1, -1))
+			else:
+				tile_map_layer.set_cell(tile_position, 0, Vector2i(-1, -1))
