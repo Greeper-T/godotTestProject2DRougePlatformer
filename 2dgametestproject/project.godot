@@ -23,6 +23,7 @@ PlayerData="*res://assets/scripts/playerScripts/playerData.gd"
 [global_group]
 
 hud=""
+player=""
 
 [input]
 

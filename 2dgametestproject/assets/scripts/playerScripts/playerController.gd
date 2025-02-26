@@ -11,6 +11,9 @@ var jumpMultiplier = -30
 var direction = 0
 var jumpsLeft = 10
 var sprintSpeed = speed + 3
+var hp = null
+var maxHp = null
+var init = false
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump") and is_on_floor() and !Input.is_action_pressed("moveDown"):
@@ -53,6 +56,13 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 func _ready() -> void:
+	if init:
+		maxHp = maxHp
+		hp = hp
+	else:
+		maxHp = 100
+		hp = 50
+		init = true
 	updateHealth()
 	GameManager.hudUpdate()
 
@@ -63,3 +73,4 @@ func updateHealth():
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	PlayerData.takeDamage(10)
 	updateHealth()
+	
