@@ -13,6 +13,7 @@ func _ready():
 	var hud_nodes = get_tree().get_nodes_in_group("hud")
 	print("HUD nodes found:", hud_nodes)
 	hud = get_tree().get_first_node_in_group("hud")
+	randomize()
 
 #func _initialize_hud():
 	#hud = get_tree().get_first_node_in_group("hud")

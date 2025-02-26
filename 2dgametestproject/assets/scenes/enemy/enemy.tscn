@@ -147,17 +147,16 @@ shape = SubResource("CapsuleShape2D_bhum1")
 
 [node name="hurtbox" parent="." instance=ExtResource("3_kase7")]
 visible = false
-collision_layer = 4
+collision_layer = 8
 collision_mask = 2
 
 [node name="CollisionShape2D" parent="hurtbox" index="0"]
 position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_5sscd")
 
-[node name="hitbox" parent="." instance=ExtResource("4_b7wsr")]
+[node name="hitbox" parent="." groups=["enemyHitbox"] instance=ExtResource("4_b7wsr")]
 visible = false
-collision_layer = 4
-collision_mask = 3
+collision_layer = 16
 
 [node name="CollisionShape2D" parent="hitbox" index="0"]
 position = Vector2(0, -7)

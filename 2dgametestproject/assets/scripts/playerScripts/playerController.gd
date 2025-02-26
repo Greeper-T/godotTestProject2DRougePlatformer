@@ -6,6 +6,7 @@ class_name PlayerController
 
 @onready var healthBar: ProgressBar = $healthBar
 @onready var animator: AnimatedSprite2D = $playerAnimator/AnimatedSprite2D
+@onready var gun_position: Node2D = $gunPosition
 
 var speedMultiplier = 30
 var jumpMultiplier = -30
@@ -56,17 +57,15 @@ func _physics_process(delta: float) -> void:
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	
-	if Input.is_action_pressed("moveleft"):
-		direction = -1
-	elif Input.is_action_pressed("moveRight"):
-		direction = 1
-	if direction:
+	direction = Input.get_axis("moveLeft", "moveRight")
+	print(direction)
+	if direction != 0:
 		velocity.x = direction * speed * speedMultiplier
 		if is_on_floor():
 			PlayerData.currentState = PlayerData.PlayerState.MOVING
-		if direction != lastDirection:
-			scale.x = direction
+		if direction != sign(lastDirection):
+			animator.scale.x = direction
+			gun_position.scale.x = direction
 			lastDirection = direction
 	else:
 		velocity.x = move_toward(velocity.x, 0, speedMultiplier * speed)
@@ -79,12 +78,24 @@ func _ready() -> void:
 	updateHealth()
 	GameManager.hudUpdate()
 
+func _process(delta: float) -> void:
+	#update gun position
+	var screen_width = get_viewport_rect().size.x
+	var mouse_position = get_viewport().get_mouse_position()
+
+	if mouse_position.x < screen_width / 2:
+		gun_position.scale.x = -1  # Flip weapon to the left
+	else:
+		gun_position.scale.x = 1  # Flip weapon to the right
+
 func updateHealth():
 	healthBar.value = PlayerData.hp
 
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
-	PlayerData.takeDamage(10)
+	if body.is_in_group("enemyHitbox"):
+		var damage = body.damage if body.has_method("getDamage") else 0
+		PlayerData.takeDamage(damage)
 	updateHealth()
 
 func playerAnimations():

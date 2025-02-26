@@ -170,7 +170,9 @@ autoplay = "idle"
 position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_qo5t3")
 
-[node name="gun" parent="." instance=ExtResource("4_x0kyn")]
+[node name="gunPosition" type="Node2D" parent="."]
+
+[node name="gun" parent="gunPosition" instance=ExtResource("4_x0kyn")]
 position = Vector2(4, -4)
 
 [node name="hurtbox" parent="." instance=ExtResource("5_fkiva")]

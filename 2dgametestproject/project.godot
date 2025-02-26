@@ -23,6 +23,7 @@ PlayerData="*res://assets/scripts/playerScripts/playerData.gd"
 [global_group]
 
 hud=""
+enemyHitbox=""
 
 [input]
 
@@ -67,6 +68,8 @@ heal={
 2d_physics/layer_1="player"
 2d_physics/layer_2="bullet"
 2d_physics/layer_3="enemy"
+2d_physics/layer_4="enemyHurtbox"
+2d_physics/layer_5="enemyHitBox"
 2d_physics/layer_9="ground"
 2d_physics/layer_10="oneWayGround"
 2d_physics/layer_17="transitions"

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://assets/scripts/managers/hitbox.gd" id="1_gc83s"]
 
-[node name="hitbox" type="Area2D"]
+[node name="hitbox" type="Area2D" groups=["enemyHitbox"]]
 monitoring = false
 script = ExtResource("1_gc83s")
 
