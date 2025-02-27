@@ -9,9 +9,10 @@ var wall_tile_top := Vector2i(1,7)
 const WIDTH = 150
 const HEIGHT = 30
 const CELL_SIZE = 10
-const MIN_ROOM_SIZE = 5
+const MIN_ROOM_SIZE = 10
 const MAX_ROOM_SIZE = 10
-const MAX_ROOMS = 10
+const MAX_ROOMS = 15
+var firstRoom = true
  
 var grid = []
 var rooms = []
@@ -39,14 +40,20 @@ func generate_dungeon():
  
 # Generates a room with random width, height, and position within the grid
 func generate_room():
-	# Determine room width and height randomly within the specified range
-	var width = randi() % (MAX_ROOM_SIZE - MIN_ROOM_SIZE + 1) + MIN_ROOM_SIZE
-	var height = randi() % (MAX_ROOM_SIZE - MIN_ROOM_SIZE + 1) + MIN_ROOM_SIZE
-	# Position the room randomly within the grid, ensuring it fits within the boundaries
-	var x = randi() % (WIDTH - width - 1) + 1
-	var y = randi() % (HEIGHT - height - 1) + 1
-	# Return the room as a Rect2 object representing its position and size
-	return Rect2(x, y, width, height)
+	if firstRoom == true:
+		if randi_range(0,1) == 0:
+			var width =MIN_ROOM_SIZE
+			var height = MIN_ROOM_SIZE
+			var x = 1
+			var y = randi() % (HEIGHT - height - 1) + 1
+			return Rect2(x, y, width, height)
+			firstRoom = false
+	else:
+		var width = randi() % (MAX_ROOM_SIZE - MIN_ROOM_SIZE + 1) + MIN_ROOM_SIZE
+		var height = randi() % (MAX_ROOM_SIZE - MIN_ROOM_SIZE + 1) + MIN_ROOM_SIZE
+		var x = WIDTH - width
+		var y = randi() % (HEIGHT - height - 1) + 1
+		return Rect2(x, y, width, height)
  
 # Attempts to place the room on the grid, ensuring no overlap with existing rooms
 func place_room(room):
