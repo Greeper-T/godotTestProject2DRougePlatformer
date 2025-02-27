@@ -25,6 +25,11 @@ func _input(event: InputEvent) -> void:
 		PlayerData.addHp(100)
 		updateHealth()
 
+func _process(delta):
+	hp = PlayerData.hp
+	maxHp = PlayerData.maxHp
+
+
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():

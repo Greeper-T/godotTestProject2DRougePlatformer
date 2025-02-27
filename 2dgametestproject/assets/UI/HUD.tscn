@@ -21,10 +21,10 @@ item_label = NodePath("mainLabel")
 
 [node name="potionTexture" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 776.0
-offset_top = 39.0
-offset_right = 838.0
-offset_bottom = 103.0
+offset_left = 986.0
+offset_top = 48.0
+offset_right = 1048.0
+offset_bottom = 112.0
 texture = ExtResource("2_lm30c")
 
 [node name="potionLabel" type="Label" parent="potionTexture"]
@@ -42,9 +42,9 @@ label_settings = ExtResource("3_eqf4t")
 
 [node name="mainLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 796.0
-offset_top = 25.0
-offset_right = 1006.0
-offset_bottom = 64.0
+offset_left = 995.0
+offset_top = 23.0
+offset_right = 1205.0
+offset_bottom = 62.0
 text = "Potions"
 label_settings = ExtResource("3_eqf4t")

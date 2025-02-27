@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://d33y4w8ixynua"]
+
+[ext_resource type="Script" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwpla"]
+bg_color = Color(0.0214346, 0.0214346, 0.0214346, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mx647"]
+bg_color = Color(0.822952, 0.0550532, 0.179494, 1)
+
+[node name="GUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3eeni")
+
+[node name="healthLabel" type="Label" parent="."]
+offset_left = 142.0
+offset_top = 86.0
+offset_right = 185.0
+offset_bottom = 109.0
+text = "1/100"
+
+[node name="hp_bar" type="ProgressBar" parent="."]
+offset_left = 79.0
+offset_top = 57.0
+offset_right = 260.0
+offset_bottom = 85.0
+theme_override_styles/background = SubResource("StyleBoxFlat_pwpla")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mx647")
+value = 100.0
+show_percentage = false
