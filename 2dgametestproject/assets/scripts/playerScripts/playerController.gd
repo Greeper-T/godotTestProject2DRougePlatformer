@@ -43,7 +43,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		jumpsLeft = 1
 
-	# Handle jump.
+	# Handle move down one way.
 	if Input.is_action_pressed("moveDown") and Input.is_action_pressed("jump"):
 		set_collision_mask_value(10,false)
 	else:
