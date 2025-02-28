@@ -1,5 +1,7 @@
 extends CanvasLayer
+class_name GUI
 
+@export var healthLabel : Label
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -10,7 +12,9 @@ func _ready():
 func _process(delta):
 	$hp_bar.max_value = get_node("../player").maxHp
 	$hp_bar.value = get_node("../player").hp
+	updateHealthLabel()
 
 
-func update_potion_label(number : int):
-	healthLabel.text = "x " 
+
+func updateHealthLabel():
+	healthLabel.text = "" + str($hp_bar.value) + "/" + str($hp_bar.max_value)

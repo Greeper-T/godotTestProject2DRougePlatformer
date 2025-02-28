@@ -8,14 +8,9 @@ bg_color = Color(0.0214346, 0.0214346, 0.0214346, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mx647"]
 bg_color = Color(0.822952, 0.0550532, 0.179494, 1)
 
-[node name="GUI" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="GUI" type="CanvasLayer" node_paths=PackedStringArray("healthLabel") groups=["gui"]]
 script = ExtResource("1_3eeni")
+healthLabel = NodePath("healthLabel")
 
 [node name="healthLabel" type="Label" parent="."]
 offset_left = 142.0

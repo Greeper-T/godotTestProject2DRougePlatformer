@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://wcax7nv42gkc"]
 
-[ext_resource type="Script" path="res://assets/GUI/GUI.gd" id="1_0dmrb"]
 [ext_resource type="Texture2D" uid="uid://b0q78ik8ygp5y" path="res://assets/sprites/terrainSprites/tiles_1.png" id="1_vme8i"]
 [ext_resource type="PackedScene" uid="uid://drrnwii5dn4f0" path="res://assets/UI/HUD.tscn" id="1_ya5vn"]
 [ext_resource type="PackedScene" uid="uid://d2l0t1tx054pt" path="res://assets/scenes/playerStuff/player.tscn" id="2_1evhl"]
+[ext_resource type="PackedScene" uid="uid://d33y4w8ixynua" path="res://GUI.tscn" id="2_m4b6s"]
 [ext_resource type="PackedScene" uid="uid://cww25wrm4ycu1" path="res://assets/scenes/areaFunctions/portal.tscn" id="3_xx5pg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ab1ui"]
@@ -356,5 +356,4 @@ position = Vector2(23, -33)
 [node name="player" parent="." groups=["player"] instance=ExtResource("2_1evhl")]
 position = Vector2(-8, 0)
 
-[node name="GUI" type="CanvasLayer" parent="."]
-script = ExtResource("1_0dmrb")
+[node name="GUI" parent="." instance=ExtResource("2_m4b6s")]
