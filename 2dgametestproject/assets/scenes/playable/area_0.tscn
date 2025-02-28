@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bn48o68en2ssh"]
+[gd_scene load_steps=6 format=3 uid="uid://bn48o68en2ssh"]
 
 [ext_resource type="Script" path="res://assets/scripts/terrainScripts/dungeonGeneration.gd" id="1_40usv"]
 [ext_resource type="Texture2D" uid="uid://b0q78ik8ygp5y" path="res://assets/sprites/terrainSprites/tiles_1.png" id="2_jdr7m"]
+[ext_resource type="PackedScene" uid="uid://d2l0t1tx054pt" path="res://assets/scenes/playerStuff/player.tscn" id="3_kom7p"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wjyg5"]
 texture = ExtResource("2_jdr7m")
@@ -54,3 +55,6 @@ script = ExtResource("1_40usv")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_bxtdh")
+
+[node name="player" parent="." instance=ExtResource("3_kom7p")]
+position = Vector2(-304, 50)
