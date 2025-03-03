@@ -58,7 +58,6 @@ func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	direction = Input.get_axis("moveLeft", "moveRight")
-	print(direction)
 	if direction != 0:
 		velocity.x = direction * speed * speedMultiplier
 		if is_on_floor():
@@ -93,9 +92,11 @@ func updateHealth():
 
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
-	if body.is_in_group("enemyHitbox"):
-		var damage = body.damage if body.has_method("getDamage") else 0
-		PlayerData.takeDamage(damage)
+	var damage: float = 0
+	if body.has_method("getDamage"):
+		damage = body.damage
+	print(damage)
+	PlayerData.takeDamage(damage)
 	updateHealth()
 
 func playerAnimations():

@@ -32,3 +32,4 @@ transition = 4
 
 [node name="enemy4" parent="." index="5" instance=ExtResource("3_r7ja2")]
 position = Vector2(898, -116)
+damage = 1.0

@@ -1,12 +1,14 @@
-[gd_scene load_steps=42 format=3 uid="uid://cp4wemneyblhr"]
+[gd_scene load_steps=46 format=3 uid="uid://cp4wemneyblhr"]
 
 [ext_resource type="Texture2D" uid="uid://uutrqqrm085w" path="res://assets/sprites/enemySprites/Bot Wheel/charge.png" id="1_nvp6k"]
+[ext_resource type="Script" path="res://assets/scripts/enemyScripts/ranged_enemy.gd" id="1_w7t6l"]
 [ext_resource type="Texture2D" uid="uid://df0ybkr1artte" path="res://assets/sprites/enemySprites/Bot Wheel/GAS dash with FX.png" id="2_sui2m"]
 [ext_resource type="Texture2D" uid="uid://sbj0pffsstxj" path="res://assets/sprites/enemySprites/Bot Wheel/death.png" id="3_5af68"]
 [ext_resource type="Texture2D" uid="uid://dp1bvetg6x44m" path="res://assets/sprites/enemySprites/Bot Wheel/static idle.png" id="4_g6lnm"]
 [ext_resource type="Texture2D" uid="uid://bogmlydqlerhw" path="res://assets/sprites/enemySprites/Bot Wheel/move with FX.png" id="5_vtirs"]
 [ext_resource type="Texture2D" uid="uid://d2ku0yu1q0bfe" path="res://assets/sprites/enemySprites/Bot Wheel/shoot without FX.png" id="6_l6gvv"]
 [ext_resource type="Texture2D" uid="uid://dqdhe6fni7yfd" path="res://assets/sprites/enemySprites/Bot Wheel/damaged.png" id="7_6c1kt"]
+[ext_resource type="PackedScene" uid="uid://8nw6luhhkyku" path="res://assets/scenes/areaFunctions/hurtbox.tscn" id="9_6to0n"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_annu3"]
 atlas = ExtResource("1_nvp6k")
@@ -271,8 +273,17 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bta3g"]
+radius = 8.0
+height = 26.0
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_esui2"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nm4d4"]
+bg_color = Color(0.862374, 0, 0.0692985, 1)
+
+[node name="RangedEnemy" type="CharacterBody2D"]
+script = ExtResource("1_w7t6l")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-3, -12)
@@ -281,11 +292,35 @@ animation = &"chargeShot"
 frame_progress = 0.75368
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -14)
+position = Vector2(0, -13)
 shape = SubResource("CapsuleShape2D_bta3g")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="playerDetector" type="RayCast2D" parent="."]
 position = Vector2(3, -15)
 scale = Vector2(10, 20)
 target_position = Vector2(20.2, 0)
+collide_with_areas = true
+
+[node name="healthBar" type="ProgressBar" parent="."]
+offset_left = -10.0
+offset_top = -27.0
+offset_right = 10.0
+offset_bottom = -23.0
+theme_override_styles/background = SubResource("StyleBoxFlat_esui2")
+theme_override_styles/fill = SubResource("StyleBoxFlat_nm4d4")
+value = 50.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="hurtbox" parent="." instance=ExtResource("9_6to0n")]
+
+[node name="muzzle" type="Node2D" parent="."]
+position = Vector2(14, -16)
+
+[node name="edgeDetector" type="RayCast2D" parent="."]
+position = Vector2(5, -8)
+target_position = Vector2(0, 26)
+collision_mask = 768
+hit_from_inside = true
 collide_with_areas = true

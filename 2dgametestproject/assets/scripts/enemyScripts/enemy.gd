@@ -5,17 +5,23 @@ extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var timer: Timer = $Timer
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
+@onready var hitbox: Area2D = $hitbox
+
 
 @export var speed: float = 50
+@export var damage: float = 10
 
 var isStopped = false
 var hp = 10
-var damage = 10
 var direction: int = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	updateHealth()
+	hitbox.damage = damage
+
+func getDamage() -> float:
+	return damage
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -26,9 +32,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = 0
 	
-	print("ray cast: ", ray_cast_2d.is_colliding())
 	if (is_on_wall() or not ray_cast_2d.is_colliding()) and timer.is_stopped() and not isStopped:
-		print("on wall: ", is_on_wall())
 		isStopped = true
 		animated_sprite_2d.play("idle")
 		timer.start()
