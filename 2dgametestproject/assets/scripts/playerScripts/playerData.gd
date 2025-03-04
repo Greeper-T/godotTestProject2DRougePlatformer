@@ -2,6 +2,7 @@ extends Node
 
 var hp = 100
 var maxHp = 100
+var damage = 1
 
 enum PlayerState { IDLE, MOVING, JUMPING, FALLING, GROUND_POUND, SPRINTING}
 var currentState = PlayerState.IDLE

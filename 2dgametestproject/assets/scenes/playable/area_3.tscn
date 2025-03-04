@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://brlf8yyltp0ov"]
+[gd_scene load_steps=6 format=3 uid="uid://brlf8yyltp0ov"]
 
 [ext_resource type="PackedScene" uid="uid://wcax7nv42gkc" path="res://assets/scenes/areaFunctions/area_template.tscn" id="1_j83x5"]
 [ext_resource type="PackedScene" uid="uid://bhti4ybxk2aot" path="res://assets/scenes/areaFunctions/moving_platform_large.tscn" id="2_0056e"]
 [ext_resource type="PackedScene" uid="uid://d1qoas5kwqj1n" path="res://assets/scenes/enemy/enemy.tscn" id="3_r7ja2"]
+[ext_resource type="PackedScene" uid="uid://cp4wemneyblhr" path="res://assets/scenes/enemy/rangedEnemy.tscn" id="4_qj1xm"]
 
 [sub_resource type="Curve2D" id="Curve2D_vjcp0"]
 resource_local_to_scene = true
@@ -31,5 +32,8 @@ ease = 2
 transition = 4
 
 [node name="enemy4" parent="." index="5" instance=ExtResource("3_r7ja2")]
-position = Vector2(898, -116)
+position = Vector2(664, -9)
 damage = 1.0
+
+[node name="RangedEnemy" parent="." index="6" instance=ExtResource("4_qj1xm")]
+position = Vector2(830, -119)

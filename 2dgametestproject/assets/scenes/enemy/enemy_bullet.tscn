@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcfv8couq6jby"]
+
+[ext_resource type="Texture2D" uid="uid://ghklwmcajixt" path="res://assetLib/addons/YouCanDoIt/Images/Girls/Chill/AiHayasaka C.png" id="1_05tk4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tlfr0"]
+size = Vector2(16, 33)
+
+[node name="enemyBullet" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 4.76837e-07)
+scale = Vector2(0.0254105, 0.0231933)
+texture = ExtResource("1_05tk4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0.5)
+shape = SubResource("RectangleShape2D_tlfr0")
+
+[node name="Timer" type="Timer" parent="."]

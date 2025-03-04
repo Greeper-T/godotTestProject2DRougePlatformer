@@ -1,7 +1,8 @@
-[gd_scene load_steps=46 format=3 uid="uid://cp4wemneyblhr"]
+[gd_scene load_steps=49 format=3 uid="uid://cp4wemneyblhr"]
 
 [ext_resource type="Texture2D" uid="uid://uutrqqrm085w" path="res://assets/sprites/enemySprites/Bot Wheel/charge.png" id="1_nvp6k"]
 [ext_resource type="Script" path="res://assets/scripts/enemyScripts/ranged_enemy.gd" id="1_w7t6l"]
+[ext_resource type="PackedScene" uid="uid://dcfv8couq6jby" path="res://assets/scenes/enemy/enemy_bullet.tscn" id="2_qrg77"]
 [ext_resource type="Texture2D" uid="uid://df0ybkr1artte" path="res://assets/sprites/enemySprites/Bot Wheel/GAS dash with FX.png" id="2_sui2m"]
 [ext_resource type="Texture2D" uid="uid://sbj0pffsstxj" path="res://assets/sprites/enemySprites/Bot Wheel/death.png" id="3_5af68"]
 [ext_resource type="Texture2D" uid="uid://dp1bvetg6x44m" path="res://assets/sprites/enemySprites/Bot Wheel/static idle.png" id="4_g6lnm"]
@@ -267,7 +268,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_63ws7")
 }],
-"loop": true,
+"loop": false,
 "name": &"takeDamage",
 "speed": 5.0
 }]
@@ -282,14 +283,23 @@ bg_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nm4d4"]
 bg_color = Color(0.862374, 0, 0.0692985, 1)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m7xad"]
+radius = 9.0
+height = 28.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_thwc7"]
+size = Vector2(146, 28)
+
 [node name="RangedEnemy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 773
 script = ExtResource("1_w7t6l")
+Bullet = ExtResource("2_qrg77")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-3, -12)
 sprite_frames = SubResource("SpriteFrames_r4k4s")
-animation = &"chargeShot"
-frame_progress = 0.75368
+animation = &"takeDamage"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -13)
@@ -298,7 +308,7 @@ shape = SubResource("CapsuleShape2D_bta3g")
 [node name="playerDetector" type="RayCast2D" parent="."]
 position = Vector2(3, -15)
 scale = Vector2(10, 20)
-target_position = Vector2(20.2, 0)
+target_position = Vector2(33, 0.05)
 collide_with_areas = true
 
 [node name="healthBar" type="ProgressBar" parent="."]
@@ -316,6 +326,13 @@ wait_time = 2.0
 one_shot = true
 
 [node name="hurtbox" parent="." instance=ExtResource("9_6to0n")]
+position = Vector2(-10, -15)
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" parent="hurtbox" index="0"]
+position = Vector2(10, 1)
+shape = SubResource("CapsuleShape2D_m7xad")
 
 [node name="muzzle" type="Node2D" parent="."]
 position = Vector2(14, -16)
@@ -326,3 +343,15 @@ target_position = Vector2(0, 26)
 collision_mask = 768
 hit_from_inside = true
 collide_with_areas = true
+
+[node name="fireArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="fireArea"]
+position = Vector2(83, -15)
+shape = SubResource("RectangleShape2D_thwc7")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="timeout" from="switchSideTimer" to="." method="_on_switch_side_timer_timeout"]
+[connection signal="body_entered" from="hurtbox" to="." method="_on_hurtbox_body_entered"]
+
+[editable path="hurtbox"]

@@ -120,7 +120,7 @@ height = 14.0
 
 [node name="enemy" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 263
+collision_mask = 773
 script = ExtResource("1_xsx5n")
 
 [node name="healthBar" type="ProgressBar" parent="."]

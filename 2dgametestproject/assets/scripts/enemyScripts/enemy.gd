@@ -10,13 +10,14 @@ extends CharacterBody2D
 
 @export var speed: float = 50
 @export var damage: float = 10
+@export var hp = 10
 
 var isStopped = false
-var hp = 10
 var direction: int = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	health_bar.max_value = hp
 	updateHealth()
 	hitbox.damage = damage
 
@@ -46,7 +47,7 @@ func updateHealth():
 
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
-	hp -= 1
+	hp -= PlayerData.damage
 	updateHealth()
 
 
