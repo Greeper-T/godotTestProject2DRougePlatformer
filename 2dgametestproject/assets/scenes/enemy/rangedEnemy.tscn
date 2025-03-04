@@ -311,7 +311,9 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_nm4d4")
 value = 50.0
 show_percentage = false
 
-[node name="Timer" type="Timer" parent="."]
+[node name="switchSideTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
 
 [node name="hurtbox" parent="." instance=ExtResource("9_6to0n")]
 

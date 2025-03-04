@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @onready var health_bar: ProgressBar = $healthBar
-@onready var timer: Timer = $Timer
+@onready var switch_side_timer: Timer = $switchSideTimer
 @onready var player_detector: RayCast2D = $playerDetector
 @onready var edge_detector: RayCast2D = $edgeDetector
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
