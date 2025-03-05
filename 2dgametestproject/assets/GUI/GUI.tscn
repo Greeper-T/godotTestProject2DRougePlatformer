@@ -28,3 +28,16 @@ theme_override_styles/background = SubResource("StyleBoxFlat_pwpla")
 theme_override_styles/fill = SubResource("StyleBoxFlat_mx647")
 value = 100.0
 show_percentage = false
+
+[node name="Container" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="Container"]
+layout_mode = 0
+offset_left = 290.0
+offset_top = 186.0
+offset_right = 821.0
+offset_bottom = 477.0
