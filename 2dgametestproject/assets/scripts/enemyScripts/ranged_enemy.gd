@@ -6,11 +6,14 @@ extends CharacterBody2D
 @onready var edge_detector: RayCast2D = $edgeDetector
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var muzzle: Node2D = $muzzle
+@onready var player = null
 
 @export var damage: float = 10
 @export var speed: float = 50
 @export var hp = 10
-@export var Bullet  = PackedScene
+@export var shootingDistance = 200
+
+const Bullet = preload("res://assets/scenes/enemy/enemy_bullet.tscn")
 
 enum State {IDLE, CHARGING, CHASING, DEATH, SHOOTING, DAMAGED, WANDERING}
 var currentState = State.IDLE
@@ -33,19 +36,49 @@ func _physics_process(delta: float) -> void:
 		
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-		
-	if not isStopped:
+	
+	
+	
+	if not isStopped and currentState != State.SHOOTING:
 		velocity.x = direction * speed
 		playAnimation("move", State.WANDERING)
 	else:
 		velocity.x = 0
 		playAnimation("idle", State.IDLE)
 	
+	if player_detector.is_colliding():
+		var target = player_detector.get_collider()
+		if target.name == "player":
+			player = target
+			if global_position.distance_to(player.global_position) < shootingDistance:
+				stateTransition(State.SHOOTING)
+			else:
+				stateTransition(State.CHASING)
+	
 	if (is_on_wall() or not edge_detector.is_colliding()) and switch_side_timer.is_stopped() and not isStopped:
 		isStopped = true
 		playAnimation("idle", State.IDLE)
 		switch_side_timer.start()
 	move_and_slide()
+
+func stateTransition(newState):
+	print("new state", newState)
+	if currentState != newState:
+		currentState = newState
+		match newState:
+			State.CHASING:
+				playAnimation("move", State.CHASING)
+			State.SHOOTING:
+				playAnimation("shoot", State.SHOOTING)
+				shoot()
+
+func shoot():
+	if Bullet and player:
+		var bullet = Bullet.instantiate()
+		bullet.global_position = muzzle.global_position
+		bullet.direction = (player.global_position - global_position).normalized()
+		bullet.damage = 10
+		get_parent().add_child(bullet)
 
 func updateHealth():
 	health_bar.value = hp
@@ -80,8 +113,21 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 func _on_animated_sprite_2d_animation_finished() -> void:
 	animationLock = false
 	print("animation ended")
+	if currentState == State.SHOOTING:
+		shoot()
 	if currentState == State.DAMAGED:
 		if isStopped:
 			playAnimation("idle", State.IDLE)
 		else:
 			playAnimation("move", State.WANDERING)
+
+
+func _on_fire_area_body_entered(body: Node2D) -> void:
+	var target = body
+	if target.name == "player":
+		print("player dound")
+		player = target
+		if global_position.distance_to(player.global_position) < shootingDistance:
+			stateTransition(State.SHOOTING)
+		else:
+			stateTransition(State.CHASING)

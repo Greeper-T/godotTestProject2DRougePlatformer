@@ -36,4 +36,4 @@ position = Vector2(664, -9)
 damage = 1.0
 
 [node name="RangedEnemy" parent="." index="6" instance=ExtResource("4_qj1xm")]
-position = Vector2(830, -119)
+position = Vector2(891, -11)
