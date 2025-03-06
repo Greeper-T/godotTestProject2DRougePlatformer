@@ -3,6 +3,9 @@ class_name PlayerController
 
 @export var speed = 3
 @export var jumpPower = 10
+@export var dashSpeed = 15
+@export var dashTime = 0.2
+@export var dashCooldown = 1.0
 
 @onready var healthBar: ProgressBar = $healthBar
 @onready var animator: AnimatedSprite2D = $playerAnimator/AnimatedSprite2D
@@ -14,6 +17,11 @@ var direction = 0
 var jumpsLeft = 1
 var sprintSpeed = speed + 3
 var lastDirection = 1
+
+var isDashing = false
+var canDash = true
+var dashTimer = 0.0
+var dashCooldownTimer = 0.0
 
 func _input(event: InputEvent) -> void:
 	#handles jumping events such as double jump and wall jumps
@@ -28,6 +36,9 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("heal"):
 		PlayerData.addHp(100)
 		updateHealth()
+		
+	if event.is_action_pressed("dash") and canDash:
+		startDash()
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -54,24 +65,47 @@ func _physics_process(delta: float) -> void:
 		PlayerData.currentState = PlayerData.PlayerState.SPRINTING
 	else:
 		speed = sprintSpeed - 3
+	if isDashing:
+		dashTimer -= delta
+		if dashTimer <= 0:
+			endDash()
+	else:
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	direction = Input.get_axis("moveLeft", "moveRight")
-	if direction != 0:
-		velocity.x = direction * speed * speedMultiplier
-		if is_on_floor():
-			PlayerData.currentState = PlayerData.PlayerState.MOVING
-		if direction != sign(lastDirection):
-			animator.scale.x = direction
-			gun_position.scale.x = direction
-			lastDirection = direction
-	else:
-		velocity.x = move_toward(velocity.x, 0, speedMultiplier * speed)
-		if is_on_floor():
-			PlayerData.currentState = PlayerData.PlayerState.IDLE
+		direction = Input.get_axis("moveLeft", "moveRight")
+		if direction != 0:
+			velocity.x = direction * speed * speedMultiplier
+			if is_on_floor():
+				PlayerData.currentState = PlayerData.PlayerState.MOVING
+			if direction != sign(lastDirection):
+				animator.scale.x = direction
+				gun_position.scale.x = direction
+				lastDirection = direction
+		else:
+			velocity.x = move_toward(velocity.x, 0, speedMultiplier * speed)
+			if is_on_floor():
+				PlayerData.currentState = PlayerData.PlayerState.IDLE
+	
+	if not canDash:
+		dashCooldownTimer -= delta
+		if dashCooldownTimer <= 0:
+			canDash = true
+	
 	playerAnimations()
 	move_and_slide()
+	
+	
+func startDash():
+	isDashing = true
+	canDash = false
+	dashTimer = dashTime
+	dashCooldownTimer = dashCooldown
+	velocity.x = lastDirection * dashSpeed * speedMultiplier
+	
+func endDash():
+	isDashing = false
+	velocity.x = 0
 	
 func _ready() -> void:
 	updateHealth()
@@ -92,6 +126,7 @@ func updateHealth():
 
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
+	print("body entered")
 	var damage: float = 0
 	if body.has_method("getDamage"):
 		damage = body.damage

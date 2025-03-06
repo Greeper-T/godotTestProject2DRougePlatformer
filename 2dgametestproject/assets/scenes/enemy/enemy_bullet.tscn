@@ -6,9 +6,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tlfr0"]
 size = Vector2(4, 4)
 
-[node name="enemyBullet" type="Area2D"]
+[node name="enemyBullet" type="CharacterBody2D"]
 collision_layer = 16
-collision_mask = 0
 script = ExtResource("1_74uok")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

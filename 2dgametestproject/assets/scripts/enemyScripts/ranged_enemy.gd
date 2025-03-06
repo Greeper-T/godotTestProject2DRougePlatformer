@@ -62,7 +62,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func stateTransition(newState):
-	print("new state", newState)
 	if currentState != newState:
 		currentState = newState
 		match newState:
@@ -77,7 +76,7 @@ func shoot():
 		var bullet = Bullet.instantiate()
 		bullet.global_position = muzzle.global_position
 		bullet.direction = (player.global_position - global_position).normalized()
-		bullet.damage = 10
+		bullet.damage = damage
 		get_parent().add_child(bullet)
 
 func updateHealth():
@@ -125,7 +124,6 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 func _on_fire_area_body_entered(body: Node2D) -> void:
 	var target = body
 	if target.name == "player":
-		print("player dound")
 		player = target
 		if global_position.distance_to(player.global_position) < shootingDistance:
 			stateTransition(State.SHOOTING)
