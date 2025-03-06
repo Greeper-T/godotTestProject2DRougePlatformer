@@ -1,11 +1,14 @@
-[gd_scene format=3 uid="uid://bsl2vlwe7bus"]
+[gd_scene load_steps=2 format=3 uid="uid://bsl2vlwe7bus"]
+
+[ext_resource type="Texture2D" uid="uid://b6qmyahshiv5k" path="res://assets/sprites/GUI/itemSlot.png" id="1_xlwv5"]
 
 [node name="Slot" type="PanelContainer"]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 62.0
+offset_bottom = 63.0
 
 [node name="BG" type="TextureRect" parent="."]
 layout_mode = 2
+texture = ExtResource("1_xlwv5")
 
 [node name="Icon" type="TextureRect" parent="."]
 layout_mode = 2
