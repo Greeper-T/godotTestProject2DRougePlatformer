@@ -1,6 +1,7 @@
-[gd_scene load_steps=23 format=3 uid="uid://d2l0t1tx054pt"]
+[gd_scene load_steps=24 format=3 uid="uid://d2l0t1tx054pt"]
 
 [ext_resource type="Script" path="res://assets/scripts/playerScripts/playerController.gd" id="1_layom"]
+[ext_resource type="PackedScene" uid="uid://dtc0utembojjr" path="res://assets/scenes/playerStuff/after_image.tscn" id="2_r0jco"]
 [ext_resource type="Texture2D" uid="uid://2x2hl1f71e77" path="res://assets/sprites/playerSprites/player.png" id="3_h55n8"]
 [ext_resource type="PackedScene" uid="uid://ctcrgjuc2gwmc" path="res://assets/scenes/playerStuff/gun.tscn" id="4_x0kyn"]
 [ext_resource type="PackedScene" uid="uid://8nw6luhhkyku" path="res://assets/scenes/areaFunctions/hurtbox.tscn" id="5_fkiva"]
@@ -141,6 +142,7 @@ height = 14.0
 [node name="player" type="CharacterBody2D"]
 collision_mask = 770
 script = ExtResource("1_layom")
+afterImageNode = ExtResource("2_r0jco")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(0.29676, 0.79437)
@@ -157,6 +159,7 @@ theme_override_styles/background = SubResource("StyleBoxFlat_4j7nx")
 theme_override_styles/fill = SubResource("StyleBoxFlat_tyyuy")
 value = 50.0
 show_percentage = false
+metadata/_edit_use_anchors_ = true
 
 [node name="playerAnimator" type="Node2D" parent="."]
 
@@ -182,6 +185,11 @@ collision_mask = 20
 position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_r3n6l")
 
+[node name="afterImageTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
 [connection signal="body_entered" from="hurtbox" to="." method="_on_hurtbox_body_entered"]
+[connection signal="timeout" from="afterImageTimer" to="." method="_on_after_image_timer_timeout"]
 
 [editable path="hurtbox"]

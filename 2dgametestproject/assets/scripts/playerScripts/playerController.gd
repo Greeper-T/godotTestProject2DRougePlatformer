@@ -6,10 +6,12 @@ class_name PlayerController
 @export var dashSpeed = 15
 @export var dashTime = 0.2
 @export var dashCooldown = 1.0
+@export var afterImageNode: PackedScene
 
 @onready var healthBar: ProgressBar = $healthBar
 @onready var animator: AnimatedSprite2D = $playerAnimator/AnimatedSprite2D
 @onready var gun_position: Node2D = $gunPosition
+@onready var after_image_timer: Timer = $afterImageTimer
 
 var speedMultiplier = 30
 var jumpMultiplier = -30
@@ -124,6 +126,10 @@ func _process(delta: float) -> void:
 func updateHealth():
 	healthBar.value = PlayerData.hp
 
+func addAfterImage():
+	var after = afterImageNode.instantiate()
+	after.set_property(position, $playerAnimator/AnimatedSprite2D.scale)
+	get_tree().current_scene.add_child(after)
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	print("body entered")
@@ -146,3 +152,7 @@ func playerAnimations():
 		animator.play("fall")
 			
 			
+
+
+func _on_after_image_timer_timeout() -> void:
+	addAfterImage()
