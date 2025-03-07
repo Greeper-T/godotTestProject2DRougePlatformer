@@ -1,5 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://ugmomq17yfe2"]
+[gd_scene load_steps=3 format=3 uid="uid://ugmomq17yfe2"]
 
 [ext_resource type="PackedScene" uid="uid://wcax7nv42gkc" path="res://assets/scenes/areaFunctions/area_template.tscn" id="1_bjfsc"]
+[ext_resource type="PackedScene" uid="uid://c6ntbvwgytw3r" path="res://assets/scenes/areaFunctions/one_way_platform.tscn" id="2_5ii6u"]
 
 [node name="area1" instance=ExtResource("1_bjfsc")]
+
+[node name="oneWayPlatform" parent="." index="4" instance=ExtResource("2_5ii6u")]
+position = Vector2(-44, -27)

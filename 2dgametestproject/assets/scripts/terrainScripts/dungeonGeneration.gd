@@ -6,10 +6,10 @@ var floor_tile := Vector2i(1, 1)
 var wall_tile_bottom := Vector2i(1, 5)
 var wall_tile_top := Vector2i(1, 7)
 var player_scene = preload("res://assets/scenes/playerStuff/player.tscn")
-var one_way_tile = preload("res://assets/scenes/playerStuff/player.tscn")
+var one_way_tile = preload("res://assets/scenes/areaFunctions/one_way_platform.tscn")
 
-const WIDTH = 400
-const HEIGHT = 60
+const WIDTH = 300
+const HEIGHT = 70
 const CELL_SIZE = 7
 
 const MIN_ROOM_WIDTH = 15
@@ -17,16 +17,9 @@ const MAX_ROOM_WIDTH = 25
 const MIN_ROOM_HEIGHT = 10
 const MAX_ROOM_HEIGHT = 20
 
-const MAX_ROOMS = 8
+const MAX_ROOMS = 7
 const MAX_DISTANCE = 20
-
 const MIN_ROOM_SPACING = 10
-
-# Boss room size
-const BOSS_ROOM_MIN_WIDTH = 30
-const BOSS_ROOM_MAX_WIDTH = 40
-const BOSS_ROOM_MIN_HEIGHT = 20
-const BOSS_ROOM_MAX_HEIGHT = 30
 
 var grid = []
 var rooms = []
@@ -37,13 +30,14 @@ func _ready():
 	generate_dungeon()
 	draw_dungeon()
 	spawn_player_in_first_room()
+	place_one_way_platforms()
 
 func initialize_grid():
 	grid.clear()
 	for x in range(WIDTH):
 		grid.append([])
 		for y in range(HEIGHT):
-			grid[x].append(1)
+			grid[x].append(1) # Wall
 
 func generate_dungeon():
 	var first_room = Rect2(1, 1, MIN_ROOM_WIDTH, MIN_ROOM_HEIGHT)
@@ -56,7 +50,7 @@ func generate_dungeon():
 			connect_rooms_horizontally(rooms[-1], room)
 			rooms.append(room)
 
-	replace_farthest_room_with_boss()
+	place_boss_room()
 
 func generate_room_near(base_room: Rect2) -> Rect2:
 	var width = MIN_ROOM_WIDTH + randi() % (MAX_ROOM_WIDTH - MIN_ROOM_WIDTH + 1)
@@ -116,48 +110,21 @@ func carve_corridor(pos: Vector2i, width=3, horizontal=true):
 			if nx >= 0 and nx < WIDTH and pos.y >= 0 and pos.y < HEIGHT:
 				grid[nx][pos.y] = 0
 
-func replace_farthest_room_with_boss():
-	if rooms.size() < 2:
-		print("Not enough rooms to place boss room.")
-		return
-
-	var start_room = rooms[0]
-	var farthest_room = null
-	var max_distance = -1
+func place_boss_room():
+	var farthest_room = rooms[0]
+	var farthest_distance = 0
 
 	for room in rooms:
-		var distance = (room.position - start_room.position).length()
-		if distance > max_distance:
-			max_distance = distance
+		var distance = room.position.distance_to(rooms[0].position)
+		if distance > farthest_distance:
+			farthest_distance = distance
 			farthest_room = room
 
-	if farthest_room == null:
-		print("Failed to find farthest room.")
-		return
+	var boss_room = Rect2(farthest_room.end.x + MIN_ROOM_SPACING, farthest_room.position.y, MAX_ROOM_WIDTH, MAX_ROOM_HEIGHT)
 
-	var boss_width = BOSS_ROOM_MIN_WIDTH + randi() % (BOSS_ROOM_MAX_WIDTH - BOSS_ROOM_MIN_WIDTH + 1)
-	var boss_height = BOSS_ROOM_MIN_HEIGHT + randi() % (BOSS_ROOM_MAX_HEIGHT - BOSS_ROOM_MIN_HEIGHT + 1)
-
-	var new_boss_room = Rect2(
-		farthest_room.position.x,
-		farthest_room.position.y,
-		boss_width,
-		boss_height
-	)
-
-	clear_room(farthest_room)
-
-	if place_room(new_boss_room):
-		var index = rooms.find(farthest_room)
-		if index != -1:
-			rooms[index] = new_boss_room
-
-	print("Boss room placed at:", new_boss_room.position)
-
-func clear_room(room: Rect2):
-	for x in range(room.position.x, room.end.x):
-		for y in range(room.position.y, room.end.y):
-			grid[x][y] = 1
+	if place_room(boss_room):
+		connect_rooms_horizontally(farthest_room, boss_room)
+		rooms.append(boss_room)
 
 func draw_dungeon():
 	for x in range(WIDTH):
@@ -192,3 +159,52 @@ func place_wall(tile_position: Vector2, x: int, y: int):
 		tile_map_layer.set_cell(tile_position, 0, wall_tile_bottom)
 	else:
 		tile_map_layer.set_cell(tile_position, 0, Vector2(-1, -1))
+
+func place_one_way_platforms():
+	for room in rooms:
+		if room == rooms[0]:
+			continue  # Skip first room (player spawn room)
+
+		place_hallway_helper_platform(room)
+		place_random_room_platforms(room)
+
+func place_hallway_helper_platform(room: Rect2):
+	var hallway_y = room.position.y + randi() % int(room.size.y)  # Random hallway exit height
+	var floor_y = room.position.y + room.size.y - 1
+
+	var platform_y = (hallway_y + floor_y) / 2  # Halfway from floor to hallway
+	var platform_width = randi() % 4 + 3  # 3 to 6 tiles wide
+
+	var local_x = randi() % int(room.size.x - platform_width)
+
+	# Convert to global grid position
+	var platform_start = Vector2i(room.position.x + local_x, platform_y)
+
+	spawn_one_way_platform(platform_start, platform_width)
+
+func place_random_room_platforms(room: Rect2):
+	var platform_count = max(1, int(room.size.x * room.size.y / 50))
+
+	var min_y = room.position.y + int(room.size.y / 3)  # Bottom 2/3 of room
+	var max_y = room.position.y + room.size.y - 1
+
+	for i in range(platform_count):
+		var platform_width = randi() % 5 + 3
+		var local_x = randi() % int(room.size.x - platform_width)
+		var y = min_y + randi() % int(max_y - min_y)
+
+		# Convert to global grid position
+		var platform_start = Vector2i(room.position.x + local_x, y)
+
+		spawn_one_way_platform(platform_start, platform_width)
+
+func spawn_one_way_platform(start_pos: Vector2i, width: int):
+	for x_offset in range(width):
+		var tile_pos = start_pos + Vector2i(x_offset, 0)
+
+		var platform = one_way_tile.instantiate()
+
+		# Correctly place in global world space
+		platform.global_position = tile_pos * CELL_SIZE
+
+		add_child(platform)

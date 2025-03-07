@@ -8,9 +8,11 @@ size = Vector2(32, 4)
 [node name="oneWayPlatform" type="RigidBody2D"]
 collision_layer = 512
 collision_mask = 0
+gravity_scale = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_tn0hi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ytqki")
+one_way_collision = true
