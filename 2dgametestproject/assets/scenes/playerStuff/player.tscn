@@ -186,8 +186,10 @@ position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_r3n6l")
 
 [node name="afterImageTimer" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
+wait_time = 0.04
+
+[node name="afterImageSpawner" type="Node2D" parent="."]
+position = Vector2(0, -7)
 
 [connection signal="body_entered" from="hurtbox" to="." method="_on_hurtbox_body_entered"]
 [connection signal="timeout" from="afterImageTimer" to="." method="_on_after_image_timer_timeout"]

@@ -3,7 +3,7 @@ class_name PlayerController
 
 @export var speed = 3
 @export var jumpPower = 10
-@export var dashSpeed = 15
+@export var dashSpeed = 20
 @export var dashTime = 0.2
 @export var dashCooldown = 1.0
 @export var afterImageNode: PackedScene
@@ -12,6 +12,7 @@ class_name PlayerController
 @onready var animator: AnimatedSprite2D = $playerAnimator/AnimatedSprite2D
 @onready var gun_position: Node2D = $gunPosition
 @onready var after_image_timer: Timer = $afterImageTimer
+@onready var after_image_spawner: Node2D = $afterImageSpawner
 
 var speedMultiplier = 30
 var jumpMultiplier = -30
@@ -104,10 +105,12 @@ func startDash():
 	dashTimer = dashTime
 	dashCooldownTimer = dashCooldown
 	velocity.x = lastDirection * dashSpeed * speedMultiplier
+	after_image_timer.start()
 	
 func endDash():
 	isDashing = false
 	velocity.x = 0
+	after_image_timer.stop()
 	
 func _ready() -> void:
 	updateHealth()
@@ -128,7 +131,7 @@ func updateHealth():
 
 func addAfterImage():
 	var after = afterImageNode.instantiate()
-	after.set_property(position, $playerAnimator/AnimatedSprite2D.scale)
+	after.set_property(after_image_spawner.global_position, $playerAnimator/AnimatedSprite2D.scale)
 	get_tree().current_scene.add_child(after)
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
