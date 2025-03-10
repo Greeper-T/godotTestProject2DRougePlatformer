@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://assets/GUI/popups.gd" id="1_8gixw"]
 
-[node name="Popups" type="Control"]
+[node name="Popups" type="Control" groups=["Popups"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

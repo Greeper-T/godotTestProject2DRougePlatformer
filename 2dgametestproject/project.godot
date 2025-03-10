@@ -25,6 +25,7 @@ PlayerData="*res://assets/scripts/playerScripts/playerData.gd"
 hud=""
 player=""
 gui=""
+Popups=""
 
 [input]
 
