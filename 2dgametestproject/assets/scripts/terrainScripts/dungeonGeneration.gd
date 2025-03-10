@@ -30,7 +30,6 @@ func _ready():
 	generate_dungeon()
 	draw_dungeon()
 	spawn_player_in_first_room()
-	place_one_way_platforms()
 
 func initialize_grid():
 	grid.clear()
@@ -49,6 +48,7 @@ func generate_dungeon():
 		if place_room(room):
 			connect_rooms_horizontally(rooms[-1], room)
 			rooms.append(room)
+			place_one_way_platforms(room)  # Place platforms immediately after adding a room
 
 	place_boss_room()
 
@@ -133,9 +133,20 @@ func draw_dungeon():
 			if grid[x][y] == 0:
 				tile_map_layer.set_cell(tile_position, 0, floor_tile)
 			elif grid[x][y] == 1:
-				place_wall(tile_position, x, y)
+				# Force walls only if not adjacent to a floor
+				if (x > 0 and grid[x - 1][y] == 0) or (x < WIDTH - 1 and grid[x + 1][y] == 0):
+					tile_map_layer.set_cell(tile_position, 0, wall_tile_bottom)
+				else:
+					place_wall(tile_position, x, y)  # Regular wall logic
 			else:
 				tile_map_layer.set_cell(tile_position, 0, Vector2(-1, -1))
+
+
+func place_wall(tile_position: Vector2, x: int, y: int):
+	if y < HEIGHT - 1 and grid[x][y + 1] == 0:
+		tile_map_layer.set_cell(tile_position, 0, wall_tile_bottom)
+	elif y > 0 and grid[x][y - 1] == 0:
+		tile_map_layer.set_cell(tile_position, 0, wall_tile_top)
 
 func spawn_player_in_first_room():
 	if rooms.is_empty():
@@ -148,54 +159,44 @@ func spawn_player_in_first_room():
 	player.global_position = room_center * CELL_SIZE
 	add_child(player)
 
-func place_wall(tile_position: Vector2, x: int, y: int):
-	if y < HEIGHT - 1 and grid[x][y + 1] == 0:
-		tile_map_layer.set_cell(tile_position, 0, wall_tile_bottom)
-	elif y > 0 and grid[x][y - 1] == 0:
-		tile_map_layer.set_cell(tile_position, 0, wall_tile_top)
-	elif x > 0 and grid[x - 1][y] == 0:
-		tile_map_layer.set_cell(tile_position, 0, wall_tile_bottom)
-	elif x < WIDTH - 1 and grid[x + 1][y] == 0:
-		tile_map_layer.set_cell(tile_position, 0, wall_tile_bottom)
-	else:
-		tile_map_layer.set_cell(tile_position, 0, Vector2(-1, -1))
+func place_one_way_platforms(room: Rect2):
+	if room == rooms[0]:
+		return  # Skip first room
 
-func place_one_way_platforms():
-	for room in rooms:
-		if room == rooms[0]:
-			continue  # Skip first room (player spawn room)
-
-		place_hallway_helper_platform(room)
-		place_random_room_platforms(room)
+	place_hallway_helper_platform(room)
+	place_random_room_platforms(room)
 
 func place_hallway_helper_platform(room: Rect2):
-	var hallway_y = room.position.y + randi() % int(room.size.y)  # Random hallway exit height
+	var hallway_y = room.position.y + randi() % int(room.size.y)
 	var floor_y = room.position.y + room.size.y - 1
 
-	var platform_y = (hallway_y + floor_y) / 2  # Halfway from floor to hallway
-	var platform_width = randi() % 4 + 3  # 3 to 6 tiles wide
+	var platform_y = (hallway_y + floor_y) / 2
+	var platform_width = randi() % 4 + 3
 
 	var local_x = randi() % int(room.size.x - platform_width)
-
-	# Convert to global grid position
 	var platform_start = Vector2i(room.position.x + local_x, platform_y)
 
 	spawn_one_way_platform(platform_start, platform_width)
 
 func place_random_room_platforms(room: Rect2):
-	var platform_count = max(1, int(room.size.x * room.size.y / 50))
+	if room == rooms[0]:  
+		return  # Skip first room to avoid unnecessary platforms in the starting area
 
-	var min_y = room.position.y + int(room.size.y / 3)  # Bottom 2/3 of room
-	var max_y = room.position.y + room.size.y - 1
+	var platform_count = max(1, int(room.size.x * room.size.y / 50))  # Adjust based on room size
+
+	var min_y = int(room.position.y + (room.size.y * 0.5))  # Start in the lower half
+	var max_y = int(room.position.y + room.size.y - 2)  # Keep 1 tile space above floor
 
 	for i in range(platform_count):
-		var platform_width = randi() % 5 + 3
-		var local_x = randi() % int(room.size.x - platform_width)
-		var y = min_y + randi() % int(max_y - min_y)
+		var platform_width = randi() % 5 + 3  # Random width between 3 and 7
+		var local_x = int(room.position.x) + randi() % max(1, int(room.size.x - platform_width))
+		var y = min_y + randi() % max(1, max_y - min_y + 1)
 
-		# Convert to global grid position
-		var platform_start = Vector2i(room.position.x + local_x, y)
+		# Ensure the platform is placed within the room’s boundaries
+		if local_x < room.position.x or local_x + platform_width > room.end.x:
+			continue  # Skip if out of bounds
 
+		var platform_start = Vector2i(local_x, y)
 		spawn_one_way_platform(platform_start, platform_width)
 
 func spawn_one_way_platform(start_pos: Vector2i, width: int):
@@ -203,8 +204,5 @@ func spawn_one_way_platform(start_pos: Vector2i, width: int):
 		var tile_pos = start_pos + Vector2i(x_offset, 0)
 
 		var platform = one_way_tile.instantiate()
-
-		# Correctly place in global world space
 		platform.global_position = tile_pos * CELL_SIZE
-
 		add_child(platform)
