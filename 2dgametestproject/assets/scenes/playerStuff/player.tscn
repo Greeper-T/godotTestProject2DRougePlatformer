@@ -146,7 +146,7 @@ afterImageNode = ExtResource("2_r0jco")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(0.29676, 0.79437)
-zoom = Vector2(4.74, 4.74)
+zoom = Vector2(3.3, 3.3)
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
