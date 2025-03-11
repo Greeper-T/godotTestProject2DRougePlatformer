@@ -11,6 +11,7 @@ var one_way_tile = preload("res://assets/scenes/areaFunctions/one_way_platform.t
 const WIDTH = 300
 const HEIGHT = 70
 const CELL_SIZE = 7
+const MIN_ROOMS = 5
 
 const MIN_ROOM_WIDTH = 15
 const MAX_ROOM_WIDTH = 25
@@ -43,7 +44,7 @@ func generate_dungeon():
 	place_room(first_room)
 	rooms.append(first_room)
 
-	for i in range(MAX_ROOMS - 1):
+	while rooms.size() < MIN_ROOMS or rooms.size() < MAX_ROOMS:
 		var room = generate_room_near(rooms[-1])
 		if place_room(room):
 			connect_rooms_horizontally(rooms[-1], room)
@@ -163,46 +164,43 @@ func place_one_way_platforms(room: Rect2):
 	if room == rooms[0]:
 		return  # Skip first room
 
-	place_hallway_helper_platform(room)
+
 	place_random_room_platforms(room)
 
-func place_hallway_helper_platform(room: Rect2):
-	var hallway_y = room.position.y + randi() % int(room.size.y)
-	var floor_y = room.position.y + room.size.y - 1
 
-	var platform_y = (hallway_y + floor_y) / 2
-	var platform_width = randi() % 4 + 3
-
-	var local_x = randi() % int(room.size.x - platform_width)
-	var platform_start = Vector2i(room.position.x + local_x, platform_y)
-
-	spawn_one_way_platform(platform_start, platform_width)
 
 func place_random_room_platforms(room: Rect2):
 	if room == rooms[0]:  
-		return  # Skip first room to avoid unnecessary platforms in the starting area
+		return  # Skip first room
 
-	var platform_count = max(1, int(room.size.x * room.size.y / 50))  # Adjust based on room size
+	# Extract room details
+	var room_x = int(room.position.x)
+	var room_y = int(room.position.y)
+	var room_width = int(room.size.x)
+	var room_height = int(room.size.y)
 
-	var min_y = int(room.position.y + (room.size.y * 0.5))  # Start in the lower half
-	var max_y = int(room.position.y + room.size.y - 2)  # Keep 1 tile space above floor
+	# Calculate platform position (centered)
+	var center_x = room_x 
+	var center_y = room_y 
 
-	for i in range(platform_count):
-		var platform_width = randi() % 5 + 3  # Random width between 3 and 7
-		var local_x = int(room.position.x) + randi() % max(1, int(room.size.x - platform_width))
-		var y = min_y + randi() % max(1, max_y - min_y + 1)
+	# Convert to integer and avoid floating point errors
+	center_x = int(round(center_x))
+	center_y = int(round(center_y))
 
-		# Ensure the platform is placed within the room’s boundaries
-		if local_x < room.position.x or local_x + platform_width > room.end.x:
-			continue  # Skip if out of bounds
+	# Ensure platform stays within valid room bounds (avoiding walls)
 
-		var platform_start = Vector2i(local_x, y)
-		spawn_one_way_platform(platform_start, platform_width)
+	# Debugging prints to verify room and platform position
+	print("Room at:", room_x, room_y, "Size:", room_width, room_height)
+	print("Placing single platform at:", Vector2i(center_x, center_y))
 
-func spawn_one_way_platform(start_pos: Vector2i, width: int):
-	for x_offset in range(width):
-		var tile_pos = start_pos + Vector2i(x_offset, 0)
+	# Spawn one single platform
+	var platform_start = Vector2i(center_x, center_y)
+	spawn_one_way_platform(platform_start)
 
+
+
+
+func spawn_one_way_platform(start_pos: Vector2i):
 		var platform = one_way_tile.instantiate()
-		platform.global_position = tile_pos * CELL_SIZE
+		platform.global_position = start_pos * CELL_SIZE
 		add_child(platform)
