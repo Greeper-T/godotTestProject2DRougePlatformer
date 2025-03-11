@@ -1,6 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://dtcy0gaj32k63"]
+[gd_scene load_steps=2 format=3 uid="uid://7ktee4k6auvs"]
 
-[ext_resource type="Script" path="res://assets/GUI/inventory.gd" id="1_8c7gt"]
+[sub_resource type="GDScript" id="GDScript_fc7x1"]
+script/source = "extends Control
+
+
+var items_to_load :=[
+	\"res://assets/scripts/itemScripts/speedSoup.tres\",
+	
+]
+
+
+
+func _ready():
+	for i in 24:
+		var slot := InventorySlot.new()
+		slot.init(ItemData.Type.MAIN, Vector2(32, 32))
+		%Grid.add_child(slot)
+	for i in items_to_load.size():
+		var item = InventoryItem.new
+		item.init(load(items_to_load[i]))
+		%Grid.get_child(i).add_child(item)
+"
 
 [node name="Inventroy" type="Control"]
 layout_mode = 3
@@ -9,4 +29,4 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_8c7gt")
+script = SubResource("GDScript_fc7x1")

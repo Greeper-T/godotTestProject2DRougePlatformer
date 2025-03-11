@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameManager="*res://assets/scripts/managers/gameManager.gd"
 PlayerData="*res://assets/scripts/playerScripts/playerData.gd"
+Popups="*res://assets/GUI/popups.tscn"
 
 [global_group]
 
