@@ -60,22 +60,25 @@ size = Vector2(36, 14)
 size = Vector2(36, 14)
 
 [node name="golemBullet" type="CharacterBody2D"]
+collision_layer = 16
+collision_mask = 0
 script = ExtResource("1_hg67t")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-28, 13)
 sprite_frames = SubResource("SpriteFrames_yuxrn")
 autoplay = "default"
 frame = 4
 frame_progress = 0.337821
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(28, -13)
 shape = SubResource("RectangleShape2D_0d403")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(28, -13)
 shape = SubResource("RectangleShape2D_56hiw")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

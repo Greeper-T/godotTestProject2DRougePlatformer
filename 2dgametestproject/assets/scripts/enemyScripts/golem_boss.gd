@@ -4,6 +4,9 @@ extends CharacterBody2D
 @onready var boss_texure: AnimatedSprite2D = $bossTexure
 @onready var player = get_parent().find_child("player")
 @onready var debug: Label = $debug
+@onready var muzzle: Node2D = $bossTexure/muzzle
+
+@export var bullet: PackedScene
 
 enum State { Idle, Follow, MeleeAttack, HomingMissile, LaserBeam, ArmourBuff, Dash, Death }
 var currentState = State.Idle
@@ -32,10 +35,20 @@ func _process(delta: float) -> void:
 func checkForMelee():
 	var distance = direction.length()
 	if distance < 30:
-		velocity = Vector2.ZERO
+		velocity = Vector2.ZERO 
 		changeState(State.MeleeAttack)
 	else:
 		changeState(State.Follow)
+
+func shoot():
+	var bullets = bullet.instantiate()
+	bullets.position = muzzle.global_position
+	get_tree().current_scene.add_child(bullets)
+
+func dash():
+	var tween = create_tween()
+	tween.tween_property(self ,"position", player.global_position, 0.8)
+	await tween.finished
 
 func changeState(newState):
 	if newState != currentState:
@@ -49,6 +62,15 @@ func playAnimations():
 		boss_texure.play("idle")
 	elif currentState == State.MeleeAttack:
 		boss_texure.play("meleeAttack")
+	elif currentState == State.HomingMissile:
+		boss_texure.play("rangedAttack")
+		await boss_texure.animation_finished
+		shoot()
+		changeState(State.Dash)
+	elif  currentState == State.Dash:
+		boss_texure.play("glowing")
+		await dash()
+		changeState(State.Follow)
 
 func _on_player_detector_body_entered(body: Node2D) -> void:
 	set_physics_process(true)
@@ -57,4 +79,5 @@ func _on_player_detector_body_entered(body: Node2D) -> void:
 
 func _on_player_detector_body_exited(body: Node2D) -> void:
 	set_physics_process(false)
-	changeState(State.Idle)
+	changeState(State.HomingMissile)
+	

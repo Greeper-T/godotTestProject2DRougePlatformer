@@ -1,8 +1,9 @@
-[gd_scene load_steps=90 format=3 uid="uid://wxtfl4kltaes"]
+[gd_scene load_steps=91 format=3 uid="uid://wxtfl4kltaes"]
 
 [ext_resource type="Script" path="res://assets/scripts/enemyScripts/golem_boss.gd" id="1_28b07"]
 [ext_resource type="Texture2D" uid="uid://bn7cyooo7fa42" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/PNG sheet/Character_sheet.png" id="1_70eby"]
 [ext_resource type="Texture2D" uid="uid://c1qahh5nelr6b" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/weapon PNG/Laser_sheet.png" id="2_dpiqa"]
+[ext_resource type="PackedScene" uid="uid://ctvgakcp6o2l4" path="res://assets/scenes/enemy/golem_bullet.tscn" id="2_yr4wc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4u2nj"]
 atlas = ExtResource("1_70eby")
@@ -645,11 +646,17 @@ radius = 90.0888
 collision_layer = 4
 collision_mask = 257
 script = ExtResource("1_28b07")
+bullet = ExtResource("2_yr4wc")
 
 [node name="bossTexure" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_28mld")
 animation = &"rangedAttack"
 autoplay = "idle"
+frame = 8
+frame_progress = 1.0
+
+[node name="muzzle" type="Node2D" parent="bossTexure"]
+position = Vector2(29, -9)
 
 [node name="pivot" type="Node2D" parent="."]
 
@@ -670,8 +677,6 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetector"]
 shape = SubResource("CircleShape2D_pr3qs")
-
-[node name="finiteStateMachine" type="Node2D" parent="."]
 
 [node name="UI" type="CanvasLayer" parent="."]
 

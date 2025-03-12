@@ -4,16 +4,26 @@ extends CharacterBody2D
 @onready var player = get_parent().find_child("player")
 
 var acceleration: Vector2 = Vector2.ZERO
+var speed: Vector2 = Vector2.ZERO
+var rotationSpeed: float = 2.0
 
 func _physics_process(delta: float) -> void:
-	acceleration = (player.position - position).normalized() * 700
 	
-	velocity += acceleration * delta
-	rotation = velocity.angle()
+	#var direction = (player.global_position - global_position).normalized()
+	#
+	#var targetAngle = direction.angle()
+	#rotation = lerp_angle(rotation, targetAngle,rotationSpeed * delta)
+	#
+	#position += Vector2.RIGHT.rotated(rotation) * speed * delta
 	
-	velocity = velocity.limit_length(150)
+	acceleration = (player.global_position - position).normalized() * 700
 	
-	position += velocity * delta
+	speed += acceleration * delta
+	rotation = speed.angle()
+	
+	speed = speed.limit_length(150)
+	
+	position += speed * delta
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	queue_free()
