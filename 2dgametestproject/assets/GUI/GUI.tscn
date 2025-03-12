@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://d33y4w8ixynua"]
+[gd_scene load_steps=7 format=3 uid="uid://d33y4w8ixynua"]
 
 [ext_resource type="Script" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
 [ext_resource type="Texture2D" uid="uid://bnjdoyw0jwr83" path="res://assets/sprites/GUI/inventory.png" id="2_rjx25"]
 [ext_resource type="PackedScene" uid="uid://bsl2vlwe7bus" path="res://assets/GUI/slot.tscn" id="3_lvwsk"]
+[ext_resource type="Resource" uid="uid://b2d8fw5ksip3r" path="res://assets/scripts/itemScripts/SpeedSoup.tres" id="4_fdwwm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwpla"]
 bg_color = Color(0.0214346, 0.0214346, 0.0214346, 1)
@@ -71,6 +72,7 @@ columns = 4
 
 [node name="Slot" parent="Inventory/GridContainer" instance=ExtResource("3_lvwsk")]
 layout_mode = 2
+item = ExtResource("4_fdwwm")
 
 [node name="Slot2" parent="Inventory/GridContainer" instance=ExtResource("3_lvwsk")]
 layout_mode = 2

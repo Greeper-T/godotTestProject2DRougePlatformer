@@ -2,6 +2,9 @@ extends Control
 
 
 func ItemPopup(slot: Rect2i, item):
+	if item != null:
+		set_value(item)
+		%ItemPopup.size = Vector2i.ZERO
 	
 	var mouse_pos = get_viewport().get_mouse_position()
 	var correction
@@ -16,3 +19,10 @@ func ItemPopup(slot: Rect2i, item):
 
 func HideItemPopup():
 	%ItemPopup.hide()
+
+
+func set_value(item : Item):
+	%Name.text = item.itemName
+	%Amount.text = str(item.itemAmt)
+	%Rarity.text = str(item.type)
+	%Description.text = item.itemDescription
