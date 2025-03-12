@@ -5,7 +5,7 @@ extends Node2D
 var floor_tile := Vector2i(1, 1)
 var wall_tile_bottom := Vector2i(1, 5)
 var wall_tile_top := Vector2i(1, 7)
-var player_scene = preload("res://assets/scenes/playerStuff/player.tscn")
+var player_scene = preload("res://assets/scenes/playerStuff/debug_player.tscn")
 var one_way_tile = preload("res://assets/scenes/areaFunctions/one_way_platform.tscn")
 
 const WIDTH = 300
@@ -47,9 +47,10 @@ func generate_dungeon():
 	while rooms.size() < MIN_ROOMS or rooms.size() < MAX_ROOMS:
 		var room = generate_room_near(rooms[-1])
 		if place_room(room):
+			
 			connect_rooms_horizontally(rooms[-1], room)
 			rooms.append(room)
-			place_one_way_platforms(room)  # Place platforms immediately after adding a room
+			place_one_way_platforms(room)
 
 	place_boss_room()
 
@@ -131,14 +132,14 @@ func draw_dungeon():
 	for x in range(WIDTH):
 		for y in range(HEIGHT):
 			var tile_position = Vector2(x, y)
-			if grid[x][y] == 0:
-				tile_map_layer.set_cell(tile_position, 0, floor_tile)
-			elif grid[x][y] == 1:
+			if grid[x][y] == 1:
 				# Force walls only if not adjacent to a floor
 				if (x > 0 and grid[x - 1][y] == 0) or (x < WIDTH - 1 and grid[x + 1][y] == 0):
 					tile_map_layer.set_cell(tile_position, 0, wall_tile_bottom)
 				else:
 					place_wall(tile_position, x, y)  # Regular wall logic
+			elif grid[x][y] == 0:
+				tile_map_layer.set_cell(tile_position, 0, floor_tile)
 			else:
 				tile_map_layer.set_cell(tile_position, 0, Vector2(-1, -1))
 
@@ -163,8 +164,6 @@ func spawn_player_in_first_room():
 func place_one_way_platforms(room: Rect2):
 	if room == rooms[0]:
 		return  # Skip first room
-
-
 	place_random_room_platforms(room)
 
 
@@ -173,34 +172,26 @@ func place_random_room_platforms(room: Rect2):
 	if room == rooms[0]:  
 		return  # Skip first room
 
-	# Extract room details
-	var room_x = int(room.position.x)
-	var room_y = int(room.position.y)
-	var room_width = int(room.size.x)
-	var room_height = int(room.size.y)
+	# Room center in grid coordinates
+	var room_center_x = room.position.x + (room.size.x / 2)
+	var room_center_y = room.position.y + (room.size.y / 2)
 
-	# Calculate platform position (centered)
-	var center_x = room_x 
-	var center_y = room_y 
+	# Convert to integer grid coordinates (ensuring valid placement)
+	var platform_x = clamp(int(room_center_x), int(room.position.x) + 1, int(room.end.x) - 2)
+	var platform_y = clamp(int(room_center_y), int(room.position.y) + 1, int(room.end.y) - 2)
 
-	# Convert to integer and avoid floating point errors
-	center_x = int(round(center_x))
-	center_y = int(round(center_y))
+	# Convert from grid to world position
+	var platform_pos = Vector2(platform_x, platform_y) * CELL_SIZE
 
-	# Ensure platform stays within valid room bounds (avoiding walls)
+	# Instantiate and place the platform
+	var platform = one_way_tile.instantiate()
+	platform.global_position = platform_pos
+	add_child(platform)
 
-	# Debugging prints to verify room and platform position
-	print("Room at:", room_x, room_y, "Size:", room_width, room_height)
-	print("Placing single platform at:", Vector2i(center_x, center_y))
-
-	# Spawn one single platform
-	var platform_start = Vector2i(center_x, center_y)
-	spawn_one_way_platform(platform_start)
-
-
-
-
-func spawn_one_way_platform(start_pos: Vector2i):
-		var platform = one_way_tile.instantiate()
-		platform.global_position = start_pos * CELL_SIZE
-		add_child(platform)
+	# Debugging Output
+	print("========================")
+	print("Room position (grid): ", room.position, " size: ", room.size)
+	print("Calculated center (grid): ", room_center_x,",", room_center_y)
+	print("Final platform position (grid): ", platform_x,",", platform_y)
+	print("Final platform position (world): ", platform_pos)
+	print("========================")

@@ -56,4 +56,4 @@ func reset_potions():
 	
 func hudUpdate():
 	hud = get_tree().get_first_node_in_group("hud")
-	hud.update_potion_label(potions)
+	#hud.update_potion_label(potions)
