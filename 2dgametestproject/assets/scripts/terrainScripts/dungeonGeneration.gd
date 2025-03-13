@@ -8,19 +8,19 @@ var wall_tile_top := Vector2i(1, 7)
 var player_scene = preload("res://assets/scenes/playerStuff/debug_player.tscn")
 var one_way_tile = preload("res://assets/scenes/areaFunctions/one_way_platform.tscn")
 
-const WIDTH = 300
-const HEIGHT = 70
-const CELL_SIZE = 7
+const WIDTH = 800
+const HEIGHT = 120
+const CELL_SIZE = 16
 const MIN_ROOMS = 5
 
-const MIN_ROOM_WIDTH = 15
-const MAX_ROOM_WIDTH = 25
-const MIN_ROOM_HEIGHT = 10
-const MAX_ROOM_HEIGHT = 20
+const MIN_ROOM_WIDTH = 10
+const MAX_ROOM_WIDTH = 15
+const MIN_ROOM_HEIGHT = 7
+const MAX_ROOM_HEIGHT = 12
 
 const MAX_ROOMS = 7
-const MAX_DISTANCE = 20
-const MIN_ROOM_SPACING = 10
+const MAX_DISTANCE = 10
+const MIN_ROOM_SPACING = 5
 
 var grid = []
 var rooms = []
@@ -162,28 +162,18 @@ func spawn_player_in_first_room():
 	add_child(player)
 
 func place_one_way_platforms(room: Rect2):
-	if room == rooms[0]:
-		return  # Skip first room
-	place_random_room_platforms(room)
-
-
-
-func place_random_room_platforms(room: Rect2):
 	if room == rooms[0]:  
-		return  # Skip first room
+		return  # Skip the first room (player spawn room)
 
-	# Room center in grid coordinates
-	var room_center_x = room.position.x + (room.size.x / 2)
-	var room_center_y = room.position.y + (room.size.y / 2)
+	# Find the center of the room in grid coordinates
+	var room_center_x = room.position.x + (room.size.x / 2.0)
+	var room_center_y = room.position.y + (room.size.y / 2.0)
 
-	# Convert to integer grid coordinates (ensuring valid placement)
-	var platform_x = clamp(int(room_center_x), int(room.position.x) + 1, int(room.end.x) - 2)
-	var platform_y = clamp(int(room_center_y), int(room.position.y) + 1, int(room.end.y) - 2)
+	# Convert grid coordinates to world coordinates
+	# Factor in TileMapLayer's global position
+	var platform_pos = (Vector2(room_center_x, room_center_y) * CELL_SIZE) + tile_map_layer.global_position
 
-	# Convert from grid to world position
-	var platform_pos = Vector2(platform_x, platform_y) * CELL_SIZE
-
-	# Instantiate and place the platform
+	# Instantiate and place the platform at the calculated position
 	var platform = one_way_tile.instantiate()
 	platform.global_position = platform_pos
 	add_child(platform)
@@ -191,7 +181,7 @@ func place_random_room_platforms(room: Rect2):
 	# Debugging Output
 	print("========================")
 	print("Room position (grid): ", room.position, " size: ", room.size)
-	print("Calculated center (grid): ", room_center_x,",", room_center_y)
-	print("Final platform position (grid): ", platform_x,",", platform_y)
+	print("Calculated center (grid): ", room_center_x, ",", room_center_y)
+	print("TileMap global position: ", tile_map_layer.global_position)
 	print("Final platform position (world): ", platform_pos)
 	print("========================")
