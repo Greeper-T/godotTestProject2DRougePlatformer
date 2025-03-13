@@ -625,7 +625,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_io7nq")
 }],
-"loop": true,
+"loop": false,
 "name": &"charge",
 "speed": 8.0
 }, {
@@ -650,23 +650,23 @@ bullet = ExtResource("2_yr4wc")
 
 [node name="bossTexure" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_28mld")
-animation = &"rangedAttack"
+animation = &"lazarCast"
 autoplay = "idle"
-frame = 8
+frame = 6
 frame_progress = 1.0
 
 [node name="muzzle" type="Node2D" parent="bossTexure"]
 position = Vector2(29, -9)
 
 [node name="pivot" type="Node2D" parent="."]
+position = Vector2(2, -17)
 
 [node name="lazerEye" type="AnimatedSprite2D" parent="pivot"]
-visible = false
-position = Vector2(100, -1)
+position = Vector2(97, 18)
 sprite_frames = SubResource("SpriteFrames_kynwp")
 animation = &"charge"
-frame = 6
-frame_progress = 0.599736
+frame = 14
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4)
