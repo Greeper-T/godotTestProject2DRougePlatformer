@@ -1,9 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://d33y4w8ixynua"]
+[gd_scene load_steps=10 format=3 uid="uid://d33y4w8ixynua"]
 
 [ext_resource type="Script" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
 [ext_resource type="Texture2D" uid="uid://bnjdoyw0jwr83" path="res://assets/sprites/GUI/inventory.png" id="2_rjx25"]
 [ext_resource type="PackedScene" uid="uid://bsl2vlwe7bus" path="res://assets/GUI/slot.tscn" id="3_lvwsk"]
 [ext_resource type="Resource" uid="uid://b2d8fw5ksip3r" path="res://assets/scripts/itemScripts/SpeedSoup.tres" id="4_fdwwm"]
+[ext_resource type="Resource" uid="uid://cnk57ys6x8j4d" path="res://assets/scripts/itemScripts/CritKnife.tres" id="5_ytawj"]
+[ext_resource type="Resource" uid="uid://dc7g6egscv5x2" path="res://assets/scripts/itemScripts/FightFork.tres" id="6_7jj4m"]
+[ext_resource type="Resource" uid="uid://djx1dp8k88rxd" path="res://assets/scripts/itemScripts/ScoopSpoon.tres" id="7_7k4vm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwpla"]
 bg_color = Color(0.0214346, 0.0214346, 0.0214346, 1)
@@ -63,10 +66,10 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 28.0
+offset_left = 26.0
 offset_top = -202.0
-offset_right = 612.0
-offset_bottom = 63.0
+offset_right = 610.0
+offset_bottom = 90.0
 grow_vertical = 2
 columns = 4
 
@@ -76,12 +79,15 @@ item = ExtResource("4_fdwwm")
 
 [node name="Slot2" parent="Inventory/GridContainer" instance=ExtResource("3_lvwsk")]
 layout_mode = 2
+item = ExtResource("5_ytawj")
 
 [node name="Slot3" parent="Inventory/GridContainer" instance=ExtResource("3_lvwsk")]
 layout_mode = 2
+item = ExtResource("6_7jj4m")
 
 [node name="Slot4" parent="Inventory/GridContainer" instance=ExtResource("3_lvwsk")]
 layout_mode = 2
+item = ExtResource("7_7k4vm")
 
 [node name="Slot5" parent="Inventory/GridContainer" instance=ExtResource("3_lvwsk")]
 layout_mode = 2

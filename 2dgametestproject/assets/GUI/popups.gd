@@ -23,6 +23,6 @@ func HideItemPopup():
 
 func set_value(item : Item):
 	%Name.text = item.itemName
-	%Amount.text = str(item.itemAmt)
+	%AmtNum.text = str(item.itemAmt)
 	%Rarity.text = str(item.type)
-	%Description.text = item.itemDescription
+	%DescInfo.text = item.itemDescription

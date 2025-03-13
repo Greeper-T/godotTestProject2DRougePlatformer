@@ -45,6 +45,7 @@ theme_override_font_sizes/font_size = 30
 text = "Amount:"
 
 [node name="AmtNum" type="Label" parent="UI/ItemPopup/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "1"
@@ -58,6 +59,7 @@ layout_mode = 2
 text = "Description:"
 
 [node name="DescInfo" type="Label" parent="UI/ItemPopup/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Rarity" type="Label" parent="UI/ItemPopup/VBoxContainer"]
