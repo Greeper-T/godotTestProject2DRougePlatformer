@@ -9,14 +9,14 @@ var player_scene = preload("res://assets/scenes/playerStuff/debug_player.tscn")
 var one_way_tile = preload("res://assets/scenes/areaFunctions/one_way_platform.tscn")
 
 const WIDTH = 800
-const HEIGHT = 120
+const HEIGHT = 200
 const CELL_SIZE = 16
 const MIN_ROOMS = 5
 
-const MIN_ROOM_WIDTH = 10
-const MAX_ROOM_WIDTH = 15
-const MIN_ROOM_HEIGHT = 7
-const MAX_ROOM_HEIGHT = 12
+const MIN_ROOM_WIDTH = 20
+const MAX_ROOM_WIDTH = 30
+const MIN_ROOM_HEIGHT = 15
+const MAX_ROOM_HEIGHT = 25
 
 const MAX_ROOMS = 7
 const MAX_DISTANCE = 10
