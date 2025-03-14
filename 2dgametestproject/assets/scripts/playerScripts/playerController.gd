@@ -24,6 +24,8 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("heal"):
 		PlayerData.addHp(100)
 		updateHealth()
+	if event.is_action_pressed("Inventory"):
+		get_node(".../GUI").hide()
 
 func _process(delta):
 	hp = PlayerData.hp
