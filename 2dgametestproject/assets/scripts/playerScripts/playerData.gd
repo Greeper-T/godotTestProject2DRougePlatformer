@@ -16,4 +16,3 @@ func takeDamage(amount: float):
 func addHp(amount: int):
 	if GameManager.usePotion():
 		hp = min(hp + amount, maxHp)
-	

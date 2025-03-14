@@ -76,6 +76,7 @@ func playAnimations():
 		changeState(State.Dash)
 	elif  currentState == State.Dash:
 		boss_texure.play("glowing")
+		await get_tree().create_timer(1.0).timeout
 		await dash()
 		changeState(State.Follow)
 	elif currentState == State.LaserBeam:
