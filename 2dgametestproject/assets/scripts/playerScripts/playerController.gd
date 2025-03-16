@@ -144,6 +144,11 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 		PlayerData.takeDamage(damage)
 	updateHealth()
 
+func takeDamage(damages: float):
+	if not isDashing:
+		PlayerData.takeDamage(damages)
+		updateHealth()
+
 func playerAnimations():
 	if PlayerData.currentState == PlayerData.PlayerState.IDLE:
 		animator.play("idle")

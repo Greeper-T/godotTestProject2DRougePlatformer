@@ -7,6 +7,7 @@ extends CharacterBody2D
 @onready var muzzle: Node2D = $bossTexure/muzzle
 @onready var pivot: Node2D = $pivot
 @onready var lazer_eye: AnimatedSprite2D = $pivot/lazerEye
+@onready var hp_bar: ProgressBar = $UI/HpBar
 
 @export var bullet: PackedScene
 
@@ -16,9 +17,12 @@ var previousState: State
 
 var direction : Vector2
 
+var health = 100
+
 func _ready() -> void:
 	set_physics_process(false)
 	lazer_eye.stop()
+	updateHealthValue()
 
 func _physics_process(delta: float) -> void:
 	checkForMelee()
@@ -34,14 +38,15 @@ func _process(delta: float) -> void:
 	else:
 		boss_texure.scale.x = 1
 	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		hp_bar.visible = !hp_bar.visible
 	
 func checkForMelee():
 	var distance = direction.length()
 	if distance < 30:
 		velocity = Vector2.ZERO 
 		changeState(State.MeleeAttack)
-	else:
-		changeState(State.Follow)
 
 func shoot():
 	var bullets = bullet.instantiate()
@@ -52,6 +57,7 @@ func dash():
 	var tween = create_tween()
 	tween.tween_property(self ,"position", player.global_position, 0.8)
 	await tween.finished
+	set_physics_process(true)
 
 func setTarget():
 	var temp = (player.global_position - pivot.global_position).normalized()
@@ -87,17 +93,59 @@ func playAnimations():
 		await lazer_eye.animation_finished
 		lazer_eye.stop()
 		changeState(State.Dash)
+	elif currentState == State.ArmourBuff:
+		boss_texure.play("armorBuff")
+		await boss_texure.animation_finished
+		health += 25
+		changeState(State.Follow)
+	elif currentState == State.Death:
+		boss_texure.play("death")
+		await boss_texure.animation_finished
+		queue_free()
 
 func _on_player_detector_body_entered(body: Node2D) -> void:
-	set_physics_process(true)
-	changeState(State.Follow)
+	if currentState == State.Idle:
+		set_physics_process(true)
+		changeState(State.Follow)
 
 
 func _on_player_detector_body_exited(body: Node2D) -> void:
-	set_physics_process(false)
-	var chance = randi() % 2
-	match chance:
-		0:
-			changeState(State.HomingMissile)
-		1:
-			changeState(State.LaserBeam)
+	if currentState == State.Follow or currentState ==State.MeleeAttack:
+		set_physics_process(false)
+		var chance = randi() % 2
+		match chance:
+			0:
+				changeState(State.HomingMissile)
+			1:
+				changeState(State.LaserBeam)
+
+
+func _on_hurtbox_body_entered(body: Node2D) -> void:
+	health -= PlayerData.damage
+	body.queue_free()
+	updateHealthValue()
+
+func updateHealthValue():
+	hp_bar.value = health
+	if health <= 0:
+		changeState(State.Death)
+
+
+func _on_boss_texure_animation_looped() -> void:
+	if currentState == State.MeleeAttack:
+		print("attack")
+		player.takeDamage(15)
+
+var playerInLaserDamage = false
+
+func _on_player_in_laser_body_entered(body: Node2D) -> void:
+	print("entered laser")
+	playerInLaserDamage = true
+
+func _on_player_in_laser_body_exited(body: Node2D) -> void:
+	print("exited laser")
+	playerInLaserDamage = false
+
+func _on_lazer_eye_frame_changed() -> void:
+	if playerInLaserDamage and currentState == State.LaserBeam and lazer_eye.frame >= 9:
+		player.takeDamage(5)

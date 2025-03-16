@@ -3,6 +3,7 @@ extends Control
 
 
 func _on_play_pressed() -> void:
+	PlayerData.hp = PlayerData.maxHp
 	get_tree().change_scene_to_file("res://assets/scenes/playable/area_1.tscn")
 
 

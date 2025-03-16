@@ -1,5 +1,6 @@
 extends Node
 
+var pauseScreen = preload("res://assets/UI Settings/inputSettings/inputSetting.tscn")
 var currentArea = 1
 var areaPath = "res://assets/scenes/playable/"
 
@@ -7,6 +8,7 @@ var potions = 0
 #var area_container : Node2D
 #var player : PlayerController
 var hud : HUD
+
 
 
 func _ready():
@@ -28,7 +30,6 @@ func nextLevel():
 	print_debug("entered portal")
 	print(hud)
 	hud.update_potion_label(potions)
-
 
 
 func set_up_area():

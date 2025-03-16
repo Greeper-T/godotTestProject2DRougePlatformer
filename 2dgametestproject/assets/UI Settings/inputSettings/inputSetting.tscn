@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfr6ewukk7gw0"]
+
+[ext_resource type="Script" path="res://assets/UI Settings/inputSettings/input_setting.gd" id="1_fs65l"]
+[ext_resource type="PackedScene" uid="uid://beo5pf2gwftse" path="res://assets/UI Settings/inputSettings/input_button.tscn" id="2_m1a3l"]
+[ext_resource type="FontFile" uid="uid://b1hueq17atyif" path="res://assets/UI Settings/inputSettings/superstar_memesbruh03.ttf" id="3_ylpol"]
+
+[node name="InputSetting" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fs65l")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -302.0
+offset_top = -232.0
+offset_right = 302.0
+offset_bottom = 232.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="actionList" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="inputButton" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/actionList" instance=ExtResource("2_m1a3l")]
+layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_ylpol")
+theme_override_font_sizes/font_size = 56
+text = "Reset To Default"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ResetButton" to="." method="_on_reset_button_pressed"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=91 format=3 uid="uid://wxtfl4kltaes"]
+[gd_scene load_steps=94 format=3 uid="uid://wxtfl4kltaes"]
 
 [ext_resource type="Script" path="res://assets/scripts/enemyScripts/golem_boss.gd" id="1_28b07"]
 [ext_resource type="Texture2D" uid="uid://bn7cyooo7fa42" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/PNG sheet/Character_sheet.png" id="1_70eby"]
 [ext_resource type="Texture2D" uid="uid://c1qahh5nelr6b" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/weapon PNG/Laser_sheet.png" id="2_dpiqa"]
 [ext_resource type="PackedScene" uid="uid://ctvgakcp6o2l4" path="res://assets/scenes/enemy/golem_bullet.tscn" id="2_yr4wc"]
+[ext_resource type="PackedScene" uid="uid://8nw6luhhkyku" path="res://assets/scenes/areaFunctions/hurtbox.tscn" id="5_ybh61"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4u2nj"]
 atlas = ExtResource("1_70eby")
@@ -635,12 +636,19 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5re84"]
+size = Vector2(258, 19)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qc34i"]
 radius = 16.0
 height = 54.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pr3qs"]
 radius = 90.0888
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ypiu6"]
+radius = 19.0
+height = 58.0
 
 [node name="golemBoss" type="CharacterBody2D"]
 collision_layer = 4
@@ -650,10 +658,8 @@ bullet = ExtResource("2_yr4wc")
 
 [node name="bossTexure" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_28mld")
-animation = &"lazarCast"
+animation = &"meleeAttack"
 autoplay = "idle"
-frame = 6
-frame_progress = 1.0
 
 [node name="muzzle" type="Node2D" parent="bossTexure"]
 position = Vector2(29, -9)
@@ -668,6 +674,13 @@ animation = &"charge"
 frame = 14
 frame_progress = 1.0
 
+[node name="playerInLaser" type="Area2D" parent="pivot"]
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pivot/playerInLaser"]
+position = Vector2(119, 0.5)
+shape = SubResource("RectangleShape2D_5re84")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4)
 shape = SubResource("CapsuleShape2D_qc34i")
@@ -680,7 +693,7 @@ shape = SubResource("CircleShape2D_pr3qs")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="ProgressBar" type="ProgressBar" parent="UI"]
+[node name="HpBar" type="ProgressBar" parent="UI"]
 custom_minimum_size = Vector2(200, 0)
 anchors_preset = 7
 anchor_left = 0.5
@@ -695,7 +708,7 @@ grow_horizontal = 2
 grow_vertical = 0
 value = 100.0
 
-[node name="Label" type="Label" parent="UI/ProgressBar"]
+[node name="Label" type="Label" parent="UI/HpBar"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -720,5 +733,20 @@ offset_bottom = -24.0
 text = "debug"
 horizontal_alignment = 1
 
+[node name="hurtbox" parent="." instance=ExtResource("5_ybh61")]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" parent="hurtbox" index="0"]
+position = Vector2(0, -4)
+shape = SubResource("CapsuleShape2D_ypiu6")
+
+[connection signal="animation_looped" from="bossTexure" to="." method="_on_boss_texure_animation_looped"]
+[connection signal="frame_changed" from="pivot/lazerEye" to="." method="_on_lazer_eye_frame_changed"]
+[connection signal="body_entered" from="pivot/playerInLaser" to="." method="_on_player_in_laser_body_entered"]
+[connection signal="body_exited" from="pivot/playerInLaser" to="." method="_on_player_in_laser_body_exited"]
 [connection signal="body_entered" from="playerDetector" to="." method="_on_player_detector_body_entered"]
 [connection signal="body_exited" from="playerDetector" to="." method="_on_player_detector_body_exited"]
+[connection signal="body_entered" from="hurtbox" to="." method="_on_hurtbox_body_entered"]
+
+[editable path="hurtbox"]
