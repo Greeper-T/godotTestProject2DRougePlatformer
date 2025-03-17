@@ -1,5 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://wcax7nv42gkc"]
+[gd_scene load_steps=9 format=3 uid="uid://wcax7nv42gkc"]
 
+[ext_resource type="Script" path="res://assets/UI Settings/inputSettings/pause.gd" id="1_7aii5"]
+[ext_resource type="PackedScene" uid="uid://bfr6ewukk7gw0" path="res://assets/UI Settings/inputSettings/inputSetting.tscn" id="1_fr6x2"]
 [ext_resource type="Texture2D" uid="uid://b0q78ik8ygp5y" path="res://assets/sprites/terrainSprites/tiles_1.png" id="1_vme8i"]
 [ext_resource type="PackedScene" uid="uid://drrnwii5dn4f0" path="res://assets/UI/HUD.tscn" id="1_ya5vn"]
 [ext_resource type="PackedScene" uid="uid://d2l0t1tx054pt" path="res://assets/scenes/playerStuff/player.tscn" id="2_1evhl"]
@@ -343,6 +345,9 @@ offset_top = 2.0
 offset_right = 3.0
 offset_bottom = 2.0
 
+script = ExtResource("1_7aii5")
+
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_0kr8m")
 format = 2
@@ -357,3 +362,9 @@ position = Vector2(23, -33)
 position = Vector2(-8, 0)
 
 [node name="GUI" parent="." instance=ExtResource("2_m4b6s")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("1_ya5vn")]
+
+[node name="InputSetting" parent="CanvasLayer" instance=ExtResource("1_fr6x2")]
+visible = false
