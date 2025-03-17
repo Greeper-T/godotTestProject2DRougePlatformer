@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://djx1dp8k88rxd"]
 
-[ext_resource type="Script" path="res://assets/scripts/itemScripts/Item.gd" id="1_lxdns"]
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_lxdns"]
 [ext_resource type="Texture2D" uid="uid://duqdc3yu6bq26" path="res://assets/sprites/itemSprites/ScoopSpoon.png" id="2_32k3s"]
 
 [resource]

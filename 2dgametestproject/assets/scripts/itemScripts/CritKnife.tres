@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://cnk57ys6x8j4d"]
 
-[ext_resource type="Script" path="res://assets/scripts/itemScripts/Item.gd" id="1_gkb6m"]
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_gkb6m"]
 [ext_resource type="Texture2D" uid="uid://bhc3uw6ibcqk2" path="res://assets/sprites/itemSprites/CritKnife.png" id="2_mphyh"]
 
 [resource]

@@ -8,6 +8,7 @@ var potions = 0
 #var player : PlayerController
 var hud : HUD
 var gui : GUI
+var hpBar : HPBar
 
 
 

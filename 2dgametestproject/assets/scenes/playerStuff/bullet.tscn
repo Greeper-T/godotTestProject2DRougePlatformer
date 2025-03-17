@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://d0xiqd1vj87q0"]
 
-[ext_resource type="Script" path="res://assets/scripts/playerScripts/bullet.gd" id="1_64idh"]
+[ext_resource type="Script" uid="uid://c35b220h716fn" path="res://assets/scripts/playerScripts/bullet.gd" id="1_64idh"]
 [ext_resource type="Texture2D" uid="uid://btlv7imkldldu" path="res://assets/sprites/terrainSprites/platform1_large.png" id="1_ihku8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kfjsa"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://drrnwii5dn4f0"]
 
-[ext_resource type="Script" path="res://assets/UI/hud.gd" id="1_hnacu"]
+[ext_resource type="Script" uid="uid://p7l41k41dhhe" path="res://assets/UI/hud.gd" id="1_hnacu"]
 [ext_resource type="Texture2D" uid="uid://fshvpxi7vycp" path="res://assets/sprites/itemSprites/potion.png" id="2_lm30c"]
 [ext_resource type="LabelSettings" uid="uid://br488fer1vt01" path="res://assets/UI Settings/MainLabelSettings.tres" id="3_eqf4t"]
 

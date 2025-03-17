@@ -1,8 +1,7 @@
 extends CanvasLayer
-class_name GUI
+class_name HPBar
 
 @export var healthLabel : Label
-var hidden = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,11 +20,3 @@ func updateHealthLabel():
 	healthLabel.text = "" + str($hp_bar.value) + "/" + str($hp_bar.max_value)
 	
 	
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("Inventory"):
-		if hidden:
-			hidden = false
-			self.show()
-		else:
-			hidden = true
-			self.hide()

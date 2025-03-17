@@ -1,39 +1,22 @@
 [gd_scene load_steps=10 format=3 uid="uid://d33y4w8ixynua"]
 
-[ext_resource type="Script" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
+[ext_resource type="Script" uid="uid://b1tpx3mbt7xyb" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
 [ext_resource type="Texture2D" uid="uid://bnjdoyw0jwr83" path="res://assets/sprites/GUI/inventory.png" id="2_rjx25"]
 [ext_resource type="PackedScene" uid="uid://bsl2vlwe7bus" path="res://assets/GUI/slot.tscn" id="3_lvwsk"]
-[ext_resource type="Resource" uid="uid://b2d8fw5ksip3r" path="res://assets/scripts/itemScripts/SpeedSoup.tres" id="4_fdwwm"]
+[ext_resource type="Resource" uid="uid://b2d8fw5ksip3r" path="res://assets/scripts/itemScripts/speedSoup.tres" id="4_fdwwm"]
 [ext_resource type="Resource" uid="uid://cnk57ys6x8j4d" path="res://assets/scripts/itemScripts/CritKnife.tres" id="5_ytawj"]
 [ext_resource type="Resource" uid="uid://dc7g6egscv5x2" path="res://assets/scripts/itemScripts/FightFork.tres" id="6_7jj4m"]
 [ext_resource type="Resource" uid="uid://djx1dp8k88rxd" path="res://assets/scripts/itemScripts/ScoopSpoon.tres" id="7_7k4vm"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwpla"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6h8v4"]
 bg_color = Color(0.0214346, 0.0214346, 0.0214346, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mx647"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqijg"]
 bg_color = Color(0.822952, 0.0550532, 0.179494, 1)
 
 [node name="GUI" type="CanvasLayer" node_paths=PackedStringArray("healthLabel") groups=["gui"]]
 script = ExtResource("1_3eeni")
 healthLabel = NodePath("healthLabel")
-
-[node name="healthLabel" type="Label" parent="."]
-offset_left = 142.0
-offset_top = 86.0
-offset_right = 185.0
-offset_bottom = 109.0
-text = "1/100"
-
-[node name="hp_bar" type="ProgressBar" parent="."]
-offset_left = 79.0
-offset_top = 57.0
-offset_right = 260.0
-offset_bottom = 85.0
-theme_override_styles/background = SubResource("StyleBoxFlat_pwpla")
-theme_override_styles/fill = SubResource("StyleBoxFlat_mx647")
-value = 100.0
-show_percentage = false
 
 [node name="Container" type="Control" parent="."]
 layout_mode = 3
@@ -124,3 +107,20 @@ layout_mode = 2
 
 [node name="Slot16" parent="Inventory/GridContainer" instance=ExtResource("3_lvwsk")]
 layout_mode = 2
+
+[node name="healthLabel" type="Label" parent="."]
+offset_left = 142.0
+offset_top = 86.0
+offset_right = 185.0
+offset_bottom = 109.0
+text = "1/100"
+
+[node name="hp_bar" type="ProgressBar" parent="."]
+offset_left = 79.0
+offset_top = 57.0
+offset_right = 260.0
+offset_bottom = 85.0
+theme_override_styles/background = SubResource("StyleBoxFlat_6h8v4")
+theme_override_styles/fill = SubResource("StyleBoxFlat_iqijg")
+value = 100.0
+show_percentage = false
