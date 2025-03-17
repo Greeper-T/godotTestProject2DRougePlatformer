@@ -165,23 +165,47 @@ func place_one_way_platforms(room: Rect2):
 	if room == rooms[0]:  
 		return  # Skip the first room (player spawn room)
 
-	# Find the center of the room in grid coordinates
-	var room_center_x = room.position.x + (room.size.x / 2.0)
-	var room_center_y = room.position.y + (room.size.y / 2.0)
+	# Calculate base number of platforms from room size with random variation
+	var base_platforms = room.size.x * room.size.y / 80  # Adjust divisor for density
+	var num_platforms = max(1, base_platforms + randi() % 3 - 1)  # Random variation (-1, 0, or +1)
 
-	# Convert grid coordinates to world coordinates
-	# Factor in TileMapLayer's global position
-	var platform_pos = (Vector2(room_center_x, room_center_y) * CELL_SIZE) + tile_map_layer.global_position
+	var min_spacing = 4  # Minimum distance between platforms (grid units)
+	var placed_positions = []
 
-	# Instantiate and place the platform at the calculated position
-	var platform = one_way_tile.instantiate()
-	platform.global_position = platform_pos
-	add_child(platform)
+	for i in range(num_platforms):
+		var attempts = 10  # Limit retries to avoid infinite loops
+		var placed = false
+		var pos = Vector2.ZERO  # Declare `pos` before the loop
 
-	# Debugging Output
-	print("========================")
-	print("Room position (grid): ", room.position, " size: ", room.size)
-	print("Calculated center (grid): ", room_center_x, ",", room_center_y)
-	print("TileMap global position: ", tile_map_layer.global_position)
-	print("Final platform position (world): ", platform_pos)
-	print("========================")
+		while attempts > 0 and not placed:
+			# Random X position ensuring it's within room boundaries
+			var platform_x = room.position.x + randi() % int(room.size.x - 2) + 1  # Avoid edges
+			# Random Y position within the lower 2/3 of the room
+			var platform_y = room.position.y + int(room.size.y * (1/3)) + randi() % int(room.size.y * (2/3) - 1)
+
+			pos = Vector2(platform_x, platform_y)
+
+			# Ensure platforms aren't too close to each other
+			var too_close = false
+			for placed_pos in placed_positions:
+				if pos.distance_to(placed_pos) < min_spacing:
+					too_close = true
+					break
+
+			if not too_close:
+				placed_positions.append(pos)
+				placed = true
+
+			attempts -= 1
+
+		if placed:  # Only place platform if a valid position was found
+			# Convert grid coordinates to world coordinates
+			var platform_pos = (pos * CELL_SIZE) + tile_map_layer.global_position
+
+			# Instantiate and place the platform at the calculated position
+			var platform = one_way_tile.instantiate()
+			platform.global_position = platform_pos
+			add_child(platform)
+
+			# Debugging Output
+			print("Placed platform at (grid): ", pos, " (world): ", platform_pos)
