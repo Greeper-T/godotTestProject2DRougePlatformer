@@ -51,6 +51,14 @@ func _input(event: InputEvent) -> void:
 func _process(delta):
 	hp = PlayerData.hp
 	maxHp = PlayerData.maxHp
+	#update gun position
+	var screen_width = get_viewport_rect().size.x
+	var mouse_position = get_viewport().get_mouse_position()
+
+	if mouse_position.x < screen_width / 2:
+		gun_position.scale.x = -1  # Flip weapon to the left
+	else:
+		gun_position.scale.x = 1  # Flip weapon to the right
 
 
 func _physics_process(delta: float) -> void:
@@ -133,15 +141,6 @@ func _ready() -> void:
 	updateHealth()
 	GameManager.hudUpdate()
 
-func _process(delta: float) -> void:
-	#update gun position
-	var screen_width = get_viewport_rect().size.x
-	var mouse_position = get_viewport().get_mouse_position()
-
-	if mouse_position.x < screen_width / 2:
-		gun_position.scale.x = -1  # Flip weapon to the left
-	else:
-		gun_position.scale.x = 1  # Flip weapon to the right
 
 func updateHealth():
 	healthBar.value = PlayerData.hp

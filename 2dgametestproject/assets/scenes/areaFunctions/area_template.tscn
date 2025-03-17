@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://wcax7nv42gkc"]
+[gd_scene load_steps=10 format=3 uid="uid://wcax7nv42gkc"]
 
 [ext_resource type="Script" path="res://assets/UI Settings/inputSettings/pause.gd" id="1_7aii5"]
 [ext_resource type="PackedScene" uid="uid://bfr6ewukk7gw0" path="res://assets/UI Settings/inputSettings/inputSetting.tscn" id="1_fr6x2"]
@@ -336,6 +336,7 @@ terrain_set_0/terrain_1/color = Color(0.583376, 0.193784, 0.863338, 1)
 sources/0 = SubResource("TileSetAtlasSource_ab1ui")
 
 [node name="areaTemplate" type="Node2D"]
+script = ExtResource("1_7aii5")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -345,8 +346,8 @@ offset_top = 2.0
 offset_right = 3.0
 offset_bottom = 2.0
 
-script = ExtResource("1_7aii5")
-
+[node name="InputSetting" parent="CanvasLayer" instance=ExtResource("1_fr6x2")]
+visible = false
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_0kr8m")
@@ -362,9 +363,3 @@ position = Vector2(23, -33)
 position = Vector2(-8, 0)
 
 [node name="GUI" parent="." instance=ExtResource("2_m4b6s")]
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="HUD" parent="CanvasLayer" instance=ExtResource("1_ya5vn")]
-
-[node name="InputSetting" parent="CanvasLayer" instance=ExtResource("1_fr6x2")]
-visible = false
