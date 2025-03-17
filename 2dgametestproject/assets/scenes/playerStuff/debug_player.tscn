@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7d8xdmdmks4n"]
+
+[ext_resource type="Script" path="res://assets/scripts/playerScripts/debug_player.gd" id="1_qq3gg"]
+[ext_resource type="Texture2D" uid="uid://kev4wgddcoba" path="res://icon.svg" id="2_yr6dv"]
+
+[node name="debugPlayer" type="CharacterBody2D"]
+script = ExtResource("1_qq3gg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.325, 0.325)
+texture = ExtResource("2_yr6dv")
+
+[node name="Camera2D" type="Camera2D" parent="."]

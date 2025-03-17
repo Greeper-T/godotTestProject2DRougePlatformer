@@ -145,7 +145,7 @@ script = ExtResource("1_layom")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(0.29676, 0.79437)
-zoom = Vector2(4.74, 4.74)
+zoom = Vector2(1.31, 1.31)
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
