@@ -7,12 +7,17 @@ var potions = 0
 #var area_container : Node2D
 #var player : PlayerController
 var hud : HUD
+var gui : GUI
+var hpBar : HPBar
+
 
 
 func _ready():
 	var hud_nodes = get_tree().get_nodes_in_group("hud")
 	print("HUD nodes found:", hud_nodes)
 	hud = get_tree().get_first_node_in_group("hud")
+	gui = get_tree().get_first_node_in_group("gui")
+
 
 #func _initialize_hud():
 	#hud = get_tree().get_first_node_in_group("hud")
@@ -22,7 +27,7 @@ func nextLevel():
 	hud = get_tree().get_first_node_in_group("hud")
 	currentArea += 1
 	var fullPath = areaPath + "area_" + str(currentArea) + ".tscn"
-
+	
 	get_tree().change_scene_to_file(fullPath)
 	print_debug("entered portal")
 	print(hud)

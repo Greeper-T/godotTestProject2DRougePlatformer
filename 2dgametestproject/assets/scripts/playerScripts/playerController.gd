@@ -14,6 +14,10 @@ var sprintSpeed = speed + 3
 var wallJumpPushback = 1000
 var wallGravity = 100
 
+var hp = null
+var maxHp = null
+var init = false
+
 func _input(event: InputEvent) -> void:
 	#handles jumping events such as double jump and wall jumps
 	if event.is_action_pressed("jump") and !Input.is_action_pressed("moveDown"):
@@ -33,6 +37,12 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("heal"):
 		PlayerData.addHp(100)
 		updateHealth()
+
+
+func _process(delta):
+	hp = PlayerData.hp
+	maxHp = PlayerData.maxHp
+
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -69,6 +79,13 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 func _ready() -> void:
+	if init:
+		maxHp = maxHp
+		hp = hp
+	else:
+		maxHp = 100
+		hp = 50
+		init = true
 	updateHealth()
 	GameManager.hudUpdate()
 
@@ -79,3 +96,4 @@ func updateHealth():
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	PlayerData.takeDamage(10)
 	updateHealth()
+	
