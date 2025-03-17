@@ -2,7 +2,7 @@ extends CanvasLayer
 class_name GUI
 
 @export var healthLabel : Label
-var hidden = false
+var hidden = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,7 +25,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Inventory"):
 		if hidden:
 			hidden = false
-			self.show()
+			%Inventory.show()
 		else:
 			hidden = true
-			self.hide()
+			%Inventory.hide()

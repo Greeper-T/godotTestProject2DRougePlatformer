@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://d33y4w8ixynua"]
 
-[ext_resource type="Script" uid="uid://b1tpx3mbt7xyb" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
+[ext_resource type="Script" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
 [ext_resource type="Texture2D" uid="uid://bnjdoyw0jwr83" path="res://assets/sprites/GUI/inventory.png" id="2_rjx25"]
 [ext_resource type="PackedScene" uid="uid://bsl2vlwe7bus" path="res://assets/GUI/slot.tscn" id="3_lvwsk"]
 [ext_resource type="Resource" uid="uid://b2d8fw5ksip3r" path="res://assets/scripts/itemScripts/speedSoup.tres" id="4_fdwwm"]
@@ -25,6 +25,8 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Inventory" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
