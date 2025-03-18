@@ -4,6 +4,7 @@ extends PanelContainer
 	set(value):
 		item = value
 		if value != null:
+			PlayerData.calcItem(value)
 			$TextureRect.texture = value.texture
 
 

@@ -19,3 +19,8 @@ func takeDamage(amount: float):
 func addHp(amount: int):
 	if GameManager.usePotion():
 		hp = min(hp + amount, maxHp)
+
+func calcItem(item:Item):
+	print("item counted")
+	for n in range(1,item.itemAmt):
+		speed+=item.itemSpeedIncrease
