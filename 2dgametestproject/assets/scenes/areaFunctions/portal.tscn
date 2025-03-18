@@ -6,17 +6,21 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_h0ne8"]
 radius = 11.0
 
-[node name="portal" type="Area2D"]
+[node name="portal" type="RigidBody2D"]
+top_level = true
 collision_layer = 65536
-script = ExtResource("1_jjkbt")
+gravity_scale = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = -10
+z_index = 1
 texture = ExtResource("1_6a15d")
 region_enabled = true
 region_rect = Rect2(22, 0, 22, 22)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="portalDetection" type="Area2D" parent="."]
+script = ExtResource("1_jjkbt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="portalDetection"]
 shape = SubResource("CircleShape2D_h0ne8")
 
-[connection signal="body_entered" from="." to="." method="_on_player_entered"]
+[connection signal="body_entered" from="portalDetection" to="portalDetection" method="_on_body_entered"]

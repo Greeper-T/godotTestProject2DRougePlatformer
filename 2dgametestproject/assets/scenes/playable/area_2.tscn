@@ -28,4 +28,4 @@ position = Vector2(-173, -25)
 position = Vector2(-29, -95)
 
 [node name="portal2" parent="." index="6" instance=ExtResource("3_b3axv")]
-position = Vector2(38, -170)
+position = Vector2(30, -175)

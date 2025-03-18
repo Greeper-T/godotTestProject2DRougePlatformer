@@ -7,13 +7,14 @@ var wall_tile_bottom := Vector2i(1, 5)
 var wall_tile_top := Vector2i(1, 7)
 var player_scene = preload("res://assets/scenes/playerStuff/debug_player.tscn")
 var one_way_tile = preload("res://assets/scenes/areaFunctions/one_way_platform.tscn")
+var portal = preload("res://assets/scenes/areaFunctions/portal.tscn")
 
 const WIDTH = 800
 const HEIGHT = 200
 const CELL_SIZE = 16
 const MIN_ROOMS = 5
 
-const MIN_ROOM_WIDTH = 20
+const MIN_ROOM_WIDTH = 15
 const MAX_ROOM_WIDTH = 30
 const MIN_ROOM_HEIGHT = 15
 const MAX_ROOM_HEIGHT = 25
@@ -116,17 +117,51 @@ func place_boss_room():
 	var farthest_room = rooms[0]
 	var farthest_distance = 0
 
+	# Find the farthest room from the starting room
 	for room in rooms:
 		var distance = room.position.distance_to(rooms[0].position)
 		if distance > farthest_distance:
 			farthest_distance = distance
 			farthest_room = room
 
-	var boss_room = Rect2(farthest_room.end.x + MIN_ROOM_SPACING, farthest_room.position.y, MAX_ROOM_WIDTH, MAX_ROOM_HEIGHT)
+	# Define the smallest possible boss room
+	var boss_room = Rect2(
+		farthest_room.end.x + MIN_ROOM_SPACING,  # Position next to the farthest room
+		farthest_room.position.y,  # Align vertically with the farthest room
+		MIN_ROOM_WIDTH,  # Minimum width
+		MIN_ROOM_HEIGHT  # Minimum height
+	)
 
-	if place_room(boss_room):
-		connect_rooms_horizontally(farthest_room, boss_room)
-		rooms.append(boss_room)
+	# Debug: Check if the room is valid before placing
+	print("Attempting to place boss room at: ", boss_room.position, " with size: ", boss_room.size)
+
+	# Try to place the boss room
+	if not place_room(boss_room):
+		print("Boss room placement failed! Trying again in a new position.")
+		return  # Exit if room placement fails
+
+	# Connect it to the farthest room
+	connect_rooms_horizontally(farthest_room, boss_room)
+	rooms.append(boss_room)
+
+	# Instantiate the portal
+	var portal_instance = portal.instantiate()
+	if not portal_instance:
+		print("Error: Failed to instantiate portal!")
+		return  # Exit if instantiation fails
+
+	# Calculate the exact center of the boss room in world space
+	var room_center = (boss_room.position + boss_room.size / 2) * CELL_SIZE
+
+	# Set portal position and add it to the scene
+	portal_instance.global_position = room_center
+	add_child(portal_instance)
+
+	# Debugging Output
+	print("Boss room created successfully at: ", boss_room.position)
+	print("Portal placed at: ", portal_instance.global_position)
+
+
 
 func draw_dungeon():
 	for x in range(WIDTH):
@@ -166,7 +201,7 @@ func place_one_way_platforms(room: Rect2):
 		return  # Skip the first room (player spawn room)
 
 	# Calculate base number of platforms from room size with random variation
-	var base_platforms = room.size.x * room.size.y / 80  # Adjust divisor for density
+	var base_platforms = int(room.size.x * room.size.y / 80)  # Adjust divisor for density
 	var num_platforms = max(1, base_platforms + randi() % 3 - 1)  # Random variation (-1, 0, or +1)
 
 	var min_spacing = 4  # Minimum distance between platforms (grid units)
@@ -180,8 +215,11 @@ func place_one_way_platforms(room: Rect2):
 		while attempts > 0 and not placed:
 			# Random X position ensuring it's within room boundaries
 			var platform_x = room.position.x + randi() % int(room.size.x - 2) + 1  # Avoid edges
-			# Random Y position within the lower 2/3 of the room
-			var platform_y = room.position.y + int(room.size.y * (1/3)) + randi() % int(room.size.y * (2/3) - 1)
+			
+			# Random Y position ensuring it's **only in the bottom two-thirds**
+			var min_y = room.position.y + int(room.size.y * (1/3))  # Start 1/3rd down
+			var max_y = room.position.y + room.size.y - 2  # Avoid bottom edge
+			var platform_y = min_y + randi() % max(1, int(max_y - min_y))  # Random within range
 
 			pos = Vector2(platform_x, platform_y)
 
@@ -206,6 +244,3 @@ func place_one_way_platforms(room: Rect2):
 			var platform = one_way_tile.instantiate()
 			platform.global_position = platform_pos
 			add_child(platform)
-
-			# Debugging Output
-			print("Placed platform at (grid): ", pos, " (world): ", platform_pos)
