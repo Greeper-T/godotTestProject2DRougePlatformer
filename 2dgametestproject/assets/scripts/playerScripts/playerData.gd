@@ -4,8 +4,12 @@ var hp = 100
 var maxHp = 100
 var critRate = 5
 var damage = 1
-var speed = 5
-var sprintSpeed = 10
+var speed = 3
+
+var pc : PlayerController
+
+
+
 
 enum PlayerState { IDLE, MOVING, JUMPING, FALLING, GROUND_POUND, SPRINTING}
 var currentState = PlayerState.IDLE
@@ -24,3 +28,7 @@ func calcItem(item:Item):
 	print("item counted")
 	for n in range(1,item.itemAmt):
 		speed+=item.itemSpeedIncrease
+		hp+=item.itemHealthIncrease
+		maxHp+=item.itemHealthIncrease
+		critRate+=item.itemCritAdd
+		damage+=item.itemDamage

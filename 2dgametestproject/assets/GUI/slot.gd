@@ -4,8 +4,11 @@ extends PanelContainer
 	set(value):
 		item = value
 		if value != null:
-			PlayerData.calcItem(value)
+			if value.itemCounted != true:
+				PlayerData.calcItem(value)
+				value.itemCounted = true
 			$TextureRect.texture = value.texture
+			
 
 
 func _on_mouse_entered() -> void:
