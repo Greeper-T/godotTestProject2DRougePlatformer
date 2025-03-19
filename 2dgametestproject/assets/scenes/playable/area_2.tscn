@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://by16mygflqk70"]
+[gd_scene load_steps=5 format=3 uid="uid://by16mygflqk70"]
 
 [ext_resource type="PackedScene" uid="uid://wcax7nv42gkc" path="res://assets/scenes/areaFunctions/area_template.tscn" id="1_padqd"]
 [ext_resource type="PackedScene" uid="uid://bhqmyii0v61d8" path="res://assets/scenes/items/PotionItem.tscn" id="2_r3oqk"]
 [ext_resource type="PackedScene" uid="uid://cww25wrm4ycu1" path="res://assets/scenes/areaFunctions/portal.tscn" id="3_b3axv"]
+[ext_resource type="PackedScene" uid="uid://2ecp1rci4sdu" path="res://assets/scenes/enemy/rangedEnemy.tscn" id="4_8bl0c"]
 
 [node name="area2" instance=ExtResource("1_padqd")]
 
@@ -29,3 +30,9 @@ position = Vector2(-29, -95)
 
 [node name="portal2" parent="." index="6" instance=ExtResource("3_b3axv")]
 position = Vector2(38, -170)
+
+[node name="RangedEnemy" parent="." index="8" instance=ExtResource("4_8bl0c")]
+position = Vector2(425, -122)
+
+[node name="RangedEnemy2" parent="." index="9" instance=ExtResource("4_8bl0c")]
+position = Vector2(525, -124)

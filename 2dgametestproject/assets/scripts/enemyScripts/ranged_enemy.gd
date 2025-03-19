@@ -81,7 +81,7 @@ func shoot():
 
 func updateHealth():
 	health_bar.value = hp
-	if hp == 0:
+	if hp <= 0:
 		playAnimation("death", State.DEATH)
 		animationLock = true
 		await animated_sprite_2d.animation_finished

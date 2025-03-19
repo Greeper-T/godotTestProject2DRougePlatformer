@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://cp4wemneyblhr"]
+[gd_scene load_steps=48 format=3 uid="uid://2ecp1rci4sdu"]
 
 [ext_resource type="Texture2D" uid="uid://uutrqqrm085w" path="res://assets/sprites/enemySprites/Bot Wheel/charge.png" id="1_nvp6k"]
 [ext_resource type="Script" path="res://assets/scripts/enemyScripts/ranged_enemy.gd" id="1_w7t6l"]
@@ -338,7 +338,7 @@ position = Vector2(14, -16)
 
 [node name="edgeDetector" type="RayCast2D" parent="."]
 position = Vector2(5, -8)
-target_position = Vector2(0, 26)
+target_position = Vector2(0, 16)
 collision_mask = 768
 hit_from_inside = true
 collide_with_areas = true

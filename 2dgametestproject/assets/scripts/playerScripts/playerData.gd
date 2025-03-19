@@ -3,7 +3,7 @@ extends Node
 var hp = 100
 var maxHp = 100
 var critRate = 5
-var damage = 1
+var damage = 4
 var speed = 5
 var sprintSpeed = 10
 
