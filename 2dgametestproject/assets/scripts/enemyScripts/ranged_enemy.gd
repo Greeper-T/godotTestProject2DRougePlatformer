@@ -111,7 +111,6 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	animationLock = false
-	print("animation ended")
 	if currentState == State.SHOOTING:
 		shoot()
 	if currentState == State.DAMAGED:

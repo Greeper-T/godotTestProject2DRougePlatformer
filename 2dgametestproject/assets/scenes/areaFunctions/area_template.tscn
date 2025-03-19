@@ -363,3 +363,5 @@ position = Vector2(23, -33)
 position = Vector2(-8, 0)
 
 [node name="GUI" parent="." instance=ExtResource("2_m4b6s")]
+
+[connection signal="body_entered" from="portal" to="." method="_on_portal_body_entered"]

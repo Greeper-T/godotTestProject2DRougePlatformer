@@ -133,17 +133,14 @@ func updateHealthValue():
 
 func _on_boss_texure_animation_looped() -> void:
 	if currentState == State.MeleeAttack:
-		print("attack")
 		player.takeDamage(15)
 
 var playerInLaserDamage = false
 
 func _on_player_in_laser_body_entered(body: Node2D) -> void:
-	print("entered laser")
 	playerInLaserDamage = true
 
 func _on_player_in_laser_body_exited(body: Node2D) -> void:
-	print("exited laser")
 	playerInLaserDamage = false
 
 func _on_lazer_eye_frame_changed() -> void:

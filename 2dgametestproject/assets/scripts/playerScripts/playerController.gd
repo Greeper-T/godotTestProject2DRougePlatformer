@@ -151,11 +151,9 @@ func addAfterImage():
 	get_tree().current_scene.add_child(after)
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
-	print("body entered")
 	var damage: float = 0
 	if body.has_method("getDamage"):
 		damage = body.damage
-	print(damage)
 	if not isDashing:
 		PlayerData.takeDamage(damage)
 	updateHealth()
