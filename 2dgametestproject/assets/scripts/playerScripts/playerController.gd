@@ -1,7 +1,6 @@
 extends CharacterBody2D
 class_name PlayerController
 
-@export var speed = PlayerData.speed
 @export var jumpPower = 10
 @export var dashSpeed = 20
 @export var dashTime = 0.2
@@ -18,7 +17,7 @@ var speedMultiplier = 30
 var jumpMultiplier = -30
 var direction = 0
 var jumpsLeft = 1
-var sprintSpeed = speed + 3
+var sprintSpeed = null
 var lastDirection = 1
 
 var isDashing = false
@@ -82,10 +81,10 @@ func _physics_process(delta: float) -> void:
 		set_collision_mask_value(10,true)
 	
 	if Input.is_action_pressed("sprint"):
-		speed = sprintSpeed
+		PlayerData.speed = sprintSpeed
 		PlayerData.currentState = PlayerData.PlayerState.SPRINTING
 	else:
-		speed = sprintSpeed - 3
+		PlayerData.speed = sprintSpeed/1.5
 	if isDashing:
 		dashTimer -= delta
 		if dashTimer <= 0:
@@ -96,7 +95,7 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 		direction = Input.get_axis("moveLeft", "moveRight")
 		if direction != 0:
-			velocity.x = direction * speed * speedMultiplier
+			velocity.x = direction * PlayerData.speed * speedMultiplier
 			if is_on_floor():
 				PlayerData.currentState = PlayerData.PlayerState.MOVING
 			if direction != sign(lastDirection):
@@ -104,7 +103,7 @@ func _physics_process(delta: float) -> void:
 				gun_position.scale.x = direction
 				lastDirection = direction
 		else:
-			velocity.x = move_toward(velocity.x, 0, speedMultiplier * speed)
+			velocity.x = move_toward(velocity.x, 0, speedMultiplier * PlayerData.speed)
 			if is_on_floor():
 				PlayerData.currentState = PlayerData.PlayerState.IDLE
 	
@@ -131,6 +130,8 @@ func endDash():
 	after_image_timer.stop()
 	
 func _ready() -> void:
+	
+	sprintSpeed = PlayerData.speed * 1.5
 	if init:
 		maxHp = maxHp
 		hp = hp

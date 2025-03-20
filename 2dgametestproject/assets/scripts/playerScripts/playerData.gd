@@ -25,8 +25,7 @@ func addHp(amount: int):
 		hp = min(hp + amount, maxHp)
 
 func calcItem(item:Item):
-	print("item counted")
-	for n in range(1,item.itemAmt):
+	for n in range(0,item.itemAmt):
 		speed+=item.itemSpeedIncrease
 		hp+=item.itemHealthIncrease
 		maxHp+=item.itemHealthIncrease

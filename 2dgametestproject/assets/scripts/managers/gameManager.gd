@@ -10,8 +10,7 @@ var potions = 0
 var hud : HUD
 var gui : GUI
 var hpBar : HPBar
-
-
+var resource : Array[Resource] = []
 
 
 func _ready():
@@ -19,6 +18,7 @@ func _ready():
 	print("HUD nodes found:", hud_nodes)
 	hud = get_tree().get_first_node_in_group("hud")
 	gui = get_tree().get_first_node_in_group("gui")
+	
 
 #func _initialize_hud():
 	#hud = get_tree().get_first_node_in_group("hud")
@@ -62,3 +62,19 @@ func reset_potions():
 func hudUpdate():
 	hud = get_tree().get_first_node_in_group("hud")
 	hud.update_potion_label(potions)
+
+
+# Function to load all .tres files from a folder
+func load_resources_from_folder(path: String) -> void:
+	var dir = DirAccess.open(path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".tres"):
+				var resource = load(path + file_name)
+			if resource is ItemResource:
+					resources.append(resource)
+			file_name = dir.get_next()
+	else:
+			print("Error: Could not open folder at path:", path)

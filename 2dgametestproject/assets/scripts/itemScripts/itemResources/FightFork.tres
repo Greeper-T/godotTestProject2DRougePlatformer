@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://dc7g6egscv5x2"]
 
-[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_r5glj"]
+[ext_resource type="Script" path="res://assets/scripts/itemScripts/Item.gd" id="1_r5glj"]
 [ext_resource type="Texture2D" uid="uid://xjijay7fkm3c" path="res://assets/sprites/itemSprites/FightFork.png" id="2_5iq53"]
 
 [resource]
@@ -9,6 +9,7 @@ type = 0
 itemName = "FightFork"
 itemId = 3
 itemAmt = 1
+itemCounted = false
 texture = ExtResource("2_5iq53")
 itemDescription = "A pokey fork in all your attacks!"
 itemDamage = 5
