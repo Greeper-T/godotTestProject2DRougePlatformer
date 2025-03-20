@@ -80,10 +80,14 @@ func place_room(room: Rect2) -> bool:
 		for y in range(room.position.y, room.end.y):
 			if grid[x][y] == 0:
 				return false
+
+	# Place the room
 	for x in range(room.position.x, room.end.x):
 		for y in range(room.position.y, room.end.y):
-			grid[x][y] = 0
+			grid[x][y] = 0  # Set as floor
+
 	return true
+
 
 func connect_rooms_horizontally(room1: Rect2, room2: Rect2):
 	var left_room = room1 if room1.position.x < room2.position.x else room2
@@ -200,30 +204,28 @@ func place_one_way_platforms(room: Rect2):
 	if room == rooms[0]:  
 		return  # Skip the first room (player spawn room)
 
-	# Calculate base number of platforms from room size with random variation
-	var base_platforms = int(room.size.x * room.size.y / 80)  # Adjust divisor for density
-	var num_platforms = max(1, base_platforms + randi() % 3 - 1)  # Random variation (-1, 0, or +1)
+	var base_platforms = int(room.size.x * room.size.y / 80)  
+	var num_platforms = max(1, base_platforms + randi() % 3 - 1)  
 
-	var min_spacing = 4  # Minimum distance between platforms (grid units)
+	var min_spacing = 4  
 	var placed_positions = []
 
 	for i in range(num_platforms):
-		var attempts = 10  # Limit retries to avoid infinite loops
+		var attempts = 10  
 		var placed = false
-		var pos = Vector2.ZERO  # Declare `pos` before the loop
+		var pos = Vector2.ZERO  
 
 		while attempts > 0 and not placed:
-			# Random X position ensuring it's within room boundaries
-			var platform_x = room.position.x + randi() % int(room.size.x - 2) + 1  # Avoid edges
-			
-			# Random Y position ensuring it's **only in the bottom two-thirds**
-			var min_y = room.position.y + int(room.size.y * (1/3))  # Start 1/3rd down
-			var max_y = room.position.y + room.size.y - 2  # Avoid bottom edge
-			var platform_y = min_y + randi() % max(1, int(max_y - min_y))  # Random within range
+			var platform_x = room.position.x + randi() % int(room.size.x - 2) + 1  
+
+			# Ensure platforms spawn in the bottom 2/3 of the room
+			var min_y = room.position.y + int(room.size.y * (1/3))  # Start from 1/3rd down
+			var max_y = room.position.y + room.size.y - 3  # Avoid bottom edge
+			var platform_y = randi_range(min_y + 1, max_y)  # Ensures it never picks min_y exactly
+
 
 			pos = Vector2(platform_x, platform_y)
 
-			# Ensure platforms aren't too close to each other
 			var too_close = false
 			for placed_pos in placed_positions:
 				if pos.distance_to(placed_pos) < min_spacing:
@@ -236,11 +238,8 @@ func place_one_way_platforms(room: Rect2):
 
 			attempts -= 1
 
-		if placed:  # Only place platform if a valid position was found
-			# Convert grid coordinates to world coordinates
+		if placed:  
 			var platform_pos = (pos * CELL_SIZE) + tile_map_layer.global_position
-
-			# Instantiate and place the platform at the calculated position
 			var platform = one_way_tile.instantiate()
 			platform.global_position = platform_pos
 			add_child(platform)
