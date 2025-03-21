@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bhqmyii0v61d8"]
 
 [ext_resource type="Texture2D" uid="uid://fshvpxi7vycp" path="res://assets/sprites/itemSprites/potion.png" id="1_1s5o2"]
-[ext_resource type="Script" uid="uid://b8uxffx8jerkb" path="res://assets/scripts/itemScripts/potion_item.gd" id="1_s8xd1"]
+[ext_resource type="Script" path="res://assets/scripts/itemScripts/potion_item.gd" id="1_s8xd1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_18tga"]
 size = Vector2(12, 16)
