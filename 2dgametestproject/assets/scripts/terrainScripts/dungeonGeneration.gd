@@ -13,6 +13,7 @@ const WIDTH = 800
 const HEIGHT = 200
 const CELL_SIZE = 16
 const MIN_ROOMS = 5
+var going_down
 
 const MIN_ROOM_WIDTH = 15
 const MAX_ROOM_WIDTH = 30
@@ -25,6 +26,12 @@ const MIN_ROOM_SPACING = 5
 
 var grid = []
 var rooms = []
+var platform_patterns = [
+	"staggered",  # Platforms are staggered at different heights
+	"grouped",    # Platforms are grouped in pairs or triples
+	"steps"       # Platforms form a staircase pattern
+]
+
 
 func _ready():
 	randomize()
@@ -204,42 +211,75 @@ func place_one_way_platforms(room: Rect2):
 	if room == rooms[0]:  
 		return  # Skip the first room (player spawn room)
 
-	var base_platforms = int(room.size.x * room.size.y / 80)  
-	var num_platforms = max(1, base_platforms + randi() % 3 - 1)  
+	var chosen_pattern = platform_patterns[randi() % platform_patterns.size()]
+	var min_x = room.position.x + 1
+	var max_x = room.end.x - 2
+	var min_y = room.position.y + int(float(room.size.y) * (1.0/3.0))
+	var max_y = room.end.y - 3
 
-	var min_spacing = 4  
-	var placed_positions = []
+	match chosen_pattern:
+		"staggered":
+			place_staggered_platforms(min_x, max_x, min_y, max_y)
+		"grouped":
+			place_grouped_platforms(min_x, max_x, min_y, max_y)
+		"steps":
+			place_step_platforms(min_x, max_x, min_y, max_y)
+			
+func place_staggered_platforms(min_x, max_x, min_y, max_y):
+	var x = min_x
+	var direction = 1  # Controls whether platforms go up or down
 
-	for i in range(num_platforms):
-		var attempts = 10  
-		var placed = false
-		var pos = Vector2.ZERO  
+	while x < max_x:
+		var y = randi_range(min_y, max_y)
+		spawn_platform(Vector2(x, y))
+		x += 4  # Space out platforms
 
-		while attempts > 0 and not placed:
-			var platform_x = room.position.x + randi() % int(room.size.x - 2) + 1  
+		# Flip direction for variety
+		if randi() % 2 == 0:
+			direction *= -1
 
-			# Ensure platforms spawn in the bottom 2/3 of the room
-			var min_y = room.position.y + int(room.size.y * (1/3))  # Start from 1/3rd down
-			var max_y = room.position.y + room.size.y - 3  # Avoid bottom edge
-			var platform_y = randi_range(min_y + 1, max_y)  # Ensures it never picks min_y exactly
+func place_grouped_platforms(min_x, max_x, min_y, max_y):
+	var x = min_x
+	while x < max_x:
+		var group_size = [1, 2, 3][randi() % 3]  # Randomly pick 1-3 platforms
+		var y = randi_range(min_y, max_y)
+
+		for i in range(group_size):
+			if x + (i * 2) < max_x:
+				spawn_platform(Vector2(x + (i * 2), y))  # Place next to each other
+
+		x += group_size * 4  # Move forward
+
+func place_step_platforms(min_x, max_x, min_y, max_y):
+	var x = min_x
+	var y = max_y - 2  # Start in a safe range
+	var step_size = 2  # Controls how much the step moves vertically
+
+	while x < max_x:
+		# Place two adjacent platforms (double step)
+		spawn_platform(Vector2(x, y))
+		spawn_platform(Vector2(x + 2, y))
+
+		x += 4  # Move forward by the platform width
+
+		# Randomly decide direction unless at boundaries
+		if y == min_y:
+			going_down = false  # Force upwards
+		elif y == max_y:
+			going_down = true  # Force downwards
+		else:
+			going_down = randi() % 2 == 0  # Randomize up or down
+
+		# Move up or down
+		if going_down:
+			y = max(y - step_size, min_y)
+		else:
+			y = min(y + step_size, max_y)
 
 
-			pos = Vector2(platform_x, platform_y)
 
-			var too_close = false
-			for placed_pos in placed_positions:
-				if pos.distance_to(placed_pos) < min_spacing:
-					too_close = true
-					break
-
-			if not too_close:
-				placed_positions.append(pos)
-				placed = true
-
-			attempts -= 1
-
-		if placed:  
-			var platform_pos = (pos * CELL_SIZE) + tile_map_layer.global_position
-			var platform = one_way_tile.instantiate()
-			platform.global_position = platform_pos
-			add_child(platform)
+func spawn_platform(pos: Vector2):
+	var platform_pos = (pos * CELL_SIZE) + tile_map_layer.global_position
+	var platform = one_way_tile.instantiate()
+	platform.global_position = platform_pos
+	add_child(platform)
