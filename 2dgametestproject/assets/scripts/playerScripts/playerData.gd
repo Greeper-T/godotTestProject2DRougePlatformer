@@ -7,13 +7,14 @@ var damage = 4
 var speed = 5
 var sprintSpeed = 10
 
-enum PlayerState { IDLE, MOVING, JUMPING, FALLING, GROUND_POUND, SPRINTING}
+enum PlayerState { IDLE, MOVING, JUMPING, FALLING, GROUND_POUND, SPRINTING, DEATH, MELEE_ATTACK, SHOOTING }
 var currentState = PlayerState.IDLE
 
 func takeDamage(amount: float):
 	hp = max(hp - amount, 0)  # Prevents negative HP
 	if hp == 0:
-		get_tree().change_scene_to_file("res://assets/scenes/areaFunctions/start_menu.tscn")  
+		get_tree().change_scene_to_file("res://assets/scenes/areaFunctions/start_menu.tscn")
+		GameManager.currentArea = 1  
 
 func addHp(amount: int):
 	if GameManager.usePotion():
