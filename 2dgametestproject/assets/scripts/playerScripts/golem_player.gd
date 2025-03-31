@@ -38,7 +38,6 @@ func _input(event: InputEvent) -> void:
 	#deals with healing
 	if event.is_action_pressed("heal"):
 		PlayerData.addHp(100)
-		updateHealth()
 		
 	if event.is_action_pressed("dash") and canDash:
 		startDash()
@@ -87,8 +86,7 @@ func _physics_process(delta: float) -> void:
 			if is_on_floor():
 				PlayerData.currentState = PlayerData.PlayerState.MOVING
 			if direction != sign(lastDirection):
-				animator.scale.x = direction
-				gun_position.scale.x = direction
+				boss_texure.scale.x = direction
 				lastDirection = direction
 		else:
 			velocity.x = move_toward(velocity.x, 0, speedMultiplier * speed)
@@ -110,12 +108,10 @@ func startDash():
 	dashTimer = dashTime
 	dashCooldownTimer = dashCooldown
 	velocity.x = lastDirection * dashSpeed * speedMultiplier
-	after_image_timer.start()
 	
 func endDash():
 	isDashing = false
 	velocity.x = 0
-	after_image_timer.stop()
 	
 func _ready() -> void:
 	if init:
@@ -125,17 +121,9 @@ func _ready() -> void:
 		maxHp = 100
 		hp = 50
 		init = true
-	updateHealth()
 	GameManager.hudUpdate()
 
 
-func updateHealth():
-	healthBar.value = PlayerData.hp
-
-func addAfterImage():
-	var after = afterImageNode.instantiate()
-	after.set_property(after_image_spawner.global_position, $playerAnimator/AnimatedSprite2D.scale)
-	get_tree().current_scene.add_child(after)
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	var damage: float = 0
@@ -143,25 +131,17 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 		damage = body.damage
 	if not isDashing:
 		PlayerData.takeDamage(damage)
-	updateHealth()
 
 func takeDamage(damages: float):
 	if not isDashing:
 		PlayerData.takeDamage(damages)
-		updateHealth()
 
 func playerAnimations():
 	if PlayerData.currentState == PlayerData.PlayerState.IDLE:
-		animator.play("idle")
+		boss_texure.play("idle")
 	elif  PlayerData.currentState == PlayerData.PlayerState.MOVING:
-		animator.play("move")
+		boss_texure.play("idle")
 	elif PlayerData.currentState == PlayerData.PlayerState.JUMPING:
-		animator.play("jump")
+		boss_texure.play("idle")
 	elif PlayerData.currentState == PlayerData.PlayerState.FALLING:
-		animator.play("fall")
-			
-			
-
-
-func _on_after_image_timer_timeout() -> void:
-	addAfterImage()
+		boss_texure.play("idle")
