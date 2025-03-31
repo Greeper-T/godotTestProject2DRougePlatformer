@@ -21,7 +21,7 @@ func _ready():
 	load_resources_from_folder("res://assets/scripts/itemScripts/itemResources/")
 	for resource in resources:
 		if resource is Resource:
-			print("name: ", resource.itemName, "     type: ", resource.type)
+			print("name: ", resource.itemName, "    type: ", resource.type)
 	
 
 #func _initialize_hud():
@@ -82,3 +82,37 @@ func load_resources_from_folder(path: String) -> void:
 			file_name = dir.get_next()
 	else:
 			print("Error: Could not open folder at path:", path)
+
+
+func add_item_to_inventory(new_item: Item) -> bool:
+	var inventory = get_tree().get_first_node_in_group("inventory_slots")
+	for slot in inventory.get_children():
+		if slot.item == null:
+			slot.item = new_item  # Assign the item to an open slot
+			return true
+	return false  # Inventory full
+
+func spawn_random_item(position: Vector2):
+	var item = get_random_item()  # Get a random item
+	if item:
+		var item_scene = preload("res://assets/scenes/items/PickUpItem.tscn").instantiate()
+		item_scene.item = item
+		item_scene.global_position = position
+		get_tree().current_scene.add_child(item_scene)
+
+func get_random_item() -> Item:
+	var weighted_items = []
+	for resource in resources:
+		match resource.type:
+			Item.Type.COMMON:
+				weighted_items.append(resource)  # Higher probability
+			Item.Type.UNCOMMON:
+				weighted_items.append(resource)  # Less frequent
+			Item.Type.RARE:
+				weighted_items.append(resource)  # Rare
+			Item.Type.LEGENDARY:
+				weighted_items.append(resource)  # Super rare
+	# Pick a random item
+	if weighted_items.size() > 0:
+		return weighted_items[randi() % weighted_items.size()]
+	return null  # No item found

@@ -1,14 +1,21 @@
 extends PanelContainer
 
+#@export var item: Item = null:
+	#set(value):
+		#item = value
+		#if value != null:
+			#if value.itemCounted != true:
+				#PlayerData.calcItem(value)
+				#value.itemCounted = true
+			#$TextureRect.texture = value.texture
+			
+
 @export var item: Item = null:
 	set(value):
 		item = value
 		if value != null:
-			if value.itemCounted != true:
-				PlayerData.calcItem(value)
-				value.itemCounted = true
 			$TextureRect.texture = value.texture
-			
+
 
 
 func _on_mouse_entered() -> void:
@@ -19,3 +26,5 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	Popups.HideItemPopup()
+	
+	
