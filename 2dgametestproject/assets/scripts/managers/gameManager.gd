@@ -5,85 +5,56 @@ var currentArea = 1
 var areaPath = "res://assets/scenes/playable/"
 
 var potions = 0
-#var area_container : Node2D
-#var player : PlayerController
-var hud : HUD
-var gui : GUI
-var hpBar : HPBar
-var resources : Array[Resource] = []
-
+var hud: HUD
+var gui: GUI
+var hpBar: HPBar
+var resources: Array[Item] = []  # Ensure this holds Item resources
 
 func _ready():
-	var hud_nodes = get_tree().get_nodes_in_group("hud")
-	print("HUD nodes found:", hud_nodes)
 	hud = get_tree().get_first_node_in_group("hud")
 	gui = get_tree().get_first_node_in_group("gui")
 	load_resources_from_folder("res://assets/scripts/itemScripts/itemResources/")
+	
 	for resource in resources:
-		if resource is Resource:
-			print("name: ", resource.itemName, "    type: ", resource.type)
-	
+		if resource is Item:
+			print("Loaded Item: ", resource.itemName, " | Type: ", resource.type)
 
-#func _initialize_hud():
-	#hud = get_tree().get_first_node_in_group("hud")
-	
-
+# -- Level Management --
 func nextLevel():
 	hud = get_tree().get_first_node_in_group("hud")
 	currentArea += 1
 	var fullPath = areaPath + "area_" + str(currentArea) + ".tscn"
-	
 	get_tree().change_scene_to_file(fullPath)
-	print_debug("entered portal")
-	print(hud)
+	print_debug("Entered portal to:", fullPath)
 	hud.update_potion_label(potions)
-
 
 func set_up_area():
 	reset_potions()
 
-
+# -- Potion Handling --
 func add_potion():
 	hud = get_tree().get_first_node_in_group("hud")
 	potions += 1
 	hud.update_potion_label(potions)
- 
+
 func usePotion():
 	hud = get_tree().get_first_node_in_group("hud")
-	if 	potions > 0:
-		potions -=1
+	if potions > 0:
+		potions -= 1
 		hud.update_potion_label(potions)
 		return true
 	return false
 
-
 func reset_potions():
 	hud = get_tree().get_first_node_in_group("hud")
 	potions = 0
-	print(potions)
 	hud.update_potion_label(potions)
-	
+
 func hudUpdate():
 	hud = get_tree().get_first_node_in_group("hud")
 	hud.update_potion_label(potions)
 
-
-# Function to load all .tres files from a folder
-func load_resources_from_folder(path: String) -> void:
-	var dir = DirAccess.open("res://assets/scripts/itemScripts/itemResources/")
-	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		while file_name != "":
-			if file_name.ends_with(".tres"):
-				var resource = load(path + file_name)
-				if resource is Resource:
-					resources.append(resource)
-			file_name = dir.get_next()
-	else:
-			print("Error: Could not open folder at path:", path)
-
-
+# -- Inventory Handling --
 func add_item_to_inventory(new_item: Item) -> bool:
 	var inventory = get_tree().get_first_node_in_group("inventory_slots")
 	for slot in inventory.get_children():
@@ -92,8 +63,9 @@ func add_item_to_inventory(new_item: Item) -> bool:
 			return true
 	return false  # Inventory full
 
+# -- Random Item Spawning --
 func spawn_random_item(position: Vector2):
-	var item = get_random_item()  # Get a random item
+	var item = get_random_item()
 	if item:
 		var item_scene = preload("res://assets/scenes/items/PickUpItem.tscn").instantiate()
 		item_scene.item = item
@@ -101,18 +73,41 @@ func spawn_random_item(position: Vector2):
 		get_tree().current_scene.add_child(item_scene)
 
 func get_random_item() -> Item:
+	if resources.is_empty():
+		print("No items found in resources!")
+		return null
+	
 	var weighted_items = []
 	for resource in resources:
 		match resource.type:
 			Item.Type.COMMON:
 				weighted_items.append(resource)  # Higher probability
 			Item.Type.UNCOMMON:
-				weighted_items.append(resource)  # Less frequent
+				if randi() % 100 < 30:  # 30% chance
+					weighted_items.append(resource)
 			Item.Type.RARE:
-				weighted_items.append(resource)  # Rare
+				if randi() % 100 < 10:  # 10% chance
+					weighted_items.append(resource)
 			Item.Type.LEGENDARY:
-				weighted_items.append(resource)  # Super rare
-	# Pick a random item
+				if randi() % 100 < 2:  # 2% chance
+					weighted_items.append(resource)
+	
 	if weighted_items.size() > 0:
 		return weighted_items[randi() % weighted_items.size()]
-	return null  # No item found
+
+	return resources[randi() % resources.size()]  # Fallback random item
+
+# -- Resource Loading --
+func load_resources_from_folder(path: String) -> void:
+	var dir = DirAccess.open(path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".tres"):
+				var resource = load(path + "/" + file_name)
+				if resource is Item:  # Ensure only Item resources are added
+					resources.append(resource)
+			file_name = dir.get_next()
+	else:
+		print("Error: Could not open folder at path:", path)

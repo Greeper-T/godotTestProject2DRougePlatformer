@@ -1,10 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://kkgt1gwt3316"]
+[gd_scene load_steps=4 format=3 uid="uid://kkgt1gwt3316"]
 
 [ext_resource type="Script" path="res://assets/scripts/itemScripts/pickUpItem.gd" id="1_lrjrs"]
+[ext_resource type="Resource" uid="uid://cnk57ys6x8j4d" path="res://assets/scripts/itemScripts/itemResources/CritKnife.tres" id="2_0u0ml"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0deii"]
+size = Vector2(37, 37)
 
 [node name="PickUpItem" type="Area2D"]
 script = ExtResource("1_lrjrs")
+item = ExtResource("2_0u0ml")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0deii")
