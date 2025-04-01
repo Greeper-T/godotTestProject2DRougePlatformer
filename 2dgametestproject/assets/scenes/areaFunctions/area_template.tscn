@@ -4,9 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://bfr6ewukk7gw0" path="res://assets/UI Settings/inputSettings/inputSetting.tscn" id="1_fr6x2"]
 [ext_resource type="Texture2D" uid="uid://b0q78ik8ygp5y" path="res://assets/sprites/terrainSprites/tiles_1.png" id="1_vme8i"]
 [ext_resource type="PackedScene" uid="uid://drrnwii5dn4f0" path="res://assets/UI/HUD.tscn" id="1_ya5vn"]
-[ext_resource type="PackedScene" uid="uid://d2l0t1tx054pt" path="res://assets/scenes/playerStuff/player.tscn" id="2_1evhl"]
 [ext_resource type="PackedScene" uid="uid://d33y4w8ixynua" path="res://assets/GUI/GUI.tscn" id="2_m4b6s"]
 [ext_resource type="PackedScene" uid="uid://cww25wrm4ycu1" path="res://assets/scenes/areaFunctions/portal.tscn" id="3_xx5pg"]
+[ext_resource type="PackedScene" uid="uid://c4j4kyt7a5n01" path="res://assets/scenes/playerStuff/golem_player.tscn" id="8_qhrx1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ab1ui"]
 texture = ExtResource("1_vme8i")
@@ -359,9 +359,9 @@ layer_1/tile_data = PackedInt32Array(65532, 0, 0, 131073, 65536, 1, 65537, 65536
 [node name="portal" parent="." instance=ExtResource("3_xx5pg")]
 position = Vector2(23, -33)
 
-[node name="player" parent="." groups=["player"] instance=ExtResource("2_1evhl")]
-position = Vector2(-8, 0)
-
 [node name="GUI" parent="." instance=ExtResource("2_m4b6s")]
+
+[node name="golemPlayer" parent="." instance=ExtResource("8_qhrx1")]
+position = Vector2(-17, 0)
 
 [connection signal="body_entered" from="portal" to="." method="_on_portal_body_entered"]

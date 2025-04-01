@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+
 @export var speed = 3
 @export var jumpPower = 10
 @export var dashSpeed = 20
@@ -22,6 +23,7 @@ var canDash = true
 var dashTimer = 0.0
 var dashCooldownTimer = 0.0
 
+var enemiesInRange = []
 var hp = null
 var maxHp = null
 var init = false
@@ -69,7 +71,7 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_pressed("sprint"):
 		speed = sprintSpeed
-		PlayerData.currentState = PlayerData.PlayerState.SPRINTING
+		changeState(PlayerData.PlayerState.SPRINTING)
 	else:
 		speed = sprintSpeed - 3
 	if isDashing:
@@ -84,24 +86,27 @@ func _physics_process(delta: float) -> void:
 		if direction != 0:
 			velocity.x = direction * speed * speedMultiplier
 			if is_on_floor():
-				PlayerData.currentState = PlayerData.PlayerState.MOVING
+				changeState(PlayerData.PlayerState.MOVING)
 			if direction != sign(lastDirection):
-				boss_texure.scale.x = direction
+				boss_texure.scale.x *= -1
 				lastDirection = direction
 		else:
 			velocity.x = move_toward(velocity.x, 0, speedMultiplier * speed)
 			if is_on_floor():
-				PlayerData.currentState = PlayerData.PlayerState.IDLE
+				changeState(PlayerData.PlayerState.IDLE)
 	
 	if not canDash:
 		dashCooldownTimer -= delta
 		if dashCooldownTimer <= 0:
 			canDash = true
-	
-	playerAnimations()
 	move_and_slide()
 	
 	
+
+func changeState(newState):
+	PlayerData.currentState = newState
+	playerAnimations()
+
 func startDash():
 	isDashing = true
 	canDash = false
@@ -145,3 +150,17 @@ func playerAnimations():
 		boss_texure.play("idle")
 	elif PlayerData.currentState == PlayerData.PlayerState.FALLING:
 		boss_texure.play("idle")
+
+
+func _on_enemy_in_melee_body_entered(body: Node2D) -> void:
+	if body not in enemiesInRange and body is CharacterBody2D:
+		enemiesInRange.append(body)
+
+
+func _on_enemy_in_melee_body_exited(body: Node2D) -> void:
+	if body in enemiesInRange:
+		enemiesInRange.erase(body)
+
+
+func _on_boss_texure_animation_finished() -> void:
+	pass # Replace with function body.
