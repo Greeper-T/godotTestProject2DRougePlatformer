@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://c6ntbvwgytw3r"]
+[gd_scene load_steps=5 format=3 uid="uid://cmvdm6sdiw4fc"]
 
-[ext_resource type="Script" path="res://assets/scripts/terrainScripts/MovingPlatform.gd" id="1_glrpi"]
-[ext_resource type="Texture2D" uid="uid://btlv7imkldldu" path="res://assets/sprites/terrainSprites/platform1_large.png" id="1_tn0hi"]
-[ext_resource type="Script" path="res://assets/scripts/terrainScripts/portal.gd" id="2_pj4j8"]
+[ext_resource type="Texture2D" uid="uid://btlv7imkldldu" path="res://assets/sprites/terrainSprites/platform1_large.png" id="1_r4cr5"]
+[ext_resource type="Script" path="res://assets/scripts/terrainScripts/portal.gd" id="2_vov56"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ytqki"]
 size = Vector2(32, 4)
@@ -14,17 +13,16 @@ radius = 21.0
 collision_layer = 512
 collision_mask = 0
 gravity_scale = 0.0
-script = ExtResource("1_glrpi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_tn0hi")
+texture = ExtResource("1_r4cr5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ytqki")
 one_way_collision = true
 
 [node name="Area2D" type="Area2D" parent="."]
-script = ExtResource("2_pj4j8")
+script = ExtResource("2_vov56")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_ak3qv")

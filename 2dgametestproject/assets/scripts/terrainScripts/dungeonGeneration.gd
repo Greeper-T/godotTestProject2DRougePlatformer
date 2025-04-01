@@ -227,28 +227,46 @@ func place_one_way_platforms(room: Rect2):
 			
 func place_staggered_platforms(min_x, max_x, min_y, max_y):
 	var x = min_x
-	var direction = 1  # Controls whether platforms go up or down
+	var spacing = 4  # Equal spacing along x-axis
 
 	while x < max_x:
-		var y = randi_range(min_y, max_y)
+		var y = randi_range(min_y, max_y)  # Completely random y-value
 		spawn_platform(Vector2(x, y))
-		x += 4  # Space out platforms
+		x += spacing  # Keep x-spacing equal
 
-		# Flip direction for variety
-		if randi() % 2 == 0:
-			direction *= -1
 
 func place_grouped_platforms(min_x, max_x, min_y, max_y):
-	var x = min_x
-	while x < max_x:
-		var group_size = [1, 2, 3][randi() % 3]  # Randomly pick 1-3 platforms
-		var y = randi_range(min_y, max_y)
+	var placed_positions = []  # Store the starting positions of groups
+	var max_attempts = 20  # Avoid infinite loops when finding a valid position
+	var num_groups = randi_range(5, 10)  # Random number of groups
 
-		for i in range(group_size):
-			if x + (i * 2) < max_x:
-				spawn_platform(Vector2(x + (i * 2), y))  # Place next to each other
+	for _i in range(num_groups):
+		var attempts = 0
+		var valid_position = false
+		var start_pos = Vector2.ZERO
+		var group_size = randi_range(1, 3)  # Random group size (1-3 platforms)
 
-		x += group_size * 4  # Move forward
+		while not valid_position and attempts < max_attempts:
+			var x = randi_range(min_x, max_x - (group_size * 2))  # Space for the group
+			var y = randi_range(min_y, max_y)
+			start_pos = Vector2(x, y)
+
+			# Ensure the whole group is spaced properly from previous groups
+			valid_position = true
+			for pos in placed_positions:
+				if pos.distance_to(start_pos) < 6:  # Minimum spacing between groups
+					valid_position = false
+					break
+
+			attempts += 1
+
+		if valid_position:
+			placed_positions.append(start_pos)  # Store only the group's starting position
+
+			# Place platforms in the group next to each other
+			for i in range(group_size):
+				spawn_platform(Vector2(start_pos.x + (i * 2), start_pos.y))
+
 
 func place_step_platforms(min_x, max_x, min_y, max_y):
 	var x = min_x
@@ -275,6 +293,24 @@ func place_step_platforms(min_x, max_x, min_y, max_y):
 			y = max(y - step_size, min_y)
 		else:
 			y = min(y + step_size, max_y)
+			
+func place_moving_platforms(min_x, max_x, min_y, max_y):
+	var num_platforms = randi_range(2, 5)  # Random number of moving platforms
+	
+	for _i in range(num_platforms):
+		var start_x = randi_range(min_x, max_x - 10)  # Ensure within bounds
+		var start_y = randi_range(min_y, max_y)
+		var end_x = start_x + randi_range(6, 12)  # Random movement range
+		var end_y = start_y  # Keep the same Y level (horizontal movement)
+
+		# Instance the moving platform scene
+		var platform = preload("res://assets/scenes/areaFunctions/MovingPlatform.tscn").instantiate()
+		platform.start_pos = Vector2(start_x, start_y)
+		platform.end_pos = Vector2(end_x, end_y)
+		
+		# Add to scene
+		add_child(platform)
+
 
 
 
