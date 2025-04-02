@@ -361,7 +361,6 @@ position = Vector2(23, -33)
 
 [node name="GUI" parent="." instance=ExtResource("2_m4b6s")]
 
-[node name="golemPlayer" parent="." instance=ExtResource("8_qhrx1")]
-position = Vector2(-17, 0)
+[node name="player" parent="." instance=ExtResource("8_qhrx1")]
 
 [connection signal="body_entered" from="portal" to="." method="_on_portal_body_entered"]

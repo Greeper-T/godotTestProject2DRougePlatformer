@@ -71,6 +71,10 @@ func stateTransition(newState):
 				playAnimation("shoot", State.SHOOTING)
 				shoot()
 
+func takeDamage(damageTaken):
+	hp -= damageTaken
+	updateHealth()
+
 func shoot():
 	if Bullet and player:
 		var bullet = Bullet.instantiate()

@@ -130,6 +130,9 @@ func updateHealthValue():
 	if health <= 0:
 		changeState(State.Death)
 
+func takeDamage(damageTaken):
+	health -= damageTaken
+	updateHealthValue()
 
 func _on_boss_texure_animation_looped() -> void:
 	if currentState == State.MeleeAttack:

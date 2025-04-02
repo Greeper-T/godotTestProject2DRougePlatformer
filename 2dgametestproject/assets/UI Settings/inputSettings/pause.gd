@@ -17,8 +17,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_portal_body_entered(body: Node2D) -> void:
-	if body is PlayerController:
-		await GameManager.nextLevel()
+	await GameManager.nextLevel()
 
 func _process(delta: float) -> void:
 	if PlayerData.hp <= 0:

@@ -43,7 +43,10 @@ func _input(event: InputEvent) -> void:
 		
 	if event.is_action_pressed("dash") and canDash:
 		startDash()
-
+	
+	#deal with attacking
+	if event.is_action_pressed("fireBullet"):
+		changeState(PlayerData.PlayerState.MELEE_ATTACK)
 
 func _process(delta):
 	hp = PlayerData.hp
@@ -56,10 +59,10 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 		if Input.is_action_pressed("moveDown") and velocity.y > 0:
 			velocity.y += 40000 * delta
-		if velocity.y < 0:
-			PlayerData.currentState = PlayerData.PlayerState.JUMPING
-		else:
-			PlayerData.currentState = PlayerData.PlayerState.FALLING
+		if velocity.y < 0 and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+			changeState(PlayerData.PlayerState.JUMPING)
+		elif PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+			changeState(PlayerData.PlayerState.FALLING)
 	else:
 		jumpsLeft = 1
 
@@ -71,7 +74,8 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_pressed("sprint"):
 		speed = sprintSpeed
-		changeState(PlayerData.PlayerState.SPRINTING)
+		if PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+			changeState(PlayerData.PlayerState.SPRINTING)
 	else:
 		speed = sprintSpeed - 3
 	if isDashing:
@@ -85,14 +89,14 @@ func _physics_process(delta: float) -> void:
 		direction = Input.get_axis("moveLeft", "moveRight")
 		if direction != 0:
 			velocity.x = direction * speed * speedMultiplier
-			if is_on_floor():
+			if is_on_floor() and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
 				changeState(PlayerData.PlayerState.MOVING)
 			if direction != sign(lastDirection):
 				boss_texure.scale.x *= -1
 				lastDirection = direction
 		else:
 			velocity.x = move_toward(velocity.x, 0, speedMultiplier * speed)
-			if is_on_floor():
+			if is_on_floor() and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
 				changeState(PlayerData.PlayerState.IDLE)
 	
 	if not canDash:
@@ -138,8 +142,9 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 		PlayerData.takeDamage(damage)
 
 func takeDamage(damages: float):
+	print("damage taken")
 	if not isDashing:
-		PlayerData.takeDamage(damages)
+		PlayerData.takeDamage(damages/2)
 
 func playerAnimations():
 	if PlayerData.currentState == PlayerData.PlayerState.IDLE:
@@ -150,7 +155,8 @@ func playerAnimations():
 		boss_texure.play("idle")
 	elif PlayerData.currentState == PlayerData.PlayerState.FALLING:
 		boss_texure.play("idle")
-
+	elif PlayerData.currentState == PlayerData.PlayerState.MELEE_ATTACK:
+		boss_texure.play("meleeAttack")
 
 func _on_enemy_in_melee_body_entered(body: Node2D) -> void:
 	if body not in enemiesInRange and body is CharacterBody2D:
@@ -163,4 +169,7 @@ func _on_enemy_in_melee_body_exited(body: Node2D) -> void:
 
 
 func _on_boss_texure_animation_finished() -> void:
-	pass # Replace with function body.
+	if PlayerData.currentState == PlayerData.PlayerState.MELEE_ATTACK:
+		for enemy in enemiesInRange:
+			enemy.takeDamage(PlayerData.damage)
+		PlayerData.currentState = PlayerData.PlayerState.IDLE
