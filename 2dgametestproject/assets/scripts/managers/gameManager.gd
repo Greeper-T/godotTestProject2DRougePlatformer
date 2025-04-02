@@ -8,16 +8,15 @@ var potions = 0
 var hud: HUD
 var gui: GUI
 var hpBar: HPBar
-var resources: Array[Item] = []  # Ensure this holds Item resources
+var resources: Array[Item] = []  # Holds Item resources
 
 func _ready():
 	hud = get_tree().get_first_node_in_group("hud")
 	gui = get_tree().get_first_node_in_group("gui")
 	load_resources_from_folder("res://assets/scripts/itemScripts/itemResources/")
-	
-	for resource in resources:
-		if resource is Item:
-			print("Loaded Item: ", resource.itemName, " | Type: ", resource.type)
+
+	if resources.is_empty():
+		print("Warning: No items loaded into GameManager!")
 
 # -- Level Management --
 func nextLevel():
@@ -33,35 +32,52 @@ func set_up_area():
 
 # -- Potion Handling --
 func add_potion():
-	hud = get_tree().get_first_node_in_group("hud")
-	potions += 1
-	hud.update_potion_label(potions)
+	if hud:
+		potions += 1
+		hud.update_potion_label(potions)
 
 func usePotion():
-	hud = get_tree().get_first_node_in_group("hud")
-	if potions > 0:
+	if hud and potions > 0:
 		potions -= 1
 		hud.update_potion_label(potions)
 		return true
 	return false
 
 func reset_potions():
-	hud = get_tree().get_first_node_in_group("hud")
-	potions = 0
-	hud.update_potion_label(potions)
+	if hud:
+		potions = 0
+		hud.update_potion_label(potions)
 
 func hudUpdate():
-	hud = get_tree().get_first_node_in_group("hud")
-	hud.update_potion_label(potions)
+	if hud:
+		hud.update_potion_label(potions)
 
 # -- Inventory Handling --
 func add_item_to_inventory(new_item: Item) -> bool:
-	var inventory = get_tree().get_first_node_in_group("inventory_slots")
-	for slot in inventory.get_children():
-		if slot.item == null:
-			slot.item = new_item  # Assign the item to an open slot
+	gui = get_tree().get_first_node_in_group("gui")
+	if gui == null:
+		print("Error: GUI not found!")
+		return false
+	
+	var inventory = gui.get_node_or_null("%Inventory")  # Using unique name %
+	if inventory == null:
+		print("Error: Inventory not found!")
+		return false
+	
+	var grid_container = inventory.get_node_or_null("GridContainer")
+	if grid_container == null:
+		print("Error: GridContainer not found inside Inventory!")
+		return false
+	
+	for slot in grid_container.get_children():
+		if slot.item == null:  # Find first empty slot
+			slot.item = new_item  
+			slot.update_display()  # Update UI
+			print("Added item:", new_item.itemName)
 			return true
-	return false  # Inventory full
+	
+	print("Inventory full!")
+	return false
 
 # -- Random Item Spawning --
 func spawn_random_item(position: Vector2):
@@ -74,7 +90,7 @@ func spawn_random_item(position: Vector2):
 
 func get_random_item() -> Item:
 	if resources.is_empty():
-		print("No items found in resources!")
+		print("Error: No items found in resources!")
 		return null
 	
 	var weighted_items = []
@@ -91,11 +107,11 @@ func get_random_item() -> Item:
 			Item.Type.LEGENDARY:
 				if randi() % 100 < 2:  # 2% chance
 					weighted_items.append(resource)
-	
+
 	if weighted_items.size() > 0:
 		return weighted_items[randi() % weighted_items.size()]
 
-	return resources[randi() % resources.size()]  # Fallback random item
+	return resources[randi() % resources.size()]  # Fallback item
 
 # -- Resource Loading --
 func load_resources_from_folder(path: String) -> void:

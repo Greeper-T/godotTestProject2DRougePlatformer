@@ -19,4 +19,4 @@ position = Vector2(-92, -386)
 position = Vector2(-82, -407)
 
 [node name="PickUpItem" parent="." index="7" instance=ExtResource("3_r6olr")]
-position = Vector2(-215, -28)
+position = Vector2(-218, -18)
