@@ -10,7 +10,7 @@ var one_way_tile = preload("res://assets/scenes/areaFunctions/one_way_platform.t
 var portal = preload("res://assets/scenes/areaFunctions/portal.tscn")
 
 const WIDTH = 800
-const HEIGHT = 200
+const HEIGHT = 600
 const CELL_SIZE = 16
 const MIN_ROOMS = 5
 var going_down
@@ -214,7 +214,7 @@ func place_one_way_platforms(room: Rect2):
 	var chosen_pattern = platform_patterns[randi() % platform_patterns.size()]
 	var min_x = room.position.x + 1
 	var max_x = room.end.x - 2
-	var min_y = room.position.y + int(float(room.size.y) * (1.0/3.0))
+	var min_y = room.position.y + int(float(room.size.y) * (1.0/4.0))
 	var max_y = room.end.y - 3
 
 	match chosen_pattern:
@@ -271,7 +271,7 @@ func place_grouped_platforms(min_x, max_x, min_y, max_y):
 func place_step_platforms(min_x, max_x, min_y, max_y):
 	var x = min_x
 	var y = max_y - 2  # Start in a safe range
-	var step_size = 2  # Controls how much the step moves vertically
+	var step_size = 3  # Controls how much the step moves vertically
 
 	while x < max_x:
 		# Place two adjacent platforms (double step)
@@ -281,9 +281,9 @@ func place_step_platforms(min_x, max_x, min_y, max_y):
 		x += 4  # Move forward by the platform width
 
 		# Randomly decide direction unless at boundaries
-		if y == min_y:
+		if y <= min_y + step_size:
 			going_down = false  # Force upwards
-		elif y == max_y:
+		elif y >= max_y-step_size:
 			going_down = true  # Force downwards
 		else:
 			going_down = randi() % 2 == 0  # Randomize up or down
@@ -293,23 +293,6 @@ func place_step_platforms(min_x, max_x, min_y, max_y):
 			y = max(y - step_size, min_y)
 		else:
 			y = min(y + step_size, max_y)
-			
-func place_moving_platforms(min_x, max_x, min_y, max_y):
-	var num_platforms = randi_range(2, 5)  # Random number of moving platforms
-	
-	for _i in range(num_platforms):
-		var start_x = randi_range(min_x, max_x - 10)  # Ensure within bounds
-		var start_y = randi_range(min_y, max_y)
-		var end_x = start_x + randi_range(6, 12)  # Random movement range
-		var end_y = start_y  # Keep the same Y level (horizontal movement)
-
-		# Instance the moving platform scene
-		var platform = preload("res://assets/scenes/areaFunctions/MovingPlatform.tscn").instantiate()
-		platform.start_pos = Vector2(start_x, start_y)
-		platform.end_pos = Vector2(end_x, end_y)
-		
-		# Add to scene
-		add_child(platform)
 
 
 
