@@ -4,14 +4,11 @@ var pauseScreen = preload("res://assets/UI Settings/inputSettings/inputSetting.t
 var currentArea = 1
 var areaPath = "res://assets/scenes/playable/"
 
-var potions = 0
+var potions = 20
 #var area_container : Node2D
 #var player : PlayerController
 var hud : HUD
 var gui : GUI
-var hpBar : HPBar
-
-
 
 
 func _ready():

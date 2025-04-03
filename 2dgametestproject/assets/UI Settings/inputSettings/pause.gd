@@ -13,3 +13,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			Engine.time_scale = 1
 			pauseScreen.setVisibility()
+
+
+
+func _on_portal_body_entered(body: Node2D) -> void:
+	await GameManager.nextLevel()
+
+func _process(delta: float) -> void:
+	if PlayerData.hp <= 0:
+		queue_free()

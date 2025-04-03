@@ -1,18 +1,15 @@
 extends CharacterBody2D
-class_name PlayerController
+
 
 @export var speed = 3
 @export var jumpPower = 10
 @export var dashSpeed = 20
 @export var dashTime = 0.2
 @export var dashCooldown = 1.0
-@export var afterImageNode: PackedScene
 
-@onready var healthBar: ProgressBar = $healthBar
-@onready var animator: AnimatedSprite2D = $playerAnimator/AnimatedSprite2D
-@onready var gun_position: Node2D = $gunPosition
-@onready var after_image_timer: Timer = $afterImageTimer
-@onready var after_image_spawner: Node2D = $afterImageSpawner
+@onready var boss_texure: AnimatedSprite2D = $bossTexure
+@onready var muzzle: Node2D = $bossTexure/muzzle
+
 
 var speedMultiplier = 30
 var jumpMultiplier = -30
@@ -26,6 +23,8 @@ var canDash = true
 var dashTimer = 0.0
 var dashCooldownTimer = 0.0
 
+var currentMode = 0
+var enemiesInRange = []
 var hp = null
 var maxHp = null
 var init = false
@@ -42,24 +41,17 @@ func _input(event: InputEvent) -> void:
 	#deals with healing
 	if event.is_action_pressed("heal"):
 		PlayerData.addHp(100)
-		updateHealth()
 		
 	if event.is_action_pressed("dash") and canDash:
 		startDash()
-
+	
+	#deal with attacking
+	if event.is_action_pressed("fireBullet"):
+		changeState(PlayerData.PlayerState.MELEE_ATTACK)
 
 func _process(delta):
 	hp = PlayerData.hp
 	maxHp = PlayerData.maxHp
-	#update gun position
-	var screen_width = get_viewport_rect().size.x
-	var mouse_position = get_viewport().get_mouse_position()
-
-	if mouse_position.x < screen_width / 2:
-		gun_position.scale.x = -1  # Flip weapon to the left
-	else:
-		gun_position.scale.x = 1  # Flip weapon to the right
-
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -68,10 +60,10 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 		if Input.is_action_pressed("moveDown") and velocity.y > 0:
 			velocity.y += 40000 * delta
-		if velocity.y < 0:
-			PlayerData.currentState = PlayerData.PlayerState.JUMPING
-		else:
-			PlayerData.currentState = PlayerData.PlayerState.FALLING
+		if velocity.y < 0 and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+			changeState(PlayerData.PlayerState.JUMPING)
+		elif PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+			changeState(PlayerData.PlayerState.FALLING)
 	else:
 		jumpsLeft = 1
 
@@ -83,7 +75,8 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_pressed("sprint"):
 		speed = sprintSpeed
-		PlayerData.currentState = PlayerData.PlayerState.SPRINTING
+		if PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+			changeState(PlayerData.PlayerState.SPRINTING)
 	else:
 		speed = sprintSpeed - 3
 	if isDashing:
@@ -97,38 +90,38 @@ func _physics_process(delta: float) -> void:
 		direction = Input.get_axis("moveLeft", "moveRight")
 		if direction != 0:
 			velocity.x = direction * speed * speedMultiplier
-			if is_on_floor():
-				PlayerData.currentState = PlayerData.PlayerState.MOVING
+			if is_on_floor() and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+				changeState(PlayerData.PlayerState.MOVING)
 			if direction != sign(lastDirection):
-				animator.scale.x = direction
-				gun_position.scale.x = direction
+				boss_texure.scale.x *= -1
 				lastDirection = direction
 		else:
 			velocity.x = move_toward(velocity.x, 0, speedMultiplier * speed)
-			if is_on_floor():
-				PlayerData.currentState = PlayerData.PlayerState.IDLE
+			if is_on_floor() and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+				changeState(PlayerData.PlayerState.IDLE)
 	
 	if not canDash:
 		dashCooldownTimer -= delta
 		if dashCooldownTimer <= 0:
 			canDash = true
-	
-	playerAnimations()
 	move_and_slide()
 	
 	
+
+func changeState(newState):
+	PlayerData.currentState = newState
+	playerAnimations()
+
 func startDash():
 	isDashing = true
 	canDash = false
 	dashTimer = dashTime
 	dashCooldownTimer = dashCooldown
 	velocity.x = lastDirection * dashSpeed * speedMultiplier
-	after_image_timer.start()
 	
 func endDash():
 	isDashing = false
 	velocity.x = 0
-	after_image_timer.stop()
 	
 func _ready() -> void:
 	if init:
@@ -138,43 +131,47 @@ func _ready() -> void:
 		maxHp = 100
 		hp = 50
 		init = true
-	updateHealth()
 	GameManager.hudUpdate()
 
 
-func updateHealth():
-	healthBar.value = PlayerData.hp
-
-func addAfterImage():
-	var after = afterImageNode.instantiate()
-	after.set_property(after_image_spawner.global_position, $playerAnimator/AnimatedSprite2D.scale)
-	get_tree().current_scene.add_child(after)
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	var damage: float = 0
 	if body.has_method("getDamage"):
+		print("take damage")
 		damage = body.damage
 	if not isDashing:
 		PlayerData.takeDamage(damage)
-	updateHealth()
 
 func takeDamage(damages: float):
+	print("damage taken")
 	if not isDashing:
-		PlayerData.takeDamage(damages)
-		updateHealth()
+		PlayerData.takeDamage(damages/2)
 
 func playerAnimations():
 	if PlayerData.currentState == PlayerData.PlayerState.IDLE:
-		animator.play("idle")
+		boss_texure.play("idle")
 	elif  PlayerData.currentState == PlayerData.PlayerState.MOVING:
-		animator.play("move")
+		boss_texure.play("idle")
 	elif PlayerData.currentState == PlayerData.PlayerState.JUMPING:
-		animator.play("jump")
+		boss_texure.play("idle")
 	elif PlayerData.currentState == PlayerData.PlayerState.FALLING:
-		animator.play("fall")
-			
-			
+		boss_texure.play("idle")
+	elif PlayerData.currentState == PlayerData.PlayerState.MELEE_ATTACK:
+		boss_texure.play("meleeAttack")
+
+func _on_enemy_in_melee_body_entered(body: Node2D) -> void:
+	if body not in enemiesInRange and body is CharacterBody2D:
+		enemiesInRange.append(body)
 
 
-func _on_after_image_timer_timeout() -> void:
-	addAfterImage()
+func _on_enemy_in_melee_body_exited(body: Node2D) -> void:
+	if body in enemiesInRange:
+		enemiesInRange.erase(body)
+
+
+func _on_boss_texure_animation_finished() -> void:
+	if PlayerData.currentState == PlayerData.PlayerState.MELEE_ATTACK:
+		for enemy in enemiesInRange:
+			enemy.takeDamage(PlayerData.damage)
+		PlayerData.currentState = PlayerData.PlayerState.IDLE

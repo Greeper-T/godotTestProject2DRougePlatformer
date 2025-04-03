@@ -41,10 +41,12 @@ func _physics_process(delta: float) -> void:
 
 func updateHealth():
 	health_bar.value = hp
-	if hp == 0:
+	if hp <= 0:
 		queue_free()
 
-
+func takeDamage(damageTaken):
+	hp -= damageTaken
+	updateHealth()
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	hp -= PlayerData.damage
@@ -56,3 +58,8 @@ func _on_timer_timeout() -> void:
 	direction *= -1
 	await get_tree().create_timer(0.1).timeout
 	isStopped = false
+
+
+func _on_hitbox_body_entered(body: Node2D) -> void:
+	print("in hitbox")
+	body.takeDamage(damage)

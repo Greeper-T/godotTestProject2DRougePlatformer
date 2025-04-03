@@ -71,6 +71,10 @@ func stateTransition(newState):
 				playAnimation("shoot", State.SHOOTING)
 				shoot()
 
+func takeDamage(damageTaken):
+	hp -= damageTaken
+	updateHealth()
+
 func shoot():
 	if Bullet and player:
 		var bullet = Bullet.instantiate()
@@ -81,7 +85,7 @@ func shoot():
 
 func updateHealth():
 	health_bar.value = hp
-	if hp == 0:
+	if hp <= 0:
 		playAnimation("death", State.DEATH)
 		animationLock = true
 		await animated_sprite_2d.animation_finished
@@ -111,7 +115,6 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	animationLock = false
-	print("animation ended")
 	if currentState == State.SHOOTING:
 		shoot()
 	if currentState == State.DAMAGED:

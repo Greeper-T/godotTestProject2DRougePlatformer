@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://assets/UI Settings/inputSettings/input_setting.gd" id="1_fs65l"]
 [ext_resource type="PackedScene" uid="uid://beo5pf2gwftse" path="res://assets/UI Settings/inputSettings/input_button.tscn" id="2_m1a3l"]
-[ext_resource type="FontFile" uid="uid://b1hueq17atyif" path="res://assets/UI Settings/inputSettings/superstar_memesbruh03.ttf" id="3_ylpol"]
+[ext_resource type="FontFile" uid="uid://b1hueq17atyif" path="res://assets/Fonts/superstar_memesbruh03.ttf" id="3_ylpol"]
 
 [node name="InputSetting" type="Control"]
 layout_mode = 3
