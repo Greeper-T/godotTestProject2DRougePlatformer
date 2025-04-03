@@ -1,27 +1,31 @@
 extends Area2D
 
 @export var item: Item  # Assign an item resource in the editor
-@onready var sprite: Sprite2D = $Sprite2D  # Reference to the sprite
-@onready var collision_shape: CollisionShape2D = $CollisionShape2D  # Reference to collision shape
+@onready var sprite: Sprite2D = $Sprite2D  
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D  
+@onready var pickup_label: Label = $Control/pickup_label
 
-const MAX_ITEM_SIZE := Vector2(32, 32)  # Adjust as needed
+const MAX_ITEM_SIZE := Vector2(32, 32)  
 
-var player_in_range: PlayerController = null  # Store player when in range
+var player_in_range: PlayerController = null  
 
 func _ready():
-	# If no item is assigned in the editor, pick a random one from GameManager
+	# Assign a random item if none is set
 	if item == null:
 		item = GameManager.get_random_item()
 		if item == null:
 			print("Error: No items available in GameManager!")
-			queue_free()  # Prevent empty pickups
-	
-	# Assign the texture and resize the sprite
+			queue_free()
+
 	if item:
 		sprite.texture = item.texture
 		resize_sprite()
 	else:
 		print("Warning: No item assigned to PickUpItem!")
+
+	# Update pickup label with the correct keybind
+	update_pickup_label()
+	pickup_label.hide()  # Hide label initially
 
 func resize_sprite():
 	if sprite.texture:
@@ -29,33 +33,47 @@ func resize_sprite():
 		var scale_factor = min(MAX_ITEM_SIZE.x / tex_size.x, MAX_ITEM_SIZE.y / tex_size.y)
 		sprite.scale = Vector2(scale_factor, scale_factor)
 
-		# Resize collision shape to fit item
 		if collision_shape.shape is RectangleShape2D:
 			collision_shape.shape.size = MAX_ITEM_SIZE
 
-# Detect when player enters range
 func _on_body_entered(body: Node2D) -> void:
 	if body is PlayerController:
-		player_in_range = body  # Store player reference
-		print("Player in range. Press 'E' to pick up.")
+		player_in_range = body  
+		update_pickup_label()  # Ensure the label reflects the latest keybind
+		pickup_label.show()  
+		print("Player in range. Press the correct key to pick up.")
 
-# Detect when player leaves range
 func _on_body_exited(body: Node2D) -> void:
 	if body is PlayerController:
-		player_in_range = null  # Clear player reference
+		player_in_range = null  
+		pickup_label.hide()  
 		print("Player left range.")
 
-# Handle key press for picking up item
 func _process(delta: float) -> void:
-	if player_in_range and Input.is_action_just_pressed("Interact"):  # Press "E"
+	if player_in_range and Input.is_action_just_pressed("Interact"):
 		pick_up()
 
-# Pickup function
 func pick_up():
 	if player_in_range and item:
 		var added = GameManager.add_item_to_inventory(item)
 		if added:
 			print("Picked up:", item.itemName)
-			queue_free()  # Remove item after pickup
+
+			# 🔹 Count the item in player stats
+			if !item.itemCounted:
+				PlayerData.calcItem(item)
+				item.itemCounted = true
+
+			queue_free()
 		else:
 			print("Inventory full, cannot pick up item.")
+
+func update_pickup_label():
+	if pickup_label:
+		var events = InputMap.action_get_events("Interact")
+		if events.size() > 0:
+			pickup_label.text = "Press '" + events[0].as_text().trim_suffix(" (Physical)") + "' to pick up"
+		else:
+			pickup_label.text = "Press 'Unknown' to pick up"
+	else:
+		print("Error: pickup_label is not found!")
