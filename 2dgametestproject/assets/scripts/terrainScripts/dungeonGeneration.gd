@@ -14,6 +14,8 @@ const HEIGHT = 600
 const CELL_SIZE = 16
 const MIN_ROOMS = 5
 var going_down
+var downward_cooldown = 0
+
 
 const MIN_ROOM_WIDTH = 15
 const MAX_ROOM_WIDTH = 30
@@ -48,7 +50,7 @@ func initialize_grid():
 			grid[x].append(1) # Wall
 
 func generate_dungeon():
-	var first_room = Rect2(1, 1, MIN_ROOM_WIDTH, MIN_ROOM_HEIGHT)
+	var first_room = Rect2(400, 1, MIN_ROOM_WIDTH, MIN_ROOM_HEIGHT)
 	place_room(first_room)
 	rooms.append(first_room)
 
@@ -66,21 +68,72 @@ func generate_room_near(base_room: Rect2) -> Rect2:
 	var width = MIN_ROOM_WIDTH + randi() % (MAX_ROOM_WIDTH - MIN_ROOM_WIDTH + 1)
 	var height = MIN_ROOM_HEIGHT + randi() % (MAX_ROOM_HEIGHT - MIN_ROOM_HEIGHT + 1)
 
-	var left = clamp(base_room.position.x - width - (randi() % (MAX_DISTANCE + 1)), 1, WIDTH - width - 1)
-	var right = clamp(base_room.end.x + (randi() % (MAX_DISTANCE + 1)), 1, WIDTH - width - 1)
+	var can_build_down = downward_cooldown <= 0  # Only allow downward rooms if cooldown is 0
 
-	const MAX_VERTICAL_OFFSET = 10
-	var vertical_offset = (randi() % (MAX_VERTICAL_OFFSET * 2 + 1)) - MAX_VERTICAL_OFFSET
-	var y = clamp(base_room.position.y + vertical_offset, 1, HEIGHT - height - 1)
+	var possible_positions = []
 
-	if abs(left - base_room.end.x) < MIN_ROOM_SPACING and abs(right - base_room.position.x) < MIN_ROOM_SPACING:
-		return generate_room_near(base_room)
+	# Try to add a room below (only if cooldown allows)
+	if can_build_down:
+		var down_x = base_room.position.x
+		var down_y = base_room.end.y + MIN_ROOM_SPACING
+		if down_y + height < HEIGHT:
+			possible_positions.append(Rect2(down_x, down_y, width, height))
 
-	var place_left = randi() % 2 == 0
-	if place_left:
-		return Rect2(left, y, width, height)
+	# Try to add a room to the left
+	var left_x = base_room.position.x - width - MIN_ROOM_SPACING
+	if left_x > 0:
+		possible_positions.append(Rect2(left_x, base_room.position.y, width, height))
+
+	# Try to add a room to the right
+	var right_x = base_room.end.x + MIN_ROOM_SPACING
+	if right_x + width < WIDTH:
+		possible_positions.append(Rect2(right_x, base_room.position.y, width, height))
+
+	# If downward placement was chosen, activate the cooldown
+	if possible_positions.size() > 0:
+		var new_room = possible_positions[randi() % possible_positions.size()]
+		if new_room.position.y > base_room.end.y:  # Check if this is a downward room
+			downward_cooldown = 2  # Require two horizontal rooms before going down again
+		else:
+			downward_cooldown = max(0, downward_cooldown - 1)  # Decrease cooldown if horizontal
+
+		return new_room
+
+	# Fallback in case no valid room is found (shouldn't happen often)
+	return base_room
+
+
+func connect_rooms(room1: Rect2, room2: Rect2):
+	if room2.position.y > room1.end.y:  # Room2 is below Room1
+		connect_rooms_vertically(room1, room2)
 	else:
-		return Rect2(right, y, width, height)
+		connect_rooms_horizontally(room1, room2)
+
+func connect_rooms_vertically(upper_room: Rect2, lower_room: Rect2):
+	var drop_x: int
+
+	# Determine the horizontal relationship between the rooms
+	if lower_room.position.x >= upper_room.position.x:
+		drop_x = upper_room.end.x - 2  # If lower room is to the right, drop is on the right
+	else:
+		drop_x = upper_room.position.x + 1  # If lower room is to the left, drop is on the left
+
+	var y_start = upper_room.end.y  # Bottom of the upper room
+	var y_end = lower_room.position.y  # Top of the lower room
+
+	# Create the vertical drop while preserving walls
+	grid[drop_x][y_start - 1] = 0  # Open floor at the drop point
+	for y in range(y_start, y_end + 1):
+		grid[drop_x][y] = 0  # Carve the vertical hallway
+		grid[drop_x - 1][y] = 1  # Keep the left wall intact
+		grid[drop_x + 1][y] = 1  # Keep the right wall intact
+
+	# Ensure a clean landing point in the lower room
+	grid[drop_x][y_end] = 0
+
+
+
+
 
 func place_room(room: Rect2) -> bool:
 	for x in range(room.position.x, room.end.x):
@@ -135,21 +188,27 @@ func place_boss_room():
 			farthest_distance = distance
 			farthest_room = room
 
-	# Define the smallest possible boss room
-	var boss_room = Rect2(
-		farthest_room.end.x + MIN_ROOM_SPACING,  # Position next to the farthest room
-		farthest_room.position.y,  # Align vertically with the farthest room
-		MIN_ROOM_WIDTH,  # Minimum width
-		MIN_ROOM_HEIGHT  # Minimum height
-	)
+	var boss_room_position = farthest_room.end + Vector2(MIN_ROOM_SPACING, 0)  # Start by placing it to the right
+	var boss_room = Rect2(boss_room_position, Vector2(MIN_ROOM_WIDTH, MIN_ROOM_HEIGHT))
 
-	# Debug: Check if the room is valid before placing
-	print("Attempting to place boss room at: ", boss_room.position, " with size: ", boss_room.size)
+	# Ensure the boss room has a valid position
+	var attempts = 0
+	var max_attempts = 20  # Try a few different placements if needed
 
-	# Try to place the boss room
-	if not place_room(boss_room):
-		print("Boss room placement failed! Trying again in a new position.")
-		return  # Exit if room placement fails
+	while not place_room(boss_room) and attempts < max_attempts:
+		attempts += 1
+		boss_room_position.x += MIN_ROOM_SPACING  # Try shifting further right
+		boss_room.position = boss_room_position
+
+	if attempts >= max_attempts:
+		# If right placement fails, try placing it below the farthest room instead
+		boss_room_position = farthest_room.position + Vector2(0, farthest_room.size.y + MIN_ROOM_SPACING)
+		boss_room.position = boss_room_position
+
+		if not place_room(boss_room):
+			push_error("Critical: Boss room placement failed! Forcing placement.")
+			grid[int(boss_room_position.x)][int(boss_room_position.y)] = 0  # Manually clear space
+			rooms.append(boss_room)  # Force-add the room
 
 	# Connect it to the farthest room
 	connect_rooms_horizontally(farthest_room, boss_room)
@@ -157,20 +216,12 @@ func place_boss_room():
 
 	# Instantiate the portal
 	var portal_instance = portal.instantiate()
-	if not portal_instance:
-		print("Error: Failed to instantiate portal!")
-		return  # Exit if instantiation fails
-
-	# Calculate the exact center of the boss room in world space
 	var room_center = (boss_room.position + boss_room.size / 2) * CELL_SIZE
-
-	# Set portal position and add it to the scene
 	portal_instance.global_position = room_center
 	add_child(portal_instance)
 
-	# Debugging Output
-	print("Boss room created successfully at: ", boss_room.position)
-	print("Portal placed at: ", portal_instance.global_position)
+	print("Boss room successfully placed at:", boss_room.position)
+
 
 
 
