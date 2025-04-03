@@ -61,4 +61,5 @@ func _on_timer_timeout() -> void:
 
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
+	print("in hitbox")
 	body.takeDamage(damage)

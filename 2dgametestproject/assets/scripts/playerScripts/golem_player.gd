@@ -23,6 +23,7 @@ var canDash = true
 var dashTimer = 0.0
 var dashCooldownTimer = 0.0
 
+var currentMode = 0
 var enemiesInRange = []
 var hp = null
 var maxHp = null
@@ -137,6 +138,7 @@ func _ready() -> void:
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	var damage: float = 0
 	if body.has_method("getDamage"):
+		print("take damage")
 		damage = body.damage
 	if not isDashing:
 		PlayerData.takeDamage(damage)
