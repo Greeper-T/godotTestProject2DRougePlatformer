@@ -360,8 +360,14 @@ layer_1/tile_data = PackedInt32Array(65532, 0, 0, 131073, 65536, 1, 65537, 65536
 z_index = 1
 position = Vector2(31, -12)
 
+[node name="portalDetection" parent="portal" index="1"]
+collision_layer = 65536
+
 [node name="GUI" parent="." instance=ExtResource("2_m4b6s")]
 
 [node name="player" parent="." instance=ExtResource("8_qhrx1")]
 
 [connection signal="body_entered" from="portal" to="." method="_on_portal_body_entered"]
+[connection signal="body_entered" from="portal/portalDetection" to="." method="_on_portal_detection_body_entered"]
+
+[editable path="portal"]
