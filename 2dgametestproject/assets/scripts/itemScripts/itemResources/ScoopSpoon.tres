@@ -9,6 +9,7 @@ type = 0
 itemName = "ScoupSpoon"
 itemId = 2
 itemAmt = 1
+itemCounted = false
 texture = ExtResource("2_32k3s")
 itemDescription = "Spoon that allows you, to hold more you!"
 itemDamage = 0

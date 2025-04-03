@@ -18,6 +18,7 @@ var inputActions = {
 	"heal": "Use Health Potion",
 	"dash": "Dash",
 	"switch": "Switch Wepon",
+	"Interact": "Interact",
 }
 
 func _ready() -> void:

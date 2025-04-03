@@ -9,6 +9,7 @@ type = 0
 itemName = "FightFork"
 itemId = 3
 itemAmt = 1
+itemCounted = false
 texture = ExtResource("2_5iq53")
 itemDescription = "A pokey fork in all your attacks!"
 itemDamage = 5

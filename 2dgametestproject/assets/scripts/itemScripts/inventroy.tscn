@@ -1,10 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://lefv3ar2lk6o"]
-
-[sub_resource type="Resource" id="Resource_o57by"]
-metadata/__load_path__ = "res://assets/GUI/inventory.gd"
-
-[sub_resource type="Resource" id="Resource_a6tk0"]
-metadata/__load_path__ = "res://assets/GUI/inventorySlots.gd"
+[gd_scene format=3 uid="uid://lefv3ar2lk6o"]
 
 [node name="Inventroy" type="Control"]
 layout_mode = 3
@@ -13,11 +7,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = SubResource("Resource_o57by")
 
 [node name="InventorySlot" type="PanelContainer" parent="."]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = SubResource("Resource_a6tk0")
-type = null

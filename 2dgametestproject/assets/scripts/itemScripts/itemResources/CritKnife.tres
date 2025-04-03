@@ -9,6 +9,7 @@ type = 0
 itemName = "CritKnife"
 itemId = 4
 itemAmt = 1
+itemCounted = false
 texture = ExtResource("2_mphyh")
 itemDescription = "Stab Stab Stab!"
 itemDamage = 0
