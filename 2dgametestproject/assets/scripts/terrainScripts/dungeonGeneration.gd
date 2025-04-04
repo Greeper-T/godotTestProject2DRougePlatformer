@@ -5,7 +5,7 @@ extends Node2D
 var floor_tile := Vector2i(1, 1)
 var wall_tile_bottom := Vector2i(1, 5)
 var wall_tile_top := Vector2i(1, 7)
-var player_scene = preload("res://assets/scenes/playerStuff/debug_player.tscn")
+var player_scene = preload("res://assets/scenes/playerStuff/player.tscn")
 var one_way_tile = preload("res://assets/scenes/areaFunctions/one_way_platform.tscn")
 var portal = preload("res://assets/scenes/areaFunctions/portal.tscn")
 

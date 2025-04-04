@@ -7,7 +7,6 @@ var areaPath = "res://assets/scenes/playable/"
 var potions = 20
 var hud: HUD
 var gui: GUI
-var hpBar: HPBar
 var resources: Array[Item] = []  # Holds Item resources
 
 func _ready():
@@ -49,6 +48,7 @@ func reset_potions():
 		hud.update_potion_label(potions)
 
 func hudUpdate():
+	hud = get_tree().get_first_node_in_group("hud")
 	if hud:
 		hud.update_potion_label(potions)
 

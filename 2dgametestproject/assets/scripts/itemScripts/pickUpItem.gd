@@ -7,7 +7,7 @@ extends Area2D
 
 const MAX_ITEM_SIZE := Vector2(32, 32)  
 
-var player_in_range: PlayerController = null  
+var player_in_range = false
 
 func _ready():
 	# Assign a random item if none is set
@@ -37,17 +37,15 @@ func resize_sprite():
 			collision_shape.shape.size = MAX_ITEM_SIZE
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is PlayerController:
-		player_in_range = body  
-		update_pickup_label()  # Ensure the label reflects the latest keybind
-		pickup_label.show()  
-		print("Player in range. Press the correct key to pick up.")
+	player_in_range = true
+	update_pickup_label()  # Ensure the label reflects the latest keybind
+	pickup_label.show()  
+	print("Player in range. Press the correct key to pick up.")
 
 func _on_body_exited(body: Node2D) -> void:
-	if body is PlayerController:
-		player_in_range = null  
-		pickup_label.hide()  
-		print("Player left range.")
+	player_in_range = false  
+	pickup_label.hide()  
+	print("Player left range.")
 
 func _process(delta: float) -> void:
 	if player_in_range and Input.is_action_just_pressed("Interact"):

@@ -1,12 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://kkgt1gwt3316"]
 
 [ext_resource type="Script" path="res://assets/scripts/itemScripts/pickUpItem.gd" id="1_lrjrs"]
-[ext_resource type="FontFile" uid="uid://b1hueq17atyif" path="res://assets/UI Settings/inputSettings/superstar_memesbruh03.ttf" id="2_kxhgo"]
+[ext_resource type="FontFile" uid="uid://b1hueq17atyif" path="res://assets/Fonts/superstar_memesbruh03.ttf" id="2_kxhgo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0deii"]
 size = Vector2(37, 37)
 
 [node name="PickUpItem" type="Area2D"]
+collision_layer = 0
 script = ExtResource("1_lrjrs")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -14,7 +14,7 @@ class_name PlayerController
 @onready var after_image_spawner: Node2D = $afterImageSpawner
 
 var speedMultiplier = 30
-var jumpMultiplier = -30
+var jumpMultiplier = -40
 var direction = 0
 var jumpsLeft = 1
 var sprintSpeed = null
