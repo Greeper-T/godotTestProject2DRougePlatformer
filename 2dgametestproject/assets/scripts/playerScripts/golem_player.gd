@@ -74,11 +74,11 @@ func _physics_process(delta: float) -> void:
 		set_collision_mask_value(10,true)
 	
 	if Input.is_action_pressed("sprint"):
-		speed = sprintSpeed
+		PlayerData.speed = sprintSpeed
 		if PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
 			changeState(PlayerData.PlayerState.SPRINTING)
 	else:
-		speed = sprintSpeed - 3
+		PlayerData.speed = sprintSpeed/1.5
 	if isDashing:
 		dashTimer -= delta
 		if dashTimer <= 0:
@@ -89,14 +89,14 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 		direction = Input.get_axis("moveLeft", "moveRight")
 		if direction != 0:
-			velocity.x = direction * speed * speedMultiplier
+			velocity.x = direction * PlayerData.speed * speedMultiplier
 			if is_on_floor() and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
 				changeState(PlayerData.PlayerState.MOVING)
 			if direction != sign(lastDirection):
 				boss_texure.scale.x *= -1
 				lastDirection = direction
 		else:
-			velocity.x = move_toward(velocity.x, 0, speedMultiplier * speed)
+			velocity.x = move_toward(velocity.x, 0, speedMultiplier * PlayerData.speed)
 			if is_on_floor() and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
 				changeState(PlayerData.PlayerState.IDLE)
 	
@@ -124,6 +124,7 @@ func endDash():
 	velocity.x = 0
 	
 func _ready() -> void:
+	sprintSpeed = PlayerData.speed * 1.5
 	if init:
 		maxHp = maxHp
 		hp = hp
