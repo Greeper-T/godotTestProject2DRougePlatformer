@@ -265,7 +265,7 @@ func place_one_way_platforms(room: Rect2):
 	var chosen_pattern = platform_patterns[randi() % platform_patterns.size()]
 	var min_x = room.position.x + 1
 	var max_x = room.end.x - 2
-	var min_y = room.position.y + int(float(room.size.y) * (1.0/4.0))
+	var min_y = room.position.y + int(float(room.size.y) * (1.0/3.0))
 	var max_y = room.end.y - 3
 
 	match chosen_pattern:
