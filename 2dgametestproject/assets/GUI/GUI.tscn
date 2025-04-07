@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
 [ext_resource type="Texture2D" uid="uid://bnjdoyw0jwr83" path="res://assets/sprites/GUI/inventory.png" id="2_rjx25"]
 [ext_resource type="PackedScene" uid="uid://bsl2vlwe7bus" path="res://assets/GUI/slot.tscn" id="3_lvwsk"]
-[ext_resource type="Resource" uid="uid://b2d8fw5ksip3r" path="res://assets/scripts/itemScripts/itemResources/speedSoup.tres" id="4_fdwwm"]
-[ext_resource type="Resource" uid="uid://cnk57ys6x8j4d" path="res://assets/scripts/itemScripts/itemResources/CritKnife.tres" id="5_ytawj"]
-[ext_resource type="Resource" uid="uid://dc7g6egscv5x2" path="res://assets/scripts/itemScripts/itemResources/FightFork.tres" id="6_7jj4m"]
-[ext_resource type="Resource" uid="uid://djx1dp8k88rxd" path="res://assets/scripts/itemScripts/itemResources/ScoopSpoon.tres" id="7_7k4vm"]
+[ext_resource type="Resource" uid="uid://nu8v4r7nrdkk" path="res://assets/scripts/itemScripts/itemResources/speedSoup.tres" id="4_fdwwm"]
+[ext_resource type="Resource" uid="uid://c4w3n3wtaieje" path="res://assets/scripts/itemScripts/itemResources/CritKnife.tres" id="5_ytawj"]
+[ext_resource type="Resource" uid="uid://bxom0qm2jx186" path="res://assets/scripts/itemScripts/itemResources/FightFork.tres" id="6_7jj4m"]
+[ext_resource type="Resource" uid="uid://dmgvhuia0tvbp" path="res://assets/scripts/itemScripts/itemResources/ScoopSpoon.tres" id="7_7k4vm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6h8v4"]
 bg_color = Color(0.0214346, 0.0214346, 0.0214346, 1)
