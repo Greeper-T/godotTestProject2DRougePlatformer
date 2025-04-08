@@ -7,12 +7,15 @@ func ItemPopup(slot: Rect2i, item):
 		%ItemPopup.size = Vector2i.ZERO  # Optional: if resizing dynamically
 
 	# Set a fixed position for the popup
-	var fixed_position = Vector2i(500, 150)  # Adjust these values to your layout
+	var fixed_position = Vector2i(723, 163)  # Adjust these values to your layout
 
 	# Optionally add some size for safety
 	var popup_size = Vector2i(200, 100)  # Or calculate from %ItemPopup.size if needed
 
 	%ItemPopup.popup(Rect2i(fixed_position, popup_size))
+
+
+
 func HideItemPopup():
 	%ItemPopup.hide()
 
