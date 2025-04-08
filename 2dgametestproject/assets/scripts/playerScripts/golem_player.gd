@@ -10,6 +10,7 @@ extends CharacterBody2D
 @onready var boss_texure: AnimatedSprite2D = $bossTexure
 @onready var muzzle: Node2D = $bossTexure/muzzle
 
+var bullet = preload("res://assets/scenes/playerStuff/golem_player_bullet.tscn")
 
 var speedMultiplier = 30
 var jumpMultiplier = -30
@@ -47,7 +48,12 @@ func _input(event: InputEvent) -> void:
 	
 	#deal with attacking
 	if event.is_action_pressed("fireBullet"):
-		changeState(PlayerData.PlayerState.MELEE_ATTACK)
+		if currentMode%2 == 0:
+			changeState(PlayerData.PlayerState.MELEE_ATTACK)
+		else:
+			changeState(PlayerData.PlayerState.SHOOTING)
+	if event.is_action_pressed("switch"):
+		currentMode += 1
 
 func _process(delta):
 	hp = PlayerData.hp
@@ -60,9 +66,9 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 		if Input.is_action_pressed("moveDown") and velocity.y > 0:
 			velocity.y += 40000 * delta
-		if velocity.y < 0 and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+		if velocity.y < 0 and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK and PlayerData.currentState != PlayerData.PlayerState.SHOOTING:
 			changeState(PlayerData.PlayerState.JUMPING)
-		elif PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+		elif PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK and PlayerData.currentState != PlayerData.PlayerState.SHOOTING:
 			changeState(PlayerData.PlayerState.FALLING)
 	else:
 		jumpsLeft = 1
@@ -75,7 +81,7 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_pressed("sprint"):
 		PlayerData.speed = sprintSpeed
-		if PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+		if PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK and PlayerData.currentState != PlayerData.PlayerState.SHOOTING:
 			changeState(PlayerData.PlayerState.SPRINTING)
 	else:
 		PlayerData.speed = sprintSpeed/1.5
@@ -90,14 +96,14 @@ func _physics_process(delta: float) -> void:
 		direction = Input.get_axis("moveLeft", "moveRight")
 		if direction != 0:
 			velocity.x = direction * PlayerData.speed * speedMultiplier
-			if is_on_floor() and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+			if is_on_floor() and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK and PlayerData.currentState != PlayerData.PlayerState.SHOOTING:
 				changeState(PlayerData.PlayerState.MOVING)
 			if direction != sign(lastDirection):
 				boss_texure.scale.x *= -1
 				lastDirection = direction
 		else:
 			velocity.x = move_toward(velocity.x, 0, speedMultiplier * PlayerData.speed)
-			if is_on_floor() and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
+			if is_on_floor() and PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK and PlayerData.currentState != PlayerData.PlayerState.SHOOTING:
 				changeState(PlayerData.PlayerState.IDLE)
 	
 	if not canDash:
@@ -166,6 +172,8 @@ func playerAnimations():
 		boss_texure.play("idle")
 	elif PlayerData.currentState == PlayerData.PlayerState.MELEE_ATTACK:
 		boss_texure.play("meleeAttack")
+	elif PlayerData.currentState == PlayerData.PlayerState.SHOOTING:
+		boss_texure.play("rangedAttack")
 	elif PlayerData.currentState == PlayerData.PlayerState.DEATH:
 		boss_texure.play("death")
 		await boss_texure.animation_finished
@@ -186,3 +194,7 @@ func _on_boss_texure_animation_finished() -> void:
 		for enemy in enemiesInRange:
 			enemy.takeDamage(PlayerData.damage)
 		PlayerData.currentState = PlayerData.PlayerState.IDLE
+	elif PlayerData.currentState == PlayerData.PlayerState.SHOOTING:
+		var bullets = bullet.instantiate()
+		bullets.position = muzzle.global_position
+		get_tree().current_scene.add_child(bullets)

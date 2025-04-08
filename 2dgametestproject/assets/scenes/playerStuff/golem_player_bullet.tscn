@@ -1,33 +1,33 @@
-[gd_scene load_steps=12 format=3 uid="uid://bilwkiiatrxww"]
+[gd_scene load_steps=13 format=3 uid="uid://b18d6n6cfhsm"]
 
-[ext_resource type="Script" path="res://assets/scripts/enemyScripts/golem_bullet.gd" id="1_hg67t"]
-[ext_resource type="Texture2D" uid="uid://dvbt0jxqup1ll" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/weapon PNG/arm_projectile_glowing.png" id="2_1fbvb"]
+[ext_resource type="Texture2D" uid="uid://dvbt0jxqup1ll" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/weapon PNG/arm_projectile_glowing.png" id="1_5mesh"]
+[ext_resource type="Script" path="res://assets/scripts/playerScripts/golem_player_bullet.gd" id="1_rlpus"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ledf7"]
-atlas = ExtResource("2_1fbvb")
+atlas = ExtResource("1_5mesh")
 region = Rect2(0, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mo5u0"]
-atlas = ExtResource("2_1fbvb")
+atlas = ExtResource("1_5mesh")
 region = Rect2(100, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tg4ag"]
-atlas = ExtResource("2_1fbvb")
+atlas = ExtResource("1_5mesh")
 region = Rect2(200, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_epuix"]
-atlas = ExtResource("2_1fbvb")
+atlas = ExtResource("1_5mesh")
 region = Rect2(0, 100, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_46ufx"]
-atlas = ExtResource("2_1fbvb")
+atlas = ExtResource("1_5mesh")
 region = Rect2(100, 100, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_30xh6"]
-atlas = ExtResource("2_1fbvb")
+atlas = ExtResource("1_5mesh")
 region = Rect2(200, 100, 100, 100)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_yuxrn"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_altvb"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -53,32 +53,39 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0d403"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0l1jp"]
 size = Vector2(36, 14)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_56hiw"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ob3fu"]
 size = Vector2(36, 14)
 
-[node name="golemBullet" type="CharacterBody2D"]
-collision_layer = 16
-collision_mask = 0
-script = ExtResource("1_hg67t")
+[sub_resource type="CircleShape2D" id="CircleShape2D_b3xoq"]
+radius = 1922.98
+
+[node name="golemPlayerBullet" type="CharacterBody2D"]
+script = ExtResource("1_rlpus")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-28, 13)
-sprite_frames = SubResource("SpriteFrames_yuxrn")
+sprite_frames = SubResource("SpriteFrames_altvb")
 autoplay = "default"
-frame = 4
-frame_progress = 0.337821
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_0d403")
+shape = SubResource("RectangleShape2D_0l1jp")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 8
-collision_mask = 3
+collision_layer = 0
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_56hiw")
+shape = SubResource("RectangleShape2D_ob3fu")
+
+[node name="checkForFirstEnemy" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="checkForFirstEnemy"]
+shape = SubResource("CircleShape2D_b3xoq")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="checkForFirstEnemy" to="." method="_on_check_for_first_enemy_body_entered"]
