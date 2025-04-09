@@ -9,6 +9,7 @@ func _ready():
 	$hp_bar.max_value = PlayerData.maxHp
 
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	$hp_bar.max_value = PlayerData.maxHp

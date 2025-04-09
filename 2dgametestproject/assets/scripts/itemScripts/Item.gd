@@ -8,7 +8,7 @@ enum Type {COMMON, UNCOMMON, RARE, LEGENDARY, BOSS, CHARACTER, MAIN}
 @export var itemName: String
 @export var itemId: int
 @export var itemAmt: int
-@export var itemCounted: bool
+@export var itemCounted: int
 @export var texture: Texture2D
 @export_multiline var itemDescription: String
 
@@ -19,4 +19,5 @@ enum Type {COMMON, UNCOMMON, RARE, LEGENDARY, BOSS, CHARACTER, MAIN}
 @export var itemCritMult: int
 @export var itemHealthIncrease: int
 @export var itemSpeedIncrease: int
+@export var itemJumpIncrease: int
 @export var itemAbility: String

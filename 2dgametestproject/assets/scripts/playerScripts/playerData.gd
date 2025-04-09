@@ -6,6 +6,8 @@ var critRate = 5.0
 var damage = 4.0
 var speed = 5.0
 var sprintSpeed = 10.0
+var jumpsLeft = 1
+var totalJumps = 2
 
 var pc : PlayerController
 
@@ -24,9 +26,9 @@ func addHp(amount: float):
 		hp = min(hp + amount, maxHp)
 
 func calcItem(item:Item):
-	for n in range(0,item.itemAmt):
-		speed+=item.itemSpeedIncrease
-		hp+=item.itemHealthIncrease
-		maxHp+=item.itemHealthIncrease
-		critRate+=item.itemCritAdd
-		damage+=item.itemDamage
+	speed+=item.itemSpeedIncrease
+	hp+=item.itemHealthIncrease
+	maxHp+=item.itemHealthIncrease
+	critRate+=item.itemCritAdd
+	damage+=item.itemDamage
+	totalJumps+=item.itemJumpIncrease

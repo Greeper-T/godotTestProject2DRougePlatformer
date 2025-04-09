@@ -14,7 +14,7 @@ extends CharacterBody2D
 var speedMultiplier = 30
 var jumpMultiplier = -30
 var direction = 0
-var jumpsLeft = 1
+
 var sprintSpeed = speed + 3
 var lastDirection = 1
 
@@ -34,9 +34,9 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump") and !Input.is_action_pressed("moveDown"):
 		if is_on_floor():
 			velocity.y = jumpPower * jumpMultiplier
-		elif jumpsLeft >= 1:
+		elif PlayerData.jumpsLeft >= 1:
 			velocity.y = jumpPower * jumpMultiplier
-			jumpsLeft -= 1
+			PlayerData.jumpsLeft -= 1
 	
 	#deals with healing
 	if event.is_action_pressed("heal"):
@@ -65,7 +65,7 @@ func _physics_process(delta: float) -> void:
 		elif PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK:
 			changeState(PlayerData.PlayerState.FALLING)
 	else:
-		jumpsLeft = 1
+		PlayerData.jumpsLeft = PlayerData.totalJumps - 1
 
 	# Handle move down one way.
 	if Input.is_action_pressed("moveDown") and Input.is_action_pressed("jump"):

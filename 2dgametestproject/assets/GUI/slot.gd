@@ -15,9 +15,9 @@ extends PanelContainer
 	set(value):
 		item = value
 		if value != null:
-			if !item.itemCounted:
+			if item.itemAmt>item.itemCounted:
 				PlayerData.calcItem(item)
-				item.itemCounted = true
+				item.itemCounted+=1
 			$TextureRect.texture = value.texture
 		update_display()
 
