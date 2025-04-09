@@ -6,6 +6,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vb6bj"]
 
 [node name="wallCrawler" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("1_qvkkw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -15,16 +17,10 @@ texture = ExtResource("1_xubkd")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_vb6bj")
 
-[node name="rayCasts" type="Node2D" parent="."]
+[node name="rayDown" type="RayCast2D" parent="."]
+target_position = Vector2(0, 15)
+collision_mask = 768
 
-[node name="rayDown" type="RayCast2D" parent="rayCasts"]
-target_position = Vector2(0, 12)
-
-[node name="rayUp" type="RayCast2D" parent="rayCasts"]
-target_position = Vector2(0, -12)
-
-[node name="rayLeft" type="RayCast2D" parent="rayCasts"]
-target_position = Vector2(-12, 0)
-
-[node name="rayRight" type="RayCast2D" parent="rayCasts"]
-target_position = Vector2(12, 0)
+[node name="rayForward" type="RayCast2D" parent="."]
+target_position = Vector2(14, 0)
+collision_mask = 768

@@ -3,20 +3,41 @@ extends CharacterBody2D
 
 @export var speed = 50
 var moveDirection = Vector2.RIGHT
+var surfaceNormal = Vector2.UP
+
+func _ready() -> void:
+	surfaceNormal = Vector2.UP
+	moveDirection = Vector2.RIGHT
+	updateRays()
+	
+	$rayDown.enabled = true
+	$rayForward.enabled = true
 
 func _physics_process(delta: float) -> void:
-	update_direction()
-	var tangent = Vector2(moveDirection.y, -moveDirection.x)  # 90° rotation
+	var tangent = Vector2(-surfaceNormal.y, surfaceNormal.x).normalized()
 	velocity = tangent * speed
-	rotation = moveDirection.angle()
-	move_and_slide()
 	
-func update_direction():
-	if $rayCasts/rayDown.is_colliding():
-		moveDirection = Vector2.DOWN
-	elif $rayCasts/rayRight.is_colliding():
-		moveDirection = Vector2.RIGHT
-	elif $rayCasts/rayUp.is_colliding():
-		moveDirection = Vector2.UP
-	elif $rayCasts/rayLeft.is_colliding():
-		moveDirection = Vector2.LEFT
+	if $rayDown.is_colliding():
+		var newNormal = -$rayDown.get_collision_normal()
+		if newNormal != surfaceNormal:
+			surfaceNormal = newNormal
+			updateRays()
+	else:
+		if $rayForward.is_colliding():
+			var newNormal = -$rayForward.get_collision_normal()
+			if newNormal != surfaceNormal:
+				surfaceNormal = newNormal
+				updateRays()
+	
+	move_and_slide()
+	rotation = velocity.angle()
+
+func _draw() -> void:
+	draw_line(Vector2.ZERO, $rayDown.target_position, Color.RED)
+	draw_line(Vector2.ZERO, $rayForward.target_position, Color.GREEN)
+
+func updateRays():
+	$rayDown.target_position = surfaceNormal * 16
+	
+	var tangent = Vector2(-surfaceNormal.y, surfaceNormal.x).normalized()
+	$rayForward.target_position = tangent * 16

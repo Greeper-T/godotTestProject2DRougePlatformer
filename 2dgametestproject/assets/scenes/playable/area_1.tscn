@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://ugmomq17yfe2"]
+[gd_scene load_steps=5 format=3 uid="uid://ugmomq17yfe2"]
 
 [ext_resource type="PackedScene" uid="uid://wcax7nv42gkc" path="res://assets/scenes/areaFunctions/area_template.tscn" id="1_bjfsc"]
 [ext_resource type="PackedScene" uid="uid://bhqmyii0v61d8" path="res://assets/scenes/items/PotionItem.tscn" id="2_nqxlw"]
 [ext_resource type="PackedScene" uid="uid://kkgt1gwt3316" path="res://assets/scenes/items/PickUpItem.tscn" id="3_r6olr"]
+[ext_resource type="PackedScene" uid="uid://cqosjylc7vcds" path="res://assets/scenes/enemy/wall_crawler.tscn" id="4_qhil0"]
 
 [node name="area1" instance=ExtResource("1_bjfsc")]
 
@@ -23,3 +24,8 @@ position = Vector2(-82, -407)
 
 [node name="PickUpItem" parent="." index="7" instance=ExtResource("3_r6olr")]
 position = Vector2(-218, -18)
+
+[node name="wallCrawler" parent="." index="9" instance=ExtResource("4_qhil0")]
+position = Vector2(-129, -11)
+
+[editable path="portal"]
