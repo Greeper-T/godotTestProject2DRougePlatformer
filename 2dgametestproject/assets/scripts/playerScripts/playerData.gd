@@ -10,6 +10,7 @@ var sprintSpeed = 10.0
 var jumpsLeft = 1
 var totalJumps = 2
 var defense = 0
+var lives = 1
 
 var pc : PlayerController
 
@@ -23,8 +24,12 @@ func takeDamage(amount: float):
 
 func die():
 	if hp <= 0:
-		get_tree().change_scene_to_file("res://assets/scenes/areaFunctions/start_menu.tscn")
-		GameManager.currentArea = 1
+		lives-=1
+		if lives<=0:
+			get_tree().change_scene_to_file("res://assets/scenes/areaFunctions/start_menu.tscn")
+			GameManager.currentArea = 1
+		else:
+			hp = maxHp
 
 func addHp(amount: float):
 	if GameManager.usePotion():
