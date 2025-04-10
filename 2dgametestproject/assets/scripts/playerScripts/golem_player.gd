@@ -71,7 +71,7 @@ func _physics_process(delta: float) -> void:
 		elif PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK and PlayerData.currentState != PlayerData.PlayerState.SHOOTING:
 			changeState(PlayerData.PlayerState.FALLING)
 	else:
-		jumpsLeft = 1
+		jumpsLeft = 10
 
 	# Handle move down one way.
 	if Input.is_action_pressed("moveDown") and Input.is_action_pressed("jump"):

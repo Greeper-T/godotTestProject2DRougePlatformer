@@ -21,19 +21,20 @@ func _physics_process(delta: float) -> void:
 
 	if surface_change_timer <= 0.0:
 		if $rayDown.is_colliding():
-			var hit_normal = -$rayDown.get_collision_normal().normalized()
+			var hit_normal = $rayDown.get_collision_normal().normalized()
 			if is_valid_surface_transition(hit_normal):
 				surface_normal = hit_normal
 				update_rays()
 				snap_to_surface()
 				surface_change_timer = SURFACE_CHANGE_COOLDOWN
 		elif $rayForward.is_colliding():
-			var forward_normal = -$rayForward.get_collision_normal().normalized()
-			if is_valid_surface_transition(forward_normal):
-				surface_normal = forward_normal
+			var hit_normal = $rayForward.get_collision_normal().normalized()
+			if is_valid_surface_transition(hit_normal):
+				surface_normal = hit_normal
 				update_rays()
 				snap_to_surface()
 				surface_change_timer = SURFACE_CHANGE_COOLDOWN
+
 
 
 	move_and_slide()
@@ -53,10 +54,15 @@ func is_valid_surface_transition(new_normal: Vector2) -> bool:
 	return dot < 0.7  # dot of 0.7 ≈ ~45°
 
 func update_rays():
-	$rayDown.target_position = surface_normal * ray_length
+	$rayDown.target_position = surface_normal * 16
 	var tangent = Vector2(-surface_normal.y, surface_normal.x).normalized()
-	$rayForward.target_position = tangent * ray_length
+	$rayForward.target_position = tangent * 16
+
 	print("Updated Rays - SurfaceNormal:", surface_normal, " Tangent:", tangent)
+	print("RayDown Normal:", $rayDown.get_collision_normal().normalized())
+	print("RayForward Normal:", $rayForward.get_collision_normal().normalized())
+
+
 
 
 func _draw():
