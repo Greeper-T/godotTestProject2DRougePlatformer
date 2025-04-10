@@ -144,6 +144,7 @@ func _ready() -> void:
 
 func updateHealth():
 	healthBar.value = PlayerData.hp
+	PlayerData.die()
 
 func addAfterImage():
 	var after = afterImageNode.instantiate()
