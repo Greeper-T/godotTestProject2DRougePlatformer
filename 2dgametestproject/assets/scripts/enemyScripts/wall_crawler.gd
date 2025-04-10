@@ -27,6 +27,13 @@ func _physics_process(delta: float) -> void:
 				update_rays()
 				snap_to_surface()
 				surface_change_timer = SURFACE_CHANGE_COOLDOWN
+		elif $rayCornerPeek.is_colliding():
+			var peek_normal = $rayCornerPeek.get_collision_normal().normalized()
+			if is_valid_surface_transition(peek_normal):
+				surface_normal = peek_normal
+				update_rays()
+				snap_to_surface()
+				surface_change_timer = SURFACE_CHANGE_COOLDOWN
 		elif $rayForward.is_colliding():
 			var hit_normal = $rayForward.get_collision_normal().normalized()
 			if is_valid_surface_transition(hit_normal):
@@ -34,9 +41,10 @@ func _physics_process(delta: float) -> void:
 				update_rays()
 				snap_to_surface()
 				surface_change_timer = SURFACE_CHANGE_COOLDOWN
-
-
-
+		
+	if not $rayDown.is_colliding() and not $rayForward.is_colliding() and not $rayCornerPeek.is_colliding():
+		velocity += Vector2.DOWN * 30 * delta  # gravity-ish fall
+		
 	move_and_slide()
 	rotation = velocity.angle()
 
@@ -55,12 +63,15 @@ func is_valid_surface_transition(new_normal: Vector2) -> bool:
 
 func update_rays():
 	$rayDown.target_position = surface_normal * 16
+
 	var tangent = Vector2(-surface_normal.y, surface_normal.x).normalized()
 	$rayForward.target_position = tangent * 16
 
-	print("Updated Rays - SurfaceNormal:", surface_normal, " Tangent:", tangent)
-	print("RayDown Normal:", $rayDown.get_collision_normal().normalized())
-	print("RayForward Normal:", $rayForward.get_collision_normal().normalized())
+	var diagonal = (surface_normal + tangent).normalized()
+	$rayCornerPeek.target_position = diagonal * 16
+
+	print("Updated Rays - SurfaceNormal:", surface_normal, " Tangent:", tangent, " Diagonal:", diagonal)
+
 
 
 
@@ -69,3 +80,7 @@ func _draw():
 	draw_line(Vector2.ZERO, $rayDown.target_position, Color.RED, 2)
 	draw_line(Vector2.ZERO, $rayForward.target_position, Color.GREEN, 2)
 	draw_line(Vector2.ZERO, surface_normal * 24, Color.BLUE, 2)  # Shows the surface normal
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	body.takeDamage(10)
