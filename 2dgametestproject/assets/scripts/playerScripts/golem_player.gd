@@ -144,10 +144,10 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 	if not isDashing:
 		PlayerData.takeDamage(damage)
 
-func takeDamage(damages: float):
+func takeDamage(damage: float):
 	print("damage taken")
 	if not isDashing:
-		PlayerData.takeDamage(damages/2)
+		PlayerData.takeDamage(damage/(1.3 + PlayerData.defense))
 
 func playerAnimations():
 	if PlayerData.currentState == PlayerData.PlayerState.IDLE:
@@ -174,5 +174,5 @@ func _on_enemy_in_melee_body_exited(body: Node2D) -> void:
 func _on_boss_texure_animation_finished() -> void:
 	if PlayerData.currentState == PlayerData.PlayerState.MELEE_ATTACK:
 		for enemy in enemiesInRange:
-			enemy.takeDamage(PlayerData.damage)
+			enemy.takeDamage(PlayerData.meleeDamage)
 		PlayerData.currentState = PlayerData.PlayerState.IDLE

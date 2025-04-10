@@ -3,11 +3,13 @@ extends Node
 var hp = 100.0
 var maxHp = 100.0
 var critRate = 5.0
-var damage = 4.0
+var rangedDamage = 4.0
+var meleeDamage = 6.0
 var speed = 5.0
 var sprintSpeed = 10.0
 var jumpsLeft = 1
 var totalJumps = 2
+var defense = 0
 
 var pc : PlayerController
 
@@ -30,5 +32,8 @@ func calcItem(item:Item):
 	hp+=item.itemHealthIncrease
 	maxHp+=item.itemHealthIncrease
 	critRate+=item.itemCritAdd
-	damage+=item.itemDamage
+	rangedDamage+=item.itemRangedDamage
+	rangedDamage+=item.itemMeleeDamage
 	totalJumps+=item.itemJumpIncrease
+	defense += item.itemDefense
+	

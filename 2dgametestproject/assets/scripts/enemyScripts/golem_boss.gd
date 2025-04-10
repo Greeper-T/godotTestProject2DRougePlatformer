@@ -121,7 +121,7 @@ func _on_player_detector_body_exited(body: Node2D) -> void:
 
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
-	health -= PlayerData.damage
+	health -= PlayerData.rangedDamage
 	body.queue_free()
 	updateHealthValue()
 

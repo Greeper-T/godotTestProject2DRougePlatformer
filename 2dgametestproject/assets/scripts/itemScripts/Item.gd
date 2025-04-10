@@ -13,8 +13,9 @@ enum Type {COMMON, UNCOMMON, RARE, LEGENDARY, BOSS, CHARACTER, MAIN}
 @export_multiline var itemDescription: String
 
 @export_category("Stats")
-@export var itemDamage: int
-@export var itemDefense: int
+@export var itemRangedDamage: int
+@export var itemMeleeDamage: int
+@export var itemDefense: float
 @export var itemCritAdd: int
 @export var itemCritMult: int
 @export var itemHealthIncrease: int

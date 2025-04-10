@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://dcr0xw1xhdlxq"]
+
+[ext_resource type="Script" path="res://assets/scripts/itemScripts/Item.gd" id="1_p7o5o"]
+[ext_resource type="Texture2D" uid="uid://cgccj3v5mlju6" path="res://assets/sprites/itemSprites/CrabShell.png" id="2_v2mox"]
+
+[resource]
+script = ExtResource("1_p7o5o")
+type = 0
+itemName = "CrabShell"
+itemId = 6
+itemAmt = 0
+itemCounted = 0
+texture = ExtResource("2_v2mox")
+itemDescription = "A pokey fork in all your attacks!"
+itemRangedDamage = 0
+itemMeleeDamage = 0
+itemDefense = 0.5
+itemCritAdd = 0
+itemCritMult = 0
+itemHealthIncrease = 0
+itemSpeedIncrease = 0
+itemJumpIncrease = 0
+itemAbility = "none"
