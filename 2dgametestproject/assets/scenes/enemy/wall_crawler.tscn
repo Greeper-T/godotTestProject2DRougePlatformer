@@ -7,7 +7,7 @@
 
 [node name="wallCrawler" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 0
+collision_mask = 768
 script = ExtResource("1_qvkkw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

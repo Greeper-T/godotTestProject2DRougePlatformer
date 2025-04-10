@@ -1,43 +1,65 @@
 extends CharacterBody2D
 
+@export var speed := 50.0
+@export var ray_length := 16.0
 
-@export var speed = 50
-var moveDirection = Vector2.RIGHT
-var surfaceNormal = Vector2.UP
+var surface_normal := Vector2.UP
+var surface_change_timer := 0.0
+const SURFACE_CHANGE_COOLDOWN := 1.0  # seconds (tweak if needed)
+
 
 func _ready() -> void:
-	surfaceNormal = Vector2.UP
-	moveDirection = Vector2.RIGHT
-	updateRays()
-	
+	update_rays()
 	$rayDown.enabled = true
 	$rayForward.enabled = true
 
 func _physics_process(delta: float) -> void:
-	var tangent = Vector2(-surfaceNormal.y, surfaceNormal.x).normalized()
+	surface_change_timer -= delta
+
+	var tangent = Vector2(-surface_normal.y, surface_normal.x).normalized()
 	velocity = tangent * speed
-	
-	if $rayDown.is_colliding():
-		var newNormal = -$rayDown.get_collision_normal()
-		if newNormal != surfaceNormal:
-			surfaceNormal = newNormal
-			updateRays()
-	else:
-		if $rayForward.is_colliding():
-			var newNormal = -$rayForward.get_collision_normal()
-			if newNormal != surfaceNormal:
-				surfaceNormal = newNormal
-				updateRays()
-	
+
+	if surface_change_timer <= 0.0:
+		if $rayDown.is_colliding():
+			var hit_normal = -$rayDown.get_collision_normal().normalized()
+			if is_valid_surface_transition(hit_normal):
+				surface_normal = hit_normal
+				update_rays()
+				snap_to_surface()
+				surface_change_timer = SURFACE_CHANGE_COOLDOWN
+		elif $rayForward.is_colliding():
+			var forward_normal = -$rayForward.get_collision_normal().normalized()
+			if is_valid_surface_transition(forward_normal):
+				surface_normal = forward_normal
+				update_rays()
+				snap_to_surface()
+				surface_change_timer = SURFACE_CHANGE_COOLDOWN
+
+
 	move_and_slide()
 	rotation = velocity.angle()
 
-func _draw() -> void:
-	draw_line(Vector2.ZERO, $rayDown.target_position, Color.RED)
-	draw_line(Vector2.ZERO, $rayForward.target_position, Color.GREEN)
+func snap_to_surface():
+	# Nudge the enemy slightly toward the surface so it's not stuck in geometry
+	global_position += surface_normal * 2
 
-func updateRays():
-	$rayDown.target_position = surfaceNormal * 16
-	
-	var tangent = Vector2(-surfaceNormal.y, surfaceNormal.x).normalized()
-	$rayForward.target_position = tangent * 16
+
+func is_valid_surface_transition(new_normal: Vector2) -> bool:
+	# Don’t allow a 180 flip
+	if new_normal.is_equal_approx(-surface_normal):
+		return false
+	# Only allow if it’s at least 45° different
+	var dot = surface_normal.dot(new_normal)
+	return dot < 0.7  # dot of 0.7 ≈ ~45°
+
+func update_rays():
+	$rayDown.target_position = surface_normal * ray_length
+	var tangent = Vector2(-surface_normal.y, surface_normal.x).normalized()
+	$rayForward.target_position = tangent * ray_length
+	print("Updated Rays - SurfaceNormal:", surface_normal, " Tangent:", tangent)
+
+
+func _draw():
+	draw_line(Vector2.ZERO, $rayDown.target_position, Color.RED, 2)
+	draw_line(Vector2.ZERO, $rayForward.target_position, Color.GREEN, 2)
+	draw_line(Vector2.ZERO, surface_normal * 24, Color.BLUE, 2)  # Shows the surface normal
