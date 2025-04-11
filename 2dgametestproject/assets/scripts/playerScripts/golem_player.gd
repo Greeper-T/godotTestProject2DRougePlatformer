@@ -15,7 +15,7 @@ var bullet = preload("res://assets/scenes/playerStuff/golem_player_bullet.tscn")
 var speedMultiplier = 30
 var jumpMultiplier = -30
 var direction = 0
-var jumpsLeft = 1
+
 var sprintSpeed = speed + 3
 var lastDirection = 1
 
@@ -35,9 +35,9 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump") and !Input.is_action_pressed("moveDown"):
 		if is_on_floor():
 			velocity.y = jumpPower * jumpMultiplier
-		elif jumpsLeft >= 1:
+		elif PlayerData.jumpsLeft >= 1:
 			velocity.y = jumpPower * jumpMultiplier
-			jumpsLeft -= 1
+			PlayerData.jumpsLeft -= 1
 	
 	#deals with healing
 	if event.is_action_pressed("heal"):
@@ -71,7 +71,7 @@ func _physics_process(delta: float) -> void:
 		elif PlayerData.currentState != PlayerData.PlayerState.MELEE_ATTACK and PlayerData.currentState != PlayerData.PlayerState.SHOOTING:
 			changeState(PlayerData.PlayerState.FALLING)
 	else:
-		jumpsLeft = 10
+		PlayerData.jumpsLeft = PlayerData.totalJumps - 1
 
 	# Handle move down one way.
 	if Input.is_action_pressed("moveDown") and Input.is_action_pressed("jump"):
@@ -151,15 +151,16 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 		PlayerData.takeDamage(damage/2)
 		checkIfDead()
 
-func takeDamage(damages: float):
+func takeDamage(damage: float):
 	print("damage taken")
 	if not isDashing:
-		PlayerData.takeDamage(damages/2)
+		PlayerData.takeDamage(damage/(1.3 + PlayerData.defense))
 		checkIfDead()
 
 func checkIfDead():
 	if PlayerData.hp <= 0:
 		changeState(PlayerData.PlayerState.DEATH)
+
 
 func playerAnimations():
 	if PlayerData.currentState == PlayerData.PlayerState.IDLE:
@@ -192,7 +193,7 @@ func _on_enemy_in_melee_body_exited(body: Node2D) -> void:
 func _on_boss_texure_animation_finished() -> void:
 	if PlayerData.currentState == PlayerData.PlayerState.MELEE_ATTACK:
 		for enemy in enemiesInRange:
-			enemy.takeDamage(PlayerData.damage)
+			enemy.takeDamage(PlayerData.meleeDamage)
 		PlayerData.currentState = PlayerData.PlayerState.IDLE
 	elif PlayerData.currentState == PlayerData.PlayerState.SHOOTING:
 		var bullets = bullet.instantiate()

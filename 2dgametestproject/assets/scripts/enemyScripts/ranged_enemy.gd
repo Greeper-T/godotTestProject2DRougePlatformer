@@ -105,7 +105,7 @@ func _on_switch_side_timer_timeout() -> void:
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	if not currentState == State.DAMAGED:
-		hp -= PlayerData.damage
+		hp -= PlayerData.rangedDamage
 		updateHealth()
 		playAnimation("takeDamage", State.DAMAGED)
 		animationLock = true

@@ -3,9 +3,14 @@ extends Node
 var hp = 100.0
 var maxHp = 100.0
 var critRate = 5.0
-var damage = 4.0
+var rangedDamage = 4.0
+var meleeDamage = 6.0
 var speed = 5.0
 var sprintSpeed = 10.0
+var jumpsLeft = 1
+var totalJumps = 2
+var defense = 0
+var lives = 1
 
 var pc : PlayerController
 
@@ -19,17 +24,24 @@ func takeDamage(amount: float):
 
 func die():
 	if hp <= 0:
-		get_tree().change_scene_to_file("res://assets/scenes/areaFunctions/start_menu.tscn")
-		GameManager.currentArea = 1
+		lives-=1
+		if lives<=0:
+			get_tree().change_scene_to_file("res://assets/scenes/areaFunctions/start_menu.tscn")
+			GameManager.currentArea = 1
+		else:
+			hp = maxHp
 
 func addHp(amount: float):
 	if GameManager.usePotion():
 		hp = min(hp + amount, maxHp)
 
 func calcItem(item:Item):
-	for n in range(0,item.itemAmt):
-		speed+=item.itemSpeedIncrease
-		hp+=item.itemHealthIncrease
-		maxHp+=item.itemHealthIncrease
-		critRate+=item.itemCritAdd
-		damage+=item.itemDamage
+	speed+=item.itemSpeedIncrease
+	hp+=item.itemHealthIncrease
+	maxHp+=item.itemHealthIncrease
+	critRate+=item.itemCritAdd
+	rangedDamage+=item.itemRangedDamage
+	rangedDamage+=item.itemMeleeDamage
+	totalJumps+=item.itemJumpIncrease
+	defense += item.itemDefense
+	

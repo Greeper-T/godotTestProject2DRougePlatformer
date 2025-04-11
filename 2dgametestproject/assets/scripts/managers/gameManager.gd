@@ -52,14 +52,13 @@ func hudUpdate():
 	if hud:
 		hud.update_potion_label(potions)
 
-# -- Inventory Handling --
 func add_item_to_inventory(new_item: Item) -> bool:
 	gui = get_tree().get_first_node_in_group("gui")
 	if gui == null:
 		print("Error: GUI not found!")
 		return false
 	
-	var inventory = gui.get_node_or_null("%Inventory")  # Using unique name %
+	var inventory = gui.get_node_or_null("%Inventory")
 	if inventory == null:
 		print("Error: Inventory not found!")
 		return false
@@ -68,14 +67,30 @@ func add_item_to_inventory(new_item: Item) -> bool:
 	if grid_container == null:
 		print("Error: GridContainer not found inside Inventory!")
 		return false
-	
+
+	# Check for duplicate item
 	for slot in grid_container.get_children():
-		if slot.item == null:  # Find first empty slot
-			slot.item = new_item  
-			slot.update_display()  # Update UI
-			print("Added item:", new_item.itemName)
+		if slot.item != null and slot.item.itemId == new_item.itemId:
+			# Duplicate found — stack it
+			slot.item.itemAmt += new_item.itemAmt
+
+			# Add *only* the new amount to stats
+			var tempItem := new_item.duplicate()
+			tempItem.itemAmt = new_item.itemAmt
+			PlayerData.calcItem(tempItem)
+
+			slot.update_display()
+			print("Stacked item:", new_item.itemName, "New amt:", slot.item.itemAmt)
 			return true
-	
+
+	# If not already in inventory, place in an empty slot
+	for slot in grid_container.get_children():
+		if slot.item == null:
+			slot.item = new_item
+			slot.update_display()
+			print("Added new item:", new_item.itemName)
+			return true
+
 	print("Inventory full!")
 	return false
 

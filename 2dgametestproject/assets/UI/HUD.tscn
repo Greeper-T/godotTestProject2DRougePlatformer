@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://drrnwii5dn4f0"]
 
 [ext_resource type="Script" path="res://assets/UI/hud.gd" id="1_hnacu"]
-[ext_resource type="Texture2D" uid="uid://fshvpxi7vycp" path="res://assets/sprites/itemSprites/potion.png" id="2_lm30c"]
+[ext_resource type="Texture2D" uid="uid://djr0rgkoyyb1v" path="res://assets/sprites/itemSprites/potion2.png" id="2_s1l4j"]
 [ext_resource type="LabelSettings" uid="uid://br488fer1vt01" path="res://assets/UI Settings/MainLabelSettings.tres" id="3_eqf4t"]
 
 [node name="HUD" type="Control" node_paths=PackedStringArray("potion_label", "item_label") groups=["hud"]]
@@ -25,7 +25,8 @@ offset_left = 986.0
 offset_top = 48.0
 offset_right = 1048.0
 offset_bottom = 112.0
-texture = ExtResource("2_lm30c")
+texture = ExtResource("2_s1l4j")
+expand_mode = 1
 
 [node name="potionLabel" type="Label" parent="potionTexture"]
 layout_mode = 1

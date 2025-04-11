@@ -7,10 +7,10 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 17.0
-offset_top = 23.0
-offset_right = 17.0
-offset_bottom = 23.0
+offset_left = 422.0
+offset_top = 197.0
+offset_right = -533.0
+offset_bottom = -252.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8gixw")
@@ -20,18 +20,21 @@ script = ExtResource("1_8gixw")
 [node name="ItemPopup" type="PopupPanel" parent="UI"]
 unique_name_in_owner = true
 position = Vector2i(420, 195)
-size = Vector2i(279, 265)
+size = Vector2i(200, 200)
+visible = true
+min_size = Vector2i(200, 200)
+max_size = Vector2i(200, 200)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/ItemPopup"]
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 275.0
-offset_bottom = 261.0
+offset_right = 196.0
+offset_bottom = 196.0
 
 [node name="Name" type="Label" parent="UI/ItemPopup/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 51
+theme_override_font_sizes/font_size = 20
 text = "Stat:"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/ItemPopup/VBoxContainer"]
@@ -41,13 +44,13 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 15
 text = "Amount:"
 
 [node name="AmtNum" type="Label" parent="UI/ItemPopup/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 15
 text = "1"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="UI/ItemPopup/VBoxContainer"]
@@ -55,12 +58,20 @@ layout_mode = 2
 
 [node name="Description" type="Label" parent="UI/ItemPopup/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 10)
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 text = "Description:"
 
-[node name="DescInfo" type="Label" parent="UI/ItemPopup/VBoxContainer/HBoxContainer2"]
-unique_name_in_owner = true
+[node name="HBoxContainer3" type="HBoxContainer" parent="UI/ItemPopup/VBoxContainer"]
 layout_mode = 2
+
+[node name="DescInfo" type="Label" parent="UI/ItemPopup/VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 75)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 2
 
 [node name="Rarity" type="Label" parent="UI/ItemPopup/VBoxContainer"]
 unique_name_in_owner = true

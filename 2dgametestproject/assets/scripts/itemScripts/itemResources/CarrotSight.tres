@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://yv4re78ugr7y"]
+
+[ext_resource type="Script" path="res://assets/scripts/itemScripts/Item.gd" id="1_cocd4"]
+[ext_resource type="Texture2D" uid="uid://c5knokauhvxw" path="res://assets/sprites/itemSprites/carrot.png" id="2_wpi55"]
+
+[resource]
+script = ExtResource("1_cocd4")
+type = 1
+itemName = "Spearmint"
+itemId = 8
+itemAmt = 0
+itemCounted = 0
+texture = ExtResource("2_wpi55")
+itemDescription = "You know what they say! Carrots give you better eyesight!! Easier to hit weak points"
+itemRangedDamage = 0
+itemMeleeDamage = 0
+itemDefense = 0.0
+itemCritAdd = 0
+itemCritMult = 2
+itemHealthIncrease = 0
+itemSpeedIncrease = 0
+itemJumpIncrease = 0
+itemAbility = "none"

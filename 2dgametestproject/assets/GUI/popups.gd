@@ -4,18 +4,17 @@ extends Control
 func ItemPopup(slot: Rect2i, item):
 	if item != null:
 		set_value(item)
-		%ItemPopup.size = Vector2i.ZERO
-	
-	var mouse_pos = get_viewport().get_mouse_position()
-	var correction
-	var padding = 4
-	
-	if mouse_pos.x <= get_viewport_rect().size.x/2:
-		correction = Vector2i(slot.size.x + padding, 0)
-	else:
-		correction = -Vector2i(%ItemPopup.size.x + padding, 0)
-	
-	%ItemPopup.popup(Rect2i( slot.position + correction, %ItemPopup.size ))
+		%ItemPopup.size = Vector2i.ZERO  # Optional: if resizing dynamically
+
+	# Set a fixed position for the popup
+	var fixed_position = Vector2i(723, 163)  # Adjust these values to your layout
+
+	# Optionally add some size for safety
+	var popup_size = Vector2i(200, 100)  # Or calculate from %ItemPopup.size if needed
+
+	%ItemPopup.popup(Rect2i(fixed_position, popup_size))
+
+
 
 func HideItemPopup():
 	%ItemPopup.hide()
