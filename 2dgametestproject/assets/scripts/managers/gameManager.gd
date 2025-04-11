@@ -2,6 +2,7 @@ extends Node
 
 var pauseScreen = preload("res://assets/UI Settings/inputSettings/inputSetting.tscn")
 var currentArea = 1
+var currentPhase = 0
 var areaPath = "res://assets/scenes/playable/"
 
 var potions = 20
@@ -21,6 +22,9 @@ func _ready():
 func nextLevel():
 	hud = get_tree().get_first_node_in_group("hud")
 	currentArea += 1
+	if currentPhase == 0:
+		#get_tree().change_scene_to_file(Shop)
+		currentPhase = 1
 	var fullPath = areaPath + "area_" + str(currentArea) + ".tscn"
 	get_tree().change_scene_to_file(fullPath)
 	print_debug("Entered portal to:", fullPath)
