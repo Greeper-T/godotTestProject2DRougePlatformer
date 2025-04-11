@@ -1,12 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://d33y4w8ixynua"]
+[gd_scene load_steps=12 format=3 uid="uid://d33y4w8ixynua"]
 
 [ext_resource type="Script" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
+[ext_resource type="Texture2D" uid="uid://cwikpujxskop0" path="res://assets/sprites/GUI/heart.png" id="2_eofit"]
 [ext_resource type="Texture2D" uid="uid://bnjdoyw0jwr83" path="res://assets/sprites/GUI/inventory.png" id="2_rjx25"]
 [ext_resource type="PackedScene" uid="uid://bsl2vlwe7bus" path="res://assets/GUI/slot.tscn" id="3_lvwsk"]
 [ext_resource type="Resource" uid="uid://nu8v4r7nrdkk" path="res://assets/scripts/itemScripts/itemResources/speedSoup.tres" id="4_fdwwm"]
 [ext_resource type="Resource" uid="uid://c4w3n3wtaieje" path="res://assets/scripts/itemScripts/itemResources/CritKnife.tres" id="5_ytawj"]
 [ext_resource type="Resource" uid="uid://bxom0qm2jx186" path="res://assets/scripts/itemScripts/itemResources/FightFork.tres" id="6_7jj4m"]
 [ext_resource type="Resource" uid="uid://dmgvhuia0tvbp" path="res://assets/scripts/itemScripts/itemResources/ScoopSpoon.tres" id="7_7k4vm"]
+[ext_resource type="Texture2D" uid="uid://dyslnd6gyj306" path="res://assets/sprites/GUI/money.jpg" id="8_ft8rc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6h8v4"]
 bg_color = Color(0.0214346, 0.0214346, 0.0214346, 1)
@@ -17,6 +19,30 @@ bg_color = Color(0.822952, 0.0550532, 0.179494, 1)
 [node name="GUI" type="CanvasLayer" node_paths=PackedStringArray("healthLabel") groups=["gui"]]
 script = ExtResource("1_3eeni")
 healthLabel = NodePath("healthLabel")
+
+[node name="Heart" type="TextureRect" parent="."]
+offset_left = 235.0
+offset_top = 17.0
+offset_right = 285.0
+offset_bottom = 69.0
+texture = ExtResource("2_eofit")
+expand_mode = 1
+
+[node name="moneyLabel" type="Label" parent="."]
+offset_left = 525.0
+offset_top = 72.0
+offset_right = 568.0
+offset_bottom = 95.0
+text = "0X"
+horizontal_alignment = 1
+
+[node name="moneyImage" type="TextureRect" parent="."]
+offset_left = 462.0
+offset_top = -1.0
+offset_right = 633.0
+offset_bottom = 66.0
+texture = ExtResource("8_ft8rc")
+expand_mode = 1
 
 [node name="Container" type="Control" parent="."]
 layout_mode = 3
@@ -32,10 +58,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -432.0
-offset_top = -246.0
-offset_right = 436.0
-offset_bottom = 286.0
+offset_left = -435.0
+offset_top = -207.0
+offset_right = 433.0
+offset_bottom = 325.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
