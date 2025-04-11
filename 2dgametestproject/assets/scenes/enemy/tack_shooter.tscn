@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhxgaqpfadb3c"]
+
+[ext_resource type="Texture2D" uid="uid://ocxio33q5mdt" path="res://assets/sprites/enemySprites/tackShooter.png" id="1_dq81j"]
+[ext_resource type="Script" path="res://assets/scripts/enemyScripts/tack_shooter.gd" id="1_h207j"]
+
+[node name="tackShooter" type="CharacterBody2D"]
+script = ExtResource("1_h207j")
+alpha = 1.0
+
+[node name="TackShooter" type="Sprite2D" parent="."]
+scale = Vector2(0.0622222, 0.0622222)
+texture = ExtResource("1_dq81j")
+
+[node name="speed" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[connection signal="timeout" from="speed" to="." method="_on_speed_timeout"]

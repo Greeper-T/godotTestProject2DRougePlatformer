@@ -538,10 +538,8 @@ zoom = Vector2(2.22, 2.22)
 position = Vector2(5.96046e-08, -8)
 scale = Vector2(0.42, 0.42)
 sprite_frames = SubResource("SpriteFrames_ga28j")
-animation = &"meleeAttack"
+animation = &"rangedAttack"
 autoplay = "idle"
-frame = 6
-frame_progress = 1.0
 
 [node name="muzzle" type="Node2D" parent="bossTexure"]
 position = Vector2(29, -9)

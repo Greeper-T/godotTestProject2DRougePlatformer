@@ -68,39 +68,29 @@ func generate_room_near(base_room: Rect2) -> Rect2:
 	var width = MIN_ROOM_WIDTH + randi() % (MAX_ROOM_WIDTH - MIN_ROOM_WIDTH + 1)
 	var height = MIN_ROOM_HEIGHT + randi() % (MAX_ROOM_HEIGHT - MIN_ROOM_HEIGHT + 1)
 
-	var can_build_down = downward_cooldown <= 0  # Only allow downward rooms if cooldown is 0
+	# Ensure we only extend the dungeon in one direction
+	var next_room = null
 
-	var possible_positions = []
-
-	# Try to add a room below (only if cooldown allows)
-	if can_build_down:
+	if downward_cooldown <= 0:  # If allowed, try downward first
 		var down_x = base_room.position.x
 		var down_y = base_room.end.y + MIN_ROOM_SPACING
 		if down_y + height < HEIGHT:
-			possible_positions.append(Rect2(down_x, down_y, width, height))
+			next_room = Rect2(down_x, down_y, width, height)
+			downward_cooldown = 2  # Apply cooldown after moving down
 
-	# Try to add a room to the left
-	var left_x = base_room.position.x - width - MIN_ROOM_SPACING
-	if left_x > 0:
-		possible_positions.append(Rect2(left_x, base_room.position.y, width, height))
+	if next_room == null:  # If downward is unavailable, move sideways
+		var move_direction = 1 if randi() % 2 == 0 else -1  # Randomly choose left or right
+		var side_x = base_room.end.x + MIN_ROOM_SPACING if move_direction == 1 else base_room.position.x - width - MIN_ROOM_SPACING
 
-	# Try to add a room to the right
-	var right_x = base_room.end.x + MIN_ROOM_SPACING
-	if right_x + width < WIDTH:
-		possible_positions.append(Rect2(right_x, base_room.position.y, width, height))
+		if side_x > 0 and side_x + width < WIDTH:
+			next_room = Rect2(side_x, base_room.position.y, width, height)
+			downward_cooldown = max(0, downward_cooldown - 1)  # Reduce cooldown when moving sideways
 
-	# If downward placement was chosen, activate the cooldown
-	if possible_positions.size() > 0:
-		var new_room = possible_positions[randi() % possible_positions.size()]
-		if new_room.position.y > base_room.end.y:  # Check if this is a downward room
-			downward_cooldown = 2  # Require two horizontal rooms before going down again
-		else:
-			downward_cooldown = max(0, downward_cooldown - 1)  # Decrease cooldown if horizontal
+	# If neither works, fallback to previous room position (prevents softlocks)
+	if next_room == null:
+		next_room = base_room
 
-		return new_room
-
-	# Fallback in case no valid room is found (shouldn't happen often)
-	return base_room
+	return next_room
 
 
 func connect_rooms(room1: Rect2, room2: Rect2):
@@ -265,7 +255,7 @@ func place_one_way_platforms(room: Rect2):
 	var chosen_pattern = platform_patterns[randi() % platform_patterns.size()]
 	var min_x = room.position.x + 1
 	var max_x = room.end.x - 2
-	var min_y = room.position.y + int(float(room.size.y) * (1.0/4.0))
+	var min_y = room.position.y + int(float(room.size.y) * (1.0/3.0))
 	var max_y = room.end.y - 3
 
 	match chosen_pattern:
