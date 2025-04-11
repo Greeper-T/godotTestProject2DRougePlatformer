@@ -23,7 +23,7 @@ func updateHealthLabel():
 	
 
 func updateMoneyLabel():
-	healthLabel.text = "" + "AMT" +"X"
+	healthLabel.text = "" + PlayerData.money +"X"
 	
 
 
