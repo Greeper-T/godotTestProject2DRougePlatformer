@@ -1,8 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://cd0d2xcr1pjuh"]
+[gd_scene load_steps=10 format=3 uid="uid://cd0d2xcr1pjuh"]
 
 [ext_resource type="Texture2D" uid="uid://b0q78ik8ygp5y" path="res://assets/sprites/terrainSprites/tiles_1.png" id="1_3dlhn"]
+[ext_resource type="Script" path="res://assets/scripts/terrainScripts/shop.gd" id="1_ulbm4"]
 [ext_resource type="Texture2D" uid="uid://ihgvmpc32okj" path="res://assets/sprites/itemSprites/Shop.png" id="2_m2pgp"]
 [ext_resource type="PackedScene" uid="uid://cww25wrm4ycu1" path="res://assets/scenes/areaFunctions/portal.tscn" id="3_7loag"]
+[ext_resource type="PackedScene" uid="uid://d33y4w8ixynua" path="res://assets/GUI/GUI.tscn" id="5_qnwlp"]
+[ext_resource type="PackedScene" uid="uid://drrnwii5dn4f0" path="res://assets/UI/HUD.tscn" id="6_dx3ts"]
+[ext_resource type="PackedScene" uid="uid://bfr6ewukk7gw0" path="res://assets/UI Settings/inputSettings/inputSetting.tscn" id="7_1fohc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tsn48"]
 texture = ExtResource("1_3dlhn")
@@ -332,6 +336,7 @@ terrain_set_0/terrain_1/color = Color(0.583376, 0.193784, 0.863338, 1)
 sources/0 = SubResource("TileSetAtlasSource_tsn48")
 
 [node name="Shop" type="Node2D"]
+script = ExtResource("1_ulbm4")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_8au04")
@@ -347,3 +352,19 @@ texture = ExtResource("2_m2pgp")
 
 [node name="portal" parent="." instance=ExtResource("3_7loag")]
 position = Vector2(96, -24)
+
+[node name="playerSpawner" type="Node2D" parent="."]
+position = Vector2(-114, -39)
+
+[node name="GUI" parent="." instance=ExtResource("5_qnwlp")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("6_dx3ts")]
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 3.0
+offset_bottom = 2.0
+
+[node name="InputSetting" parent="CanvasLayer" instance=ExtResource("7_1fohc")]
+visible = false

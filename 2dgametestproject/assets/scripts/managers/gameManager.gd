@@ -4,6 +4,7 @@ var pauseScreen = preload("res://assets/UI Settings/inputSettings/inputSetting.t
 var currentArea = 1
 var currentPhase = 0
 var areaPath = "res://assets/scenes/playable/"
+var shop = "res://assets/scenes/playable/Shop.tscn"
 
 var potions = 20
 var hud: HUD
@@ -23,10 +24,15 @@ func nextLevel():
 	hud = get_tree().get_first_node_in_group("hud")
 	currentArea += 1
 	if currentPhase == 0:
-		#get_tree().change_scene_to_file(Shop)
+		get_tree().change_scene_to_file(shop)
 		currentPhase = 1
+	elif currentPhase == 1:
+		get_tree().change_scene_to_file("res://assets/scenes/playable/area_4.tscn")
+		currentPhase = 2
+	elif currentPhase == 2:
+		get_tree().change_scene_to_file("res://assets/scenes/playable/area_0.tscn")
+		currentPhase = 0
 	var fullPath = areaPath + "area_" + str(currentArea) + ".tscn"
-	get_tree().change_scene_to_file(fullPath)
 	print_debug("Entered portal to:", fullPath)
 	hud.update_potion_label(potions)
 

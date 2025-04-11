@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c35j0lmlfqjcg"]
 
 [ext_resource type="PackedScene" uid="uid://wcax7nv42gkc" path="res://assets/scenes/areaFunctions/area_template.tscn" id="1_3tdyx"]
-[ext_resource type="PackedScene" path="res://assets/scenes/enemy/golem_boss.tscn" id="2_kfuxg"]
+[ext_resource type="PackedScene" uid="uid://c5cn6meonwyc6" path="res://assets/scenes/enemy/golem_boss.tscn" id="2_kfuxg"]
 
 [node name="area4" instance=ExtResource("1_3tdyx")]
 
@@ -14,3 +14,5 @@ position = Vector2(-7, -129)
 
 [node name="golemBoss" parent="." index="4" instance=ExtResource("2_kfuxg")]
 position = Vector2(223, -91)
+
+[editable path="portal"]
