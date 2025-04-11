@@ -29,7 +29,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.has_method("takeDamage"):
-		body.takeDamage(PlayerData.damage)
+		body.takeDamage(PlayerData.rangedDamage)
 		queue_free()
 
 
