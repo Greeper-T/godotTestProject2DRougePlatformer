@@ -36,6 +36,7 @@ var platform_patterns = [
 
 
 func _ready():
+	print("generating")
 	randomize()
 	initialize_grid()
 	generate_dungeon()

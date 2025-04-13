@@ -97,8 +97,8 @@ func _physics_process(delta: float) -> void:
 			if is_on_floor():
 				PlayerData.currentState = PlayerData.PlayerState.MOVING
 			if direction != sign(lastDirection):
-				animator.scale.x = direction
-				gun_position.scale.x = direction
+				animator.scale.x *= -1
+				gun_position.scale.x *= -1
 				lastDirection = direction
 		else:
 			velocity.x = move_toward(velocity.x, 0, speedMultiplier * PlayerData.speed)

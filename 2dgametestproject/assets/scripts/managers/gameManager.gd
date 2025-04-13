@@ -2,11 +2,12 @@ extends Node
 
 var pauseScreen = preload("res://assets/UI Settings/inputSettings/inputSetting.tscn")
 var currentArea = 1
-var currentPhase = 0
+var currentPhase
 var areaPath = "res://assets/scenes/playable/"
 var shop = "res://assets/scenes/playable/Shop.tscn"
 
 var playerScene = preload("res://assets/scenes/playerStuff/player.tscn")
+var golemUnlocked = false
 
 var potions = 20
 var hud: HUD
@@ -24,19 +25,23 @@ func _ready():
 # -- Level Management --
 func nextLevel():
 	hud = get_tree().get_first_node_in_group("hud")
+	gui = get_tree().get_first_node_in_group("gui")
 	currentArea += 1
-	if currentPhase == 0:
+	if currentPhase % 3 == 0:
 		get_tree().change_scene_to_file(shop)
-		currentPhase = 1
-	elif currentPhase == 1:
+		currentPhase += 1
+		print("go to shop")
+	elif currentPhase % 3 == 1:
 		get_tree().change_scene_to_file("res://assets/scenes/playable/area_4.tscn")
-		currentPhase = 2
-	elif currentPhase == 2:
+		currentPhase += 1
+		print("go to boss")
+	elif currentPhase % 3 == 2:
 		get_tree().change_scene_to_file("res://assets/scenes/playable/area_0.tscn")
-		currentPhase = 0
+		currentPhase += 1 
+		print("go to zero")
 	var fullPath = areaPath + "area_" + str(currentArea) + ".tscn"
-	print_debug("Entered portal to:", fullPath)
-	hud.update_potion_label(potions)
+	if hud:
+		hud.update_potion_label(potions)
 
 func set_up_area():
 	reset_potions()
@@ -53,6 +58,9 @@ func usePotion():
 		hud.update_potion_label(potions)
 		return true
 	return false
+
+func backToMenu():
+	get_tree().change_scene_to_file("res://assets/scenes/areaFunctions/start_menu.tscn")
 
 func reset_potions():
 	if hud:

@@ -106,6 +106,7 @@ func playAnimations():
 		boss_texure.play("death")
 		await boss_texure.animation_finished
 		PlayerData.money += randi_range(20,50)
+		GameManager.golemUnlocked = true
 		queue_free()
 
 func _on_player_detector_body_entered(body: Node2D) -> void:
