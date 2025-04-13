@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bn48o68en2ssh"]
 
-[ext_resource type="Script" path="res://assets/scripts/terrainScripts/dungeonGeneration.gd" id="1_40usv"]
+[ext_resource type="Script" uid="uid://bdg6uko43lorq" path="res://assets/scripts/terrainScripts/dungeonGeneration.gd" id="1_40usv"]
 [ext_resource type="Texture2D" uid="uid://b0q78ik8ygp5y" path="res://assets/sprites/terrainSprites/tiles_1.png" id="2_jdr7m"]
 [ext_resource type="PackedScene" uid="uid://drrnwii5dn4f0" path="res://assets/UI/HUD.tscn" id="4_1o4fa"]
 [ext_resource type="PackedScene" uid="uid://bfr6ewukk7gw0" path="res://assets/UI Settings/inputSettings/inputSetting.tscn" id="4_nnvhl"]
