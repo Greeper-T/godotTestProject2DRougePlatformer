@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://igwoqi874gyq"]
 
-[ext_resource type="Script" path="res://assets/scripts/itemScripts/Item.gd" id="1_xt8xk"]
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_xt8xk"]
 [ext_resource type="Texture2D" uid="uid://cxkb1k6iq3p7e" path="res://assets/sprites/itemSprites/Spearmint.png" id="2_1mcha"]
 
 [resource]

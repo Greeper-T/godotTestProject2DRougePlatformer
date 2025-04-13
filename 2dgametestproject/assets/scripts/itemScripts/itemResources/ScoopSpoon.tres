@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://dmgvhuia0tvbp"]
 
-[ext_resource type="Script" path="res://assets/scripts/itemScripts/Item.gd" id="1_lxdns"]
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_lxdns"]
 [ext_resource type="Texture2D" uid="uid://duqdc3yu6bq26" path="res://assets/sprites/itemSprites/ScoopSpoon.png" id="2_32k3s"]
 
 [resource]
@@ -9,13 +9,15 @@ type = 0
 itemName = "ScoupSpoon"
 itemId = 2
 itemAmt = 1
-itemCounted = false
+itemCounted = 0
 texture = ExtResource("2_32k3s")
 itemDescription = "Spoon that allows you, to hold more you!"
-itemDamage = 0
-itemDefense = 0
+itemRangedDamage = 0
+itemMeleeDamage = 0
+itemDefense = 0.0
 itemCritAdd = 0
 itemCritMult = 0
 itemHealthIncrease = 25
 itemSpeedIncrease = 0
+itemJumpIncrease = 0
 itemAbility = "none"

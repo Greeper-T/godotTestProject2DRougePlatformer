@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://b18d6n6cfhsm"]
 
 [ext_resource type="Texture2D" uid="uid://dvbt0jxqup1ll" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/weapon PNG/arm_projectile_glowing.png" id="1_5mesh"]
-[ext_resource type="Script" path="res://assets/scripts/playerScripts/golem_player_bullet.gd" id="1_rlpus"]
+[ext_resource type="Script" uid="uid://cjs7sjg2tbjaf" path="res://assets/scripts/playerScripts/golem_player_bullet.gd" id="1_rlpus"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ledf7"]
 atlas = ExtResource("1_5mesh")
