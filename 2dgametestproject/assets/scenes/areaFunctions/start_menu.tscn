@@ -55,6 +55,7 @@ offset_left = 438.0
 offset_top = 190.0
 offset_right = 557.0
 offset_bottom = 221.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_llngm")
 text = "banana player"
 
@@ -64,6 +65,7 @@ offset_left = 595.0
 offset_top = 190.0
 offset_right = 704.0
 offset_bottom = 221.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_llngm")
 text = "golem player"
 
@@ -87,6 +89,7 @@ offset_left = 148.0
 offset_top = 78.0
 offset_right = 1070.0
 offset_bottom = 135.0
+theme_override_colors/font_color = Color(0.976471, 0.8, 0, 1)
 theme_override_fonts/font = ExtResource("6_ohu5o")
 theme_override_font_sizes/font_size = 56
 text = "Banana with a Weapon"
