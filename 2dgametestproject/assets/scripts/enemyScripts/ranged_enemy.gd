@@ -89,6 +89,7 @@ func updateHealth():
 		playAnimation("death", State.DEATH)
 		animationLock = true
 		await animated_sprite_2d.animation_finished
+		PlayerData.money += randi_range(1,10)
 		queue_free()
 
 func playAnimation(animName: String, new_state):

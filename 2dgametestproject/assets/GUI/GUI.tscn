@@ -16,9 +16,10 @@ bg_color = Color(0.0214346, 0.0214346, 0.0214346, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqijg"]
 bg_color = Color(0.822952, 0.0550532, 0.179494, 1)
 
-[node name="GUI" type="CanvasLayer" node_paths=PackedStringArray("healthLabel") groups=["gui"]]
+[node name="GUI" type="CanvasLayer" node_paths=PackedStringArray("healthLabel", "moneyLabel") groups=["gui"]]
 script = ExtResource("1_3eeni")
 healthLabel = NodePath("healthLabel")
+moneyLabel = NodePath("moneyLabel")
 
 [node name="Heart" type="TextureRect" parent="."]
 offset_left = 235.0

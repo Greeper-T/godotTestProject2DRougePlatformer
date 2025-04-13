@@ -6,6 +6,8 @@ var currentPhase = 0
 var areaPath = "res://assets/scenes/playable/"
 var shop = "res://assets/scenes/playable/Shop.tscn"
 
+var playerScene = preload("res://assets/scenes/playerStuff/player.tscn")
+
 var potions = 20
 var hud: HUD
 var gui: GUI

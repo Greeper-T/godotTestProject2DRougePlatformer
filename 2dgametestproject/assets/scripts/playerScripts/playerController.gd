@@ -7,7 +7,6 @@ class_name PlayerController
 @export var dashCooldown = 1.0
 @export var afterImageNode: PackedScene
 
-@onready var healthBar: ProgressBar = $healthBar
 @onready var animator: AnimatedSprite2D = $playerAnimator/AnimatedSprite2D
 @onready var gun_position: Node2D = $gunPosition
 @onready var after_image_timer: Timer = $afterImageTimer
@@ -143,7 +142,6 @@ func _ready() -> void:
 
 
 func updateHealth():
-	healthBar.value = PlayerData.hp
 	PlayerData.die()
 
 func addAfterImage():

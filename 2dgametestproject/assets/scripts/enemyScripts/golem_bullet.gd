@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@onready var player = get_parent().find_child("player")
+var player
 
 var acceleration: Vector2 = Vector2.ZERO
 var speed: Vector2 = Vector2.ZERO

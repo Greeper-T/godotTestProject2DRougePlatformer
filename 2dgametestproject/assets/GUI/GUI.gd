@@ -2,6 +2,7 @@ extends CanvasLayer
 class_name GUI
 
 @export var healthLabel : Label
+@export var moneyLabel : Label
 var hidden = true
 
 # Called when the node enters the scene tree for the first time.
@@ -15,7 +16,7 @@ func _process(delta):
 	$hp_bar.max_value = PlayerData.maxHp
 	$hp_bar.value = PlayerData.hp
 	updateHealthLabel()
-
+	updateMoneyLabel()
 
 
 func updateHealthLabel():
@@ -23,7 +24,7 @@ func updateHealthLabel():
 	
 
 func updateMoneyLabel():
-	healthLabel.text = "" + PlayerData.money +"X"
+	moneyLabel.text = "" + str(PlayerData.money) +"X"
 	
 
 

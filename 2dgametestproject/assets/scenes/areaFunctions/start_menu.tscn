@@ -57,5 +57,23 @@ position = Vector2(910, 351)
 scale = Vector2(0.338867, 0.280274)
 texture = ExtResource("3_gabfh")
 
+[node name="banana" type="Button" parent="."]
+layout_mode = 0
+offset_left = 438.0
+offset_top = 190.0
+offset_right = 557.0
+offset_bottom = 221.0
+text = "banana player"
+
+[node name="golem" type="Button" parent="."]
+layout_mode = 0
+offset_left = 595.0
+offset_top = 190.0
+offset_right = 704.0
+offset_bottom = 221.0
+text = "golem player"
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/leaveGame" to="." method="_on_leave_game_pressed"]
+[connection signal="pressed" from="banana" to="." method="_on_banana_pressed"]
+[connection signal="pressed" from="golem" to="." method="_on_golem_pressed"]

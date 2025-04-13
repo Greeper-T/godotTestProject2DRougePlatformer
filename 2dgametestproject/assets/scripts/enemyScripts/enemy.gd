@@ -42,6 +42,7 @@ func _physics_process(delta: float) -> void:
 func updateHealth():
 	health_bar.value = hp
 	if hp <= 0:
+		PlayerData.money += randi() % 6
 		queue_free()
 
 func takeDamage(damageTaken):

@@ -338,6 +338,19 @@ sources/0 = SubResource("TileSetAtlasSource_tsn48")
 [node name="Shop" type="Node2D"]
 script = ExtResource("1_ulbm4")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("6_dx3ts")]
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 3.0
+offset_bottom = 2.0
+
+[node name="InputSetting" parent="CanvasLayer" instance=ExtResource("7_1fohc")]
+visible = false
+
+[node name="GUI" parent="." instance=ExtResource("5_qnwlp")]
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_8au04")
 format = 2
@@ -355,16 +368,3 @@ position = Vector2(96, -24)
 
 [node name="playerSpawner" type="Node2D" parent="."]
 position = Vector2(-114, -39)
-
-[node name="GUI" parent="." instance=ExtResource("5_qnwlp")]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="HUD" parent="CanvasLayer" instance=ExtResource("6_dx3ts")]
-offset_left = 3.0
-offset_top = 2.0
-offset_right = 3.0
-offset_bottom = 2.0
-
-[node name="InputSetting" parent="CanvasLayer" instance=ExtResource("7_1fohc")]
-visible = false

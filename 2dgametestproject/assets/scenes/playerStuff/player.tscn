@@ -1,16 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://d2l0t1tx054pt"]
+[gd_scene load_steps=22 format=3 uid="uid://d2l0t1tx054pt"]
 
 [ext_resource type="Script" path="res://assets/scripts/playerScripts/playerController.gd" id="1_layom"]
-[ext_resource type="PackedScene" path="res://assets/scenes/playerStuff/after_image.tscn" id="2_r0jco"]
+[ext_resource type="PackedScene" uid="uid://dtc0utembojjr" path="res://assets/scenes/playerStuff/after_image.tscn" id="2_r0jco"]
 [ext_resource type="Texture2D" uid="uid://2x2hl1f71e77" path="res://assets/sprites/playerSprites/player.png" id="3_h55n8"]
 [ext_resource type="PackedScene" uid="uid://ctcrgjuc2gwmc" path="res://assets/scenes/playerStuff/gun.tscn" id="4_x0kyn"]
 [ext_resource type="PackedScene" uid="uid://8nw6luhhkyku" path="res://assets/scenes/areaFunctions/hurtbox.tscn" id="5_fkiva"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4j7nx"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tyyuy"]
-bg_color = Color(0.862374, 0, 0.0692985, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4le1s"]
 atlas = ExtResource("3_h55n8")
@@ -139,7 +133,7 @@ height = 14.0
 radius = 4.0
 height = 14.0
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 collision_mask = 770
 script = ExtResource("1_layom")
 afterImageNode = ExtResource("2_r0jco")
@@ -149,17 +143,6 @@ scale = Vector2(0.29676, 0.79437)
 zoom = Vector2(3.3, 3.3)
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
-
-[node name="healthBar" type="ProgressBar" parent="."]
-offset_left = -10.0
-offset_top = -18.0
-offset_right = 10.0
-offset_bottom = -14.0
-theme_override_styles/background = SubResource("StyleBoxFlat_4j7nx")
-theme_override_styles/fill = SubResource("StyleBoxFlat_tyyuy")
-value = 50.0
-show_percentage = false
-metadata/_edit_use_anchors_ = true
 
 [node name="playerAnimator" type="Node2D" parent="."]
 
