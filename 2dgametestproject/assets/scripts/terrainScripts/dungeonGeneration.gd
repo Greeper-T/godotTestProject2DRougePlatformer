@@ -8,12 +8,6 @@ var wall_tile_top := Vector2i(1, 7)
 var player_scene = preload("res://assets/scenes/playerStuff/player.tscn")
 var one_way_tile = preload("res://assets/scenes/areaFunctions/one_way_platform.tscn")
 var portal = preload("res://assets/scenes/areaFunctions/portal.tscn")
-var monster_data = [
-	{ "scene": preload("res://assets/scenes/enemy/enemy.tscn"), "cost": 1 },
-	{ "scene": preload("res://assets/scenes/enemy/rangedEnemy.tscn"), "cost": 3 },
-	{ "scene": preload("res://assets/scenes/enemy/tack_shooter.tscn"), "cost": 5 },
-	{ "scene": preload("res://assets/scenes/enemy/wall_crawler.tscn"), "cost": 2 }
-]
 
 
 const WIDTH = 800
@@ -24,7 +18,7 @@ var going_down
 var downward_cooldown = 0
 var monster_data = [
 	{ "scene": preload("res://assets/scenes/enemy/enemy.tscn"), "cost": 1 },
-	{ "scene": preload("res://assets/scenes/enemy/rangedEnemy.tscn"), "cost": 7 },
+	{ "scene": preload("res://assets/scenes/enemy/rangedEnemy.tscn"), "cost": 5 },
 	{ "scene": preload("res://assets/scenes/enemy/wall_crawler.tscn"), "cost": 2 },
 	{ "scene": preload("res://assets/scenes/enemy/tack_shooter.tscn"), "cost": 4 }
 ]
@@ -174,24 +168,6 @@ func place_room(room: Rect2) -> bool:
 
 	return true
 
-func spawn_monsters_with_budget(room: Rect2, budget: int):
-	var attempts = 0
-	var max_attempts = 100  # Prevent infinite loops
-
-	while budget > 0 and attempts < max_attempts:
-		var monster_info = monster_data[randi() % monster_data.size()]
-		var cost = monster_info["cost"]
-
-		if cost <= budget:
-			var monster = monster_info["scene"].instantiate()
-			var x = randi_range(room.position.x + 2, room.end.x - 3)
-			var y = randi_range(room.position.y + 2, room.end.y - 3)
-			var spawn_pos = Vector2(x, y) * CELL_SIZE + tile_map_layer.global_position
-			monster.global_position = spawn_pos
-			add_child(monster)
-			budget -= cost
-
-		attempts += 1
 
 
 func connect_rooms_horizontally(room1: Rect2, room2: Rect2):

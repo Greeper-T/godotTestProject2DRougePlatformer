@@ -120,7 +120,7 @@ radius = 4.0
 height = 14.0
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
-collision_mask = 770
+collision_mask = 774
 script = ExtResource("1_layom")
 afterImageNode = ExtResource("2_r0jco")
 

@@ -6,7 +6,7 @@ extends CharacterBody2D
 @onready var edge_detector: RayCast2D = $edgeDetector
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var muzzle: Node2D = $muzzle
-@onready var player = null
+var player = null
 
 @export var damage: float = 10
 @export var speed: float = 50
