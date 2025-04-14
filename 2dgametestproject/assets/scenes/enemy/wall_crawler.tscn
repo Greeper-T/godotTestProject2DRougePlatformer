@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cqosjylc7vcds"]
 
-[ext_resource type="Script" uid="uid://clhiad8ak1osr" path="res://assets/scripts/enemyScripts/wall_crawler.gd" id="1_qvkkw"]
-[ext_resource type="Texture2D" uid="uid://kev4wgddcoba" path="res://icon.svg" id="1_xubkd"]
+[ext_resource type="Script" path="res://assets/scripts/enemyScripts/wall_crawler.gd" id="1_qvkkw"]
+[ext_resource type="Texture2D" uid="uid://baseqb5o5pata" path="res://assets/sprites/enemySprites/spider.png" id="2_u4btl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vb6bj"]
 
@@ -13,8 +13,9 @@ collision_mask = 768
 script = ExtResource("1_qvkkw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1875, 0.1875)
-texture = ExtResource("1_xubkd")
+rotation = -1.5708
+scale = Vector2(0.0888889, 0.0833333)
+texture = ExtResource("2_u4btl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_vb6bj")

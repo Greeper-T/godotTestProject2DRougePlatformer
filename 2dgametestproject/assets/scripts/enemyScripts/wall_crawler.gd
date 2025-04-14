@@ -74,12 +74,10 @@ func update_rays():
 
 
 
-
-
-func _draw():
-	draw_line(Vector2.ZERO, $rayDown.target_position, Color.RED, 2)
-	draw_line(Vector2.ZERO, $rayForward.target_position, Color.GREEN, 2)
-	draw_line(Vector2.ZERO, surface_normal * 24, Color.BLUE, 2)  # Shows the surface normal
+#func _draw():
+	#draw_line(Vector2.ZERO, $rayDown.target_position, Color.RED, 2)
+	#draw_line(Vector2.ZERO, $rayForward.target_position, Color.GREEN, 2)
+	#draw_line(Vector2.ZERO, surface_normal * 24, Color.BLUE, 2)  # Shows the surface normal
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

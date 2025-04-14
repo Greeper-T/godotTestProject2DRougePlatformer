@@ -68,9 +68,11 @@ func explode():
 
 func takeDamage(damageTaken):
 	hp -= damageTaken
+	print(PlayerData.iceCreamCone)
 	if PlayerData.wassabi:
 		isOnFire = true
 	if PlayerData.iceCreamCone:
+		print("slowed")
 		speed /= 2
 		$AnimatedSprite2D.self_modulate = Color(0,.38,1,1)
 		$slowDownTimer.start()

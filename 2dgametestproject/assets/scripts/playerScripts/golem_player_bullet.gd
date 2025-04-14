@@ -34,4 +34,5 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 
 func _on_check_for_first_enemy_body_entered(body: Node2D) -> void:
-	enemy = body
+	if body.has_method("takeDamage"):
+		enemy = body

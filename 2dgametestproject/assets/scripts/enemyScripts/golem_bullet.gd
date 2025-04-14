@@ -27,5 +27,9 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.has_method("takeDamage"):
-		body.takeDamage(10)
+		body.takeDamage(50)
+	queue_free()
+
+
+func _on_timer_timeout() -> void:
 	queue_free()

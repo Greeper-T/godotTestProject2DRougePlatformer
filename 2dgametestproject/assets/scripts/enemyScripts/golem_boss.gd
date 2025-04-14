@@ -115,6 +115,7 @@ func playAnimations():
 		GameManager.golemUnlocked = true
 		if PlayerData.potatoShield:
 			PlayerData.shieldActive = true
+		GameManager.playerScene = preload("res://assets/scenes/playerStuff/golem_player.tscn")
 		queue_free()
 
 func _on_player_detector_body_entered(body: Node2D) -> void:
@@ -156,7 +157,7 @@ func takeDamage(damageTaken):
 
 func _on_boss_texure_animation_looped() -> void:
 	if currentState == State.MeleeAttack:
-		player.takeDamage(15)
+		player.takeDamage(45)
 
 var playerInLaserDamage = false
 
@@ -168,7 +169,7 @@ func _on_player_in_laser_body_exited(body: Node2D) -> void:
 
 func _on_lazer_eye_frame_changed() -> void:
 	if playerInLaserDamage and currentState == State.LaserBeam and lazer_eye.frame >= 9:
-		player.takeDamage(5)
+		player.takeDamage(20)
 
 
 func _on_fire_tick_timeout() -> void:

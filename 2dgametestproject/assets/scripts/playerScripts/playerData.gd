@@ -50,7 +50,6 @@ func die():
 			GameManager.removeItems()
 			get_tree().change_scene_to_file("res://assets/scenes/areaFunctions/start_menu.tscn")
 			GameManager.currentArea = 1
-			
 		else:
 			hp = maxHp
 
