@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://k310g4vbv47l"]
 
-[ext_resource type="Script" path="res://assets/scripts/managers/start_menu.gd" id="1_kpe8y"]
+[ext_resource type="Script" uid="uid://vwno4yrstvlp" path="res://assets/scripts/managers/start_menu.gd" id="1_kpe8y"]
 [ext_resource type="Texture2D" uid="uid://bahgoskwk6xfo" path="res://assets/sprites/background.png" id="2_4mwwh"]
 [ext_resource type="FontFile" uid="uid://b1hueq17atyif" path="res://assets/Fonts/superstar_memesbruh03.ttf" id="3_llngm"]
 [ext_resource type="Texture2D" uid="uid://deftk0uojiwxs" path="res://assets/sprites/playerSprites/move/frame1.png" id="4_tdgvm"]

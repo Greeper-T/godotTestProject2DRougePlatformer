@@ -52,19 +52,21 @@ func _process(delta: float) -> void:
 		pick_up()
 
 func pick_up():
-	if player_in_range and item:
-		var added = GameManager.add_item_to_inventory(item)
-		if added:
-			print("Picked up:", item.itemName)
+	if PlayerData.money >= 15:
+		PlayerData.money -= 15
+		if player_in_range and item:
+			var added = GameManager.add_item_to_inventory(item)
+			if added:
+				print("Picked up:", item.itemName)
 
-			# 🔹 Count the item in player stats
-			if !item.itemCounted:
-				PlayerData.calcItem(item)
-				item.itemCounted = true
+				# 🔹 Count the item in player stats
+				if !item.itemCounted:
+					PlayerData.calcItem(item)
+					item.itemCounted = true
 
-			queue_free()
-		else:
-			print("Inventory full, cannot pick up item.")
+				queue_free()
+			else:
+				print("Inventory full, cannot pick up item.")
 
 func update_pickup_label():
 	if pickup_label:

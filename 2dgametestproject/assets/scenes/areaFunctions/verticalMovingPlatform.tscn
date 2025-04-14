@@ -1,7 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://dpnssdgg7qcye"]
 
-[ext_resource type="Script" path="res://assets/scripts/terrainScripts/vertical_moving_platform.gd" id="1_tfh1w"]
 [ext_resource type="Texture2D" uid="uid://btlv7imkldldu" path="res://assets/sprites/terrainSprites/platform1_large.png" id="2_y18xd"]
+
+[sub_resource type="Resource" id="Resource_eieut"]
+metadata/__load_path__ = "res://assets/scripts/terrainScripts/vertical_moving_platform.gd"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qd8nv"]
 size = Vector2(32, 4)
@@ -14,7 +16,7 @@ size = Vector2(32, 2)
 
 [node name="VerticalMovingPlatform" type="AnimatableBody2D"]
 sync_to_physics = false
-script = ExtResource("1_tfh1w")
+script = SubResource("Resource_eieut")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_y18xd")
