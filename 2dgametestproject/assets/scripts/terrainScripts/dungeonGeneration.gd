@@ -22,6 +22,12 @@ const CELL_SIZE = 16
 const MIN_ROOMS = 5
 var going_down
 var downward_cooldown = 0
+var monster_data = [
+	{ "scene": preload("res://assets/scenes/enemy/enemy.tscn"), "cost": 1 },
+	{ "scene": preload("res://assets/scenes/enemy/rangedEnemy.tscn"), "cost": 7 },
+	{ "scene": preload("res://assets/scenes/enemy/wall_crawler.tscn"), "cost": 2 },
+	{ "scene": preload("res://assets/scenes/enemy/tack_shooter.tscn"), "cost": 4 }
+]
 
 
 const MIN_ROOM_WIDTH = 15
@@ -71,9 +77,28 @@ func generate_dungeon():
 			if room != rooms[0]:
 				var point_budget = randi_range(4, 10)  # Adjust for difficulty scaling
 				spawn_monsters_with_budget(room, point_budget)
-
-
 	place_boss_room()
+	
+func spawn_monsters_with_budget(room: Rect2, budget: int):
+	var attempts = 0
+	var max_attempts = 100  # Prevent infinite loops
+
+	while budget > 0 and attempts < max_attempts:
+		var monster_info = monster_data[randi() % monster_data.size()]
+		var cost = monster_info["cost"]
+
+		if cost <= budget:
+			var monster = monster_info["scene"].instantiate()
+			var x = randi_range(room.position.x + 2, room.end.x - 3)
+			var y = randi_range(room.position.y + 2, room.end.y - 3)
+			var spawn_pos = Vector2(x, y) * CELL_SIZE + tile_map_layer.global_position
+			monster.global_position = spawn_pos
+			add_child(monster)
+			budget -= cost
+
+		attempts += 1
+
+
 
 func generate_room_near(base_room: Rect2) -> Rect2:
 	var width = MIN_ROOM_WIDTH + randi() % (MAX_ROOM_WIDTH - MIN_ROOM_WIDTH + 1)

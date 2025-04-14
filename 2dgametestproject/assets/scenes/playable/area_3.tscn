@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://wcax7nv42gkc" path="res://assets/scenes/areaFunctions/area_template.tscn" id="1_j83x5"]
 [ext_resource type="PackedScene" uid="uid://bhti4ybxk2aot" path="res://assets/scenes/areaFunctions/moving_platform_large.tscn" id="2_0056e"]
 [ext_resource type="PackedScene" uid="uid://d1qoas5kwqj1n" path="res://assets/scenes/enemy/enemy.tscn" id="3_r7ja2"]
-[ext_resource type="PackedScene" path="res://assets/scenes/enemy/rangedEnemy.tscn" id="4_qj1xm"]
+[ext_resource type="PackedScene" uid="uid://2ecp1rci4sdu" path="res://assets/scenes/enemy/rangedEnemy.tscn" id="4_qj1xm"]
 
 [sub_resource type="Curve2D" id="Curve2D_vjcp0"]
 resource_local_to_scene = true
