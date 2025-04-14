@@ -8,6 +8,8 @@ var wall_tile_top := Vector2i(1, 7)
 var player_scene = preload("res://assets/scenes/playerStuff/player.tscn")
 var one_way_tile = preload("res://assets/scenes/areaFunctions/one_way_platform.tscn")
 var portal = preload("res://assets/scenes/areaFunctions/portal.tscn")
+var item = preload("res://assets/scenes/items/PickUpItem.tscn")
+var potion = preload("res://assets/scenes/items/PotionItem.tscn")
 
 
 const WIDTH = 800
@@ -68,10 +70,31 @@ func generate_dungeon():
 			connect_rooms_horizontally(rooms[-1], room)
 			rooms.append(room)
 			place_one_way_platforms(room)
+			maybe_spawn_item_in_room(room)
 			if room != rooms[0]:
 				var point_budget = randi_range(4, 10)  # Adjust for difficulty scaling
 				spawn_monsters_with_budget(room, point_budget)
 	place_boss_room()
+	
+func maybe_spawn_item_in_room(room: Rect2):
+	var room_center_x = int(room.position.x + room.size.x / 2)
+	var offset = randi_range(-3, 3)
+	var spawn_x = clamp(room_center_x + offset, room.position.x + 1, room.end.x - 2)
+	var spawn_y = room.end.y - 1  # Just above the floor
+	var spawn_pos = (Vector2(spawn_x, spawn_y) * CELL_SIZE) + tile_map_layer.global_position
+
+	if randf() <= 0.25:
+		var item_instance = item.instantiate()
+		item_instance.global_position = spawn_pos
+		add_child(item_instance)
+
+	if randf() <= 0.10:
+		var potion_instance = potion.instantiate()
+		# Add a slight offset to avoid exact overlap if both spawn
+		potion_instance.global_position = spawn_pos + Vector2(CELL_SIZE / 2, 0)
+		add_child(potion_instance)
+
+
 	
 func spawn_monsters_with_budget(room: Rect2, budget: int):
 	var attempts = 0
