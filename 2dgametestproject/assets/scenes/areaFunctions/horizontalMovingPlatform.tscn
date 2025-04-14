@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://cm0le4hjukgl4"]
+
+[ext_resource type="Script" path="res://assets/scripts/terrainScripts/horizontal_moving_platform.gd" id="1_gi01o"]
+[ext_resource type="Texture2D" uid="uid://btlv7imkldldu" path="res://assets/sprites/terrainSprites/platform1_large.png" id="2_tc3u2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cnp43"]
+size = Vector2(32, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_txq3h"]
+size = Vector2(2, 4)
+
+[node name="HorizontalMovingPlatform" type="AnimatableBody2D"]
+sync_to_physics = false
+script = ExtResource("1_gi01o")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_tc3u2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D"]
+shape = SubResource("RectangleShape2D_cnp43")
+
+[node name="LeftSensor" type="Area2D" parent="Sprite2D/CollisionShape2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/CollisionShape2D/LeftSensor"]
+position = Vector2(-16, 0)
+shape = SubResource("RectangleShape2D_txq3h")
+
+[node name="RightSensor" type="Area2D" parent="Sprite2D/CollisionShape2D/LeftSensor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/CollisionShape2D/LeftSensor/RightSensor"]
+position = Vector2(16, 0)
+shape = SubResource("RectangleShape2D_txq3h")
+
+[connection signal="body_entered" from="Sprite2D/CollisionShape2D/LeftSensor" to="." method="_on_left_sensor_body_entered"]
+[connection signal="body_entered" from="Sprite2D/CollisionShape2D/LeftSensor/RightSensor" to="." method="_on_right_sensor_body_entered"]

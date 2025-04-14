@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://dpnssdgg7qcye"]
+
+[ext_resource type="Script" path="res://assets/scripts/terrainScripts/vertical_moving_platform.gd" id="1_tfh1w"]
+[ext_resource type="Texture2D" uid="uid://btlv7imkldldu" path="res://assets/sprites/terrainSprites/platform1_large.png" id="2_y18xd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qd8nv"]
+size = Vector2(32, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_segep"]
+size = Vector2(32, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5w84q"]
+size = Vector2(32, 2)
+
+[node name="VerticalMovingPlatform" type="AnimatableBody2D"]
+sync_to_physics = false
+script = ExtResource("1_tfh1w")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_y18xd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D"]
+shape = SubResource("RectangleShape2D_qd8nv")
+
+[node name="upSensor" type="Area2D" parent="Sprite2D/CollisionShape2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/CollisionShape2D/upSensor"]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_segep")
+
+[node name="downSensor" type="Area2D" parent="Sprite2D/CollisionShape2D/upSensor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/CollisionShape2D/upSensor/downSensor"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_5w84q")
+
+[connection signal="body_entered" from="Sprite2D/CollisionShape2D/upSensor" to="." method="_on_up_sensor_body_entered"]
+[connection signal="body_entered" from="Sprite2D/CollisionShape2D/upSensor/downSensor" to="." method="_on_down_sensor_body_entered"]
