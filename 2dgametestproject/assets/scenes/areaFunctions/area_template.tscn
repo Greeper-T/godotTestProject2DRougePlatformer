@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://wcax7nv42gkc"]
+[gd_scene load_steps=9 format=3 uid="uid://wcax7nv42gkc"]
 
 [ext_resource type="Script" path="res://assets/UI Settings/inputSettings/pause.gd" id="1_7aii5"]
 [ext_resource type="PackedScene" uid="uid://bfr6ewukk7gw0" path="res://assets/UI Settings/inputSettings/inputSetting.tscn" id="1_fr6x2"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://drrnwii5dn4f0" path="res://assets/UI/HUD.tscn" id="1_ya5vn"]
 [ext_resource type="PackedScene" uid="uid://d33y4w8ixynua" path="res://assets/GUI/GUI.tscn" id="2_m4b6s"]
 [ext_resource type="PackedScene" uid="uid://cww25wrm4ycu1" path="res://assets/scenes/areaFunctions/portal.tscn" id="3_xx5pg"]
-[ext_resource type="PackedScene" uid="uid://c4j4kyt7a5n01" path="res://assets/scenes/playerStuff/golem_player.tscn" id="8_qhrx1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ab1ui"]
 texture = ExtResource("1_vme8i")
@@ -362,7 +361,8 @@ position = Vector2(31, -12)
 
 [node name="GUI" parent="." instance=ExtResource("2_m4b6s")]
 
-[node name="player" parent="." instance=ExtResource("8_qhrx1")]
+[node name="playerSpawner" type="Node2D" parent="."]
+position = Vector2(-26, -12)
 
 [connection signal="body_entered" from="portal" to="." method="_on_portal_body_entered"]
 [connection signal="body_entered" from="portal/portalDetection" to="." method="_on_portal_detection_body_entered"]

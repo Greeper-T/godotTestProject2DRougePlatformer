@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @onready var player_detector: Area2D = $playerDetector
 @onready var boss_texure: AnimatedSprite2D = $bossTexure
-@onready var player = get_parent().find_child("player")
+var player = null
 @onready var debug: Label = $debug
 @onready var muzzle: Node2D = $bossTexure/muzzle
 @onready var pivot: Node2D = $pivot
@@ -23,6 +23,7 @@ func _ready() -> void:
 	set_physics_process(false)
 	lazer_eye.stop()
 	updateHealthValue()
+	#player = get_parent().find_child("player")
 
 func _physics_process(delta: float) -> void:
 	checkForMelee()
@@ -31,7 +32,9 @@ func _physics_process(delta: float) -> void:
 	move_and_collide(velocity * delta)
 
 func _process(delta: float) -> void:
-	direction = player.position - position
+	
+	if player:
+		direction = player.position - position
 	
 	if direction.x < 0:
 		boss_texure.scale.x = -1
@@ -51,6 +54,7 @@ func checkForMelee():
 func shoot():
 	var bullets = bullet.instantiate()
 	bullets.position = muzzle.global_position
+	bullets.player = player
 	get_tree().current_scene.add_child(bullets)
 
 func dash():
@@ -101,6 +105,8 @@ func playAnimations():
 	elif currentState == State.Death:
 		boss_texure.play("death")
 		await boss_texure.animation_finished
+		PlayerData.money += randi_range(20,50)
+		GameManager.golemUnlocked = true
 		queue_free()
 
 func _on_player_detector_body_entered(body: Node2D) -> void:

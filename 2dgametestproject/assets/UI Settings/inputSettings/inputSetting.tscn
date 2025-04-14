@@ -55,4 +55,12 @@ theme_override_fonts/font = ExtResource("3_ylpol")
 theme_override_font_sizes/font_size = 56
 text = "Reset To Default"
 
+[node name="titleScreen" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_ylpol")
+theme_override_font_sizes/font_size = 56
+text = "Title screen"
+
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/titleScreen" to="." method="_on_title_screen_pressed"]

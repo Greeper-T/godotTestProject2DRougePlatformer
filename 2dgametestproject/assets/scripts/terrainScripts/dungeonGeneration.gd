@@ -43,6 +43,7 @@ var platform_patterns = [
 
 
 func _ready():
+	print("generating")
 	randomize()
 	initialize_grid()
 	generate_dungeon()
@@ -272,7 +273,7 @@ func spawn_player_in_first_room():
 		return
 
 	var first_room = rooms[0]
-	var player = player_scene.instantiate()
+	var player = GameManager.playerScene.instantiate()
 	var room_center = first_room.position + first_room.size / 2
 	player.global_position = room_center * CELL_SIZE
 	add_child(player)
