@@ -47,8 +47,10 @@ func die():
 	if hp <= 0:
 		lives-=1
 		if lives<=0:
+			GameManager.removeItems()
 			get_tree().change_scene_to_file("res://assets/scenes/areaFunctions/start_menu.tscn")
 			GameManager.currentArea = 1
+			
 		else:
 			hp = maxHp
 
@@ -65,4 +67,17 @@ func calcItem(item:Item):
 	rangedDamage+=item.itemMeleeDamage
 	totalJumps+=item.itemJumpIncrease
 	defense += item.itemDefense
-	
+	if item.itemId == 9:
+		potatoShield = true
+	if item.itemId == 10:
+		wassabi = true
+	if item.itemId == 11:
+		sharpCheddar = true
+	if item.itemId == 12:
+		iceCreamCone = true
+	if item.itemId == 13:
+		grapeShot = true
+	if item.itemId == 14:
+		shotGun = true
+	if item.itemId == 15:
+		lives += 1

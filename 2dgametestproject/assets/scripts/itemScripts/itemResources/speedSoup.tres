@@ -18,6 +18,6 @@ itemDefense = 0.0
 itemCritAdd = 0
 itemCritMult = 0
 itemHealthIncrease = 0
-itemSpeedIncrease = 3
+itemSpeedIncrease = 1
 itemJumpIncrease = 0
 itemAbility = "none"

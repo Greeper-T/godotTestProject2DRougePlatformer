@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://chl1hmbdaiqyf"]
+
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_guags"]
+[ext_resource type="Texture2D" uid="uid://g1myi6ol4juw" path="res://assets/sprites/itemSprites/flour.png" id="2_guags"]
+
+[resource]
+script = ExtResource("1_guags")
+type = 4
+itemName = "All Purpose Flour"
+itemId = 16
+itemAmt = 0
+itemCounted = 0
+texture = ExtResource("2_guags")
+itemDescription = "Wow i can use this for everythinng!!"
+itemRangedDamage = 4
+itemMeleeDamage = 4
+itemDefense = 4.0
+itemCritAdd = 0
+itemCritMult = 4
+itemHealthIncrease = 100
+itemSpeedIncrease = 3
+itemJumpIncrease = 1
+itemAbility = "none"

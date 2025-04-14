@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://omwc21t6ay6e"]
+
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_lw7p4"]
+[ext_resource type="Texture2D" uid="uid://dlj8reli0kw3w" path="res://assets/sprites/itemSprites/cheese.png" id="2_lw7p4"]
+
+[resource]
+script = ExtResource("1_lw7p4")
+type = 2
+itemName = "Sharp Cheddar"
+itemId = 11
+itemAmt = 0
+itemCounted = 0
+texture = ExtResource("2_lw7p4")
+itemDescription = "Youch!!! thats some sharp cheese!!"
+itemRangedDamage = 0
+itemMeleeDamage = 0
+itemDefense = 0.0
+itemCritAdd = 0
+itemCritMult = 0
+itemHealthIncrease = 0
+itemSpeedIncrease = 0
+itemJumpIncrease = 0
+itemAbility = "none"

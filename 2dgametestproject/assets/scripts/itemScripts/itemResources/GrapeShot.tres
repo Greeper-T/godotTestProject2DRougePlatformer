@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://cnhln4bmys7x5"]
+
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_6d66q"]
+[ext_resource type="Texture2D" uid="uid://bqrllu3qns2pr" path="res://assets/sprites/itemSprites/grape.png" id="2_6d66q"]
+
+[resource]
+script = ExtResource("1_6d66q")
+type = 2
+itemName = "Grape Shot"
+itemId = 13
+itemAmt = 0
+itemCounted = 0
+texture = ExtResource("2_6d66q")
+itemDescription = "Explode with the force of 5-10 grapes!!"
+itemRangedDamage = 0
+itemMeleeDamage = 0
+itemDefense = 0.0
+itemCritAdd = 0
+itemCritMult = 0
+itemHealthIncrease = 0
+itemSpeedIncrease = 0
+itemJumpIncrease = 0
+itemAbility = "none"

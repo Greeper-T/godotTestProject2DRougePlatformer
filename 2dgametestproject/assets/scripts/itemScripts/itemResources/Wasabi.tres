@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://dr7hj6e3yx8cw"]
+
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_herj3"]
+[ext_resource type="Texture2D" uid="uid://7yq1l6aa35ih" path="res://assets/sprites/itemSprites/wasabi.png" id="2_herj3"]
+
+[resource]
+script = ExtResource("1_herj3")
+type = 2
+itemName = "Wasabi"
+itemId = 10
+itemAmt = 0
+itemCounted = 0
+texture = ExtResource("2_herj3")
+itemDescription = "SO SPICY!!!"
+itemRangedDamage = 0
+itemMeleeDamage = 0
+itemDefense = 0.0
+itemCritAdd = 0
+itemCritMult = 0
+itemHealthIncrease = 0
+itemSpeedIncrease = 0
+itemJumpIncrease = 0
+itemAbility = "none"

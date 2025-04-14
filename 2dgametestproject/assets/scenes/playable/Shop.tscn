@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cd0d2xcr1pjuh"]
+[gd_scene load_steps=12 format=3 uid="uid://cd0d2xcr1pjuh"]
 
 [ext_resource type="Texture2D" uid="uid://b0q78ik8ygp5y" path="res://assets/sprites/terrainSprites/tiles_1.png" id="1_3dlhn"]
 [ext_resource type="Script" uid="uid://cm6gmeggmcga7" path="res://assets/scripts/terrainScripts/shop.gd" id="1_ulbm4"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://d33y4w8ixynua" path="res://assets/GUI/GUI.tscn" id="5_qnwlp"]
 [ext_resource type="PackedScene" uid="uid://drrnwii5dn4f0" path="res://assets/UI/HUD.tscn" id="6_dx3ts"]
 [ext_resource type="PackedScene" uid="uid://bfr6ewukk7gw0" path="res://assets/UI Settings/inputSettings/inputSetting.tscn" id="7_1fohc"]
+[ext_resource type="PackedScene" uid="uid://kkgt1gwt3316" path="res://assets/scenes/items/PickUpItem.tscn" id="8_bswui"]
+[ext_resource type="PackedScene" uid="uid://bhqmyii0v61d8" path="res://assets/scenes/items/PotionItem.tscn" id="9_oygws"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tsn48"]
 texture = ExtResource("1_3dlhn")
@@ -368,3 +370,15 @@ position = Vector2(96, -24)
 
 [node name="playerSpawner" type="Node2D" parent="."]
 position = Vector2(-114, -39)
+
+[node name="PickUpItem" parent="." instance=ExtResource("8_bswui")]
+position = Vector2(-80, -19)
+
+[node name="PickUpItem2" parent="." instance=ExtResource("8_bswui")]
+position = Vector2(34, -18)
+
+[node name="PickUpItem3" parent="." instance=ExtResource("8_bswui")]
+position = Vector2(-23, -63)
+
+[node name="Potion" parent="." instance=ExtResource("9_oygws")]
+position = Vector2(99, 16)

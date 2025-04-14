@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://dyob8t00j1het"]
+
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_8ekig"]
+[ext_resource type="Texture2D" uid="uid://byukxughyucvo" path="res://assets/sprites/itemSprites/potato.png" id="2_8ekig"]
+
+[resource]
+script = ExtResource("1_8ekig")
+type = 2
+itemName = "PotatoPeel"
+itemId = 9
+itemAmt = 0
+itemCounted = 0
+texture = ExtResource("2_8ekig")
+itemDescription = "Strong and durable overshield!!"
+itemRangedDamage = 0
+itemMeleeDamage = 0
+itemDefense = 0.0
+itemCritAdd = 0
+itemCritMult = 0
+itemHealthIncrease = 0
+itemSpeedIncrease = 0
+itemJumpIncrease = 0
+itemAbility = "none"

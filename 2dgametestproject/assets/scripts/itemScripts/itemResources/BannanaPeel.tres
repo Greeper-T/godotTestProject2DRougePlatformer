@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://m30h03ek8qw4"]
+
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_pf00i"]
+[ext_resource type="Texture2D" uid="uid://vyrdq4oprr7q" path="res://assets/sprites/itemSprites/bannana.png" id="2_pf00i"]
+
+[resource]
+script = ExtResource("1_pf00i")
+type = 4
+itemName = "Bannana Peel"
+itemId = 15
+itemAmt = 0
+itemCounted = 0
+texture = ExtResource("2_pf00i")
+itemDescription = "1UP!!"
+itemRangedDamage = 0
+itemMeleeDamage = 0
+itemDefense = 0.0
+itemCritAdd = 0
+itemCritMult = 0
+itemHealthIncrease = 0
+itemSpeedIncrease = 0
+itemJumpIncrease = 0
+itemAbility = "none"

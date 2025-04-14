@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://dqph6w0mfauk7"]
+
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_rthqb"]
+[ext_resource type="Texture2D" uid="uid://dftmlqm6d83ge" path="res://assets/sprites/itemSprites/icecream.png" id="2_rthqb"]
+
+[resource]
+script = ExtResource("1_rthqb")
+type = 2
+itemName = "IceCream Cone"
+itemId = 12
+itemAmt = 0
+itemCounted = 0
+texture = ExtResource("2_rthqb")
+itemDescription = "BRAIN FREEZE!!!"
+itemRangedDamage = 0
+itemMeleeDamage = 0
+itemDefense = 0.0
+itemCritAdd = 0
+itemCritMult = 0
+itemHealthIncrease = 0
+itemSpeedIncrease = 0
+itemJumpIncrease = 0
+itemAbility = "none"

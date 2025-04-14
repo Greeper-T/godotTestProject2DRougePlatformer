@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://48qrvnbq2ima"]
+
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_tkq15"]
+[ext_resource type="Texture2D" uid="uid://dx0d2al3pnvil" path="res://assets/sprites/itemSprites/Granola Bar.png" id="2_tkq15"]
+
+[resource]
+script = ExtResource("1_tkq15")
+type = 4
+itemName = "Granola Bar"
+itemId = 14
+itemAmt = 0
+itemCounted = 0
+texture = ExtResource("2_tkq15")
+itemDescription = "So many crumbs everywhere!!"
+itemRangedDamage = 0
+itemMeleeDamage = 0
+itemDefense = 0.0
+itemCritAdd = 0
+itemCritMult = 0
+itemHealthIncrease = 0
+itemSpeedIncrease = 0
+itemJumpIncrease = 0
+itemAbility = "none"

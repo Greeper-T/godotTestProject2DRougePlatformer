@@ -40,7 +40,7 @@ func _on_body_entered(body: Node2D) -> void:
 	player_in_range = true
 	update_pickup_label()  # Ensure the label reflects the latest keybind
 	pickup_label.show()  
-	print("Player in range. Press the correct key to pick up.")
+	print("Player in range. Press the correct key to pick up. $15")
 
 func _on_body_exited(body: Node2D) -> void:
 	player_in_range = false  

@@ -114,6 +114,26 @@ func add_item_to_inventory(new_item: Item) -> bool:
 	print("Inventory full!")
 	return false
 
+func removeItems():
+	gui = get_tree().get_first_node_in_group("gui")
+	if gui == null:
+		print("Error: GUI not found!")
+	
+	var inventory = gui.get_node_or_null("%Inventory")
+	if inventory == null:
+		print("Error: Inventory not found!")
+	
+	var grid_container = inventory.get_node_or_null("GridContainer")
+	if grid_container == null:
+		print("Error: GridContainer not found inside Inventory!")
+
+	# Check for duplicate item
+	for slot in grid_container.get_children():
+		slot.item = null
+
+
+
+
 # -- Random Item Spawning --
 func spawn_random_item(position: Vector2):
 	var item = get_random_item()
