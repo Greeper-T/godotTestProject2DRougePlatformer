@@ -135,6 +135,7 @@ value = 10.0
 show_percentage = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+self_modulate = Color(1, 0.478431, 0, 1)
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_xmpdp")
 animation = &"idle"
@@ -155,6 +156,7 @@ position = Vector2(-1, -7)
 shape = SubResource("CapsuleShape2D_5sscd")
 
 [node name="hitbox" parent="." instance=ExtResource("4_b7wsr")]
+visible = false
 collision_layer = 16
 
 [node name="CollisionShape2D" parent="hitbox" index="0"]
@@ -172,9 +174,17 @@ collision_mask = 768
 hit_from_inside = true
 collide_with_areas = true
 
+[node name="fireTickDamage" type="Timer" parent="."]
+autostart = true
+
+[node name="slowDownTimer" type="Timer" parent="."]
+wait_time = 5.0
+
 [connection signal="body_entered" from="hurtbox" to="." method="_on_hurtbox_body_entered"]
 [connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="fireTickDamage" to="." method="_on_fire_tick_damage_timeout"]
+[connection signal="timeout" from="slowDownTimer" to="." method="_on_slow_down_timer_timeout"]
 
 [editable path="hurtbox"]
 [editable path="hitbox"]

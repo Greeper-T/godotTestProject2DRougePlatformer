@@ -199,3 +199,8 @@ func _on_boss_texure_animation_finished() -> void:
 		var bullets = bullet.instantiate()
 		bullets.position = muzzle.global_position
 		get_tree().current_scene.add_child(bullets)
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.has_method("takeDamage") and PlayerData.contactDamage:
+		body.takeDamage(PlayerData.rangedDamage*2)

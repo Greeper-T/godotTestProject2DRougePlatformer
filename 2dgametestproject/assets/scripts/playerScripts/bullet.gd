@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-const SPEED: int = 300
+var SPEED: int = 300
 
 func _ready() -> void:
 	gravity_scale = 0
