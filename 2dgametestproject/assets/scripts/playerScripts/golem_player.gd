@@ -13,7 +13,7 @@ extends CharacterBody2D
 var bullet = preload("res://assets/scenes/playerStuff/golem_player_bullet.tscn")
 
 var speedMultiplier = 30
-var jumpMultiplier = -30
+var jumpMultiplier = -40
 var direction = 0
 
 var sprintSpeed = speed + 3
@@ -72,7 +72,6 @@ func _physics_process(delta: float) -> void:
 			changeState(PlayerData.PlayerState.FALLING)
 	else:
 		PlayerData.jumpsLeft = PlayerData.totalJumps - 1
-
 
 	# Handle move down one way.
 	if Input.is_action_pressed("moveDown") and Input.is_action_pressed("jump"):

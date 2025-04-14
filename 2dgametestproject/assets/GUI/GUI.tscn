@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://d33y4w8ixynua"]
 
-[ext_resource type="Script" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
+[ext_resource type="Script" uid="uid://b1tpx3mbt7xyb" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
 [ext_resource type="Texture2D" uid="uid://cwikpujxskop0" path="res://assets/sprites/GUI/heart.png" id="2_eofit"]
 [ext_resource type="Texture2D" uid="uid://bnjdoyw0jwr83" path="res://assets/sprites/GUI/inventory.png" id="2_rjx25"]
 [ext_resource type="PackedScene" uid="uid://bsl2vlwe7bus" path="res://assets/GUI/slot.tscn" id="3_lvwsk"]
@@ -16,9 +16,10 @@ bg_color = Color(0.0214346, 0.0214346, 0.0214346, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqijg"]
 bg_color = Color(0.822952, 0.0550532, 0.179494, 1)
 
-[node name="GUI" type="CanvasLayer" node_paths=PackedStringArray("healthLabel") groups=["gui"]]
+[node name="GUI" type="CanvasLayer" node_paths=PackedStringArray("healthLabel", "moneyLabel") groups=["gui"]]
 script = ExtResource("1_3eeni")
 healthLabel = NodePath("healthLabel")
+moneyLabel = NodePath("moneyLabel")
 
 [node name="Heart" type="TextureRect" parent="."]
 offset_left = 235.0

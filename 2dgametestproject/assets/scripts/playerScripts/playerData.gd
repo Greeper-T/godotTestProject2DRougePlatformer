@@ -12,6 +12,8 @@ var totalJumps = 2
 var defense = 0
 var lives = 1
 
+var money = 0
+
 var pc : PlayerController
 
 

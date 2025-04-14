@@ -9,12 +9,19 @@ var player_scene = preload("res://assets/scenes/playerStuff/player.tscn")
 var one_way_tile = preload("res://assets/scenes/areaFunctions/one_way_platform.tscn")
 var portal = preload("res://assets/scenes/areaFunctions/portal.tscn")
 
+
 const WIDTH = 800
 const HEIGHT = 600
 const CELL_SIZE = 16
 const MIN_ROOMS = 5
 var going_down
 var downward_cooldown = 0
+var monster_data = [
+	{ "scene": preload("res://assets/scenes/enemy/enemy.tscn"), "cost": 1 },
+	{ "scene": preload("res://assets/scenes/enemy/rangedEnemy.tscn"), "cost": 5 },
+	{ "scene": preload("res://assets/scenes/enemy/wall_crawler.tscn"), "cost": 2 },
+	{ "scene": preload("res://assets/scenes/enemy/tack_shooter.tscn"), "cost": 4 }
+]
 
 
 const MIN_ROOM_WIDTH = 15
@@ -36,6 +43,7 @@ var platform_patterns = [
 
 
 func _ready():
+	print("generating")
 	randomize()
 	initialize_grid()
 	generate_dungeon()
@@ -57,12 +65,34 @@ func generate_dungeon():
 	while rooms.size() < MIN_ROOMS or rooms.size() < MAX_ROOMS:
 		var room = generate_room_near(rooms[-1])
 		if place_room(room):
-			
 			connect_rooms_horizontally(rooms[-1], room)
 			rooms.append(room)
 			place_one_way_platforms(room)
-
+			if room != rooms[0]:
+				var point_budget = randi_range(4, 10)  # Adjust for difficulty scaling
+				spawn_monsters_with_budget(room, point_budget)
 	place_boss_room()
+	
+func spawn_monsters_with_budget(room: Rect2, budget: int):
+	var attempts = 0
+	var max_attempts = 100  # Prevent infinite loops
+
+	while budget > 0 and attempts < max_attempts:
+		var monster_info = monster_data[randi() % monster_data.size()]
+		var cost = monster_info["cost"]
+
+		if cost <= budget:
+			var monster = monster_info["scene"].instantiate()
+			var x = randi_range(room.position.x + 2, room.end.x - 3)
+			var y = randi_range(room.position.y + 2, room.end.y - 3)
+			var spawn_pos = Vector2(x, y) * CELL_SIZE + tile_map_layer.global_position
+			monster.global_position = spawn_pos
+			add_child(monster)
+			budget -= cost
+
+		attempts += 1
+
+
 
 func generate_room_near(base_room: Rect2) -> Rect2:
 	var width = MIN_ROOM_WIDTH + randi() % (MAX_ROOM_WIDTH - MIN_ROOM_WIDTH + 1)
@@ -137,6 +167,7 @@ func place_room(room: Rect2) -> bool:
 			grid[x][y] = 0  # Set as floor
 
 	return true
+
 
 
 func connect_rooms_horizontally(room1: Rect2, room2: Rect2):
@@ -243,7 +274,7 @@ func spawn_player_in_first_room():
 		return
 
 	var first_room = rooms[0]
-	var player = player_scene.instantiate()
+	var player = GameManager.playerScene.instantiate()
 	var room_center = first_room.position + first_room.size / 2
 	player.global_position = room_center * CELL_SIZE
 	add_child(player)

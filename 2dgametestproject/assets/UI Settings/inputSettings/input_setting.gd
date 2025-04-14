@@ -8,6 +8,8 @@ var isRemapping = false
 var actionToRemap = null
 var remappingButton = null
 
+var gamePaused = false
+
 var inputActions = {
 	"jump": "Jump",
 	"moveLeft": "Move Left",
@@ -53,6 +55,14 @@ func _on_input_button_pressed(buttons, action):
 		buttons.find_child("LabelInput").text = "Press Key To Change Bind..."
 
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		gamePaused = !gamePaused
+		if gamePaused:
+			Engine.time_scale = 0
+			self.setVisibility()
+		else:
+			Engine.time_scale = 1
+			self.setVisibility()
 	if isRemapping:
 		if event is InputEventKey or event is InputEventMouseButton:
 			InputMap.action_erase_events(actionToRemap)
@@ -74,3 +84,8 @@ func setVisibility():
 
 func _on_reset_button_pressed() -> void:
 	createActionList()
+
+
+func _on_title_screen_pressed() -> void:
+	Engine.time_scale = 1
+	GameManager.backToMenu()

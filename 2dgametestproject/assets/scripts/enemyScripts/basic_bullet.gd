@@ -11,4 +11,7 @@ func _on_timer_timeout() -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	body.takeDamage(2)
+	if body.is_in_group("player"):
+		body.takeDamage(2)
+	else:
+		queue_free()

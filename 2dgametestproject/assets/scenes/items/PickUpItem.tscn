@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://kkgt1gwt3316"]
 
-[ext_resource type="Script" path="res://assets/scripts/itemScripts/pickUpItem.gd" id="1_lrjrs"]
+[ext_resource type="Script" uid="uid://dups1eqh4f8ff" path="res://assets/scripts/itemScripts/pickUpItem.gd" id="1_lrjrs"]
 [ext_resource type="FontFile" uid="uid://b1hueq17atyif" path="res://assets/Fonts/superstar_memesbruh03.ttf" id="2_kxhgo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0deii"]

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://c4w3n3wtaieje"]
 
-[ext_resource type="Script" path="res://assets/scripts/itemScripts/Item.gd" id="1_gkb6m"]
+[ext_resource type="Script" uid="uid://cbj00wyag702s" path="res://assets/scripts/itemScripts/Item.gd" id="1_gkb6m"]
 [ext_resource type="Texture2D" uid="uid://bhc3uw6ibcqk2" path="res://assets/sprites/itemSprites/CritKnife.png" id="2_mphyh"]
 
 [resource]
@@ -9,13 +9,15 @@ type = 0
 itemName = "CritKnife"
 itemId = 4
 itemAmt = 1
-itemCounted = false
+itemCounted = 0
 texture = ExtResource("2_mphyh")
 itemDescription = "Stab Stab Stab!"
-itemDamage = 0
-itemDefense = 0
+itemRangedDamage = 0
+itemMeleeDamage = 0
+itemDefense = 0.0
 itemCritAdd = 10
 itemCritMult = 0
 itemHealthIncrease = 0
 itemSpeedIncrease = 0
+itemJumpIncrease = 0
 itemAbility = "none"
