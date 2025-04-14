@@ -1,7 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cm0le4hjukgl4"]
 
-[ext_resource type="Script" path="res://assets/scripts/terrainScripts/horizontal_moving_platform.gd" id="1_gi01o"]
 [ext_resource type="Texture2D" uid="uid://btlv7imkldldu" path="res://assets/sprites/terrainSprites/platform1_large.png" id="2_tc3u2"]
+
+[sub_resource type="Resource" id="Resource_v7gcv"]
+metadata/__load_path__ = "res://assets/scripts/terrainScripts/horizontal_moving_platform.gd"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cnp43"]
 size = Vector2(32, 4)
@@ -11,7 +13,7 @@ size = Vector2(2, 4)
 
 [node name="HorizontalMovingPlatform" type="AnimatableBody2D"]
 sync_to_physics = false
-script = ExtResource("1_gi01o")
+script = SubResource("Resource_v7gcv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_tc3u2")
