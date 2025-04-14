@@ -171,9 +171,11 @@ func playerAnimations():
 		animator.play("jump")
 	elif PlayerData.currentState == PlayerData.PlayerState.FALLING:
 		animator.play("fall")
-			
-			
 
 
 func _on_after_image_timer_timeout() -> void:
 	addAfterImage()
+
+
+func _on_contact_damage_body_entered(body: Node2D) -> void:
+	body.takeDamage(PlayerData.rangedDamage*2)

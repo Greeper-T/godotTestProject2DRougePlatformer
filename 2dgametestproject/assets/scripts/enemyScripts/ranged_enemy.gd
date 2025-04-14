@@ -14,6 +14,10 @@ extends CharacterBody2D
 @export var shootingDistance = 200
 
 const Bullet = preload("res://assets/scenes/enemy/enemy_bullet.tscn")
+const BULLET = preload("res://assets/scenes/playerStuff/bullet.tscn")
+
+var isOnFire = false
+var fireTick = 0
 
 enum State {IDLE, CHARGING, CHASING, DEATH, SHOOTING, DAMAGED, WANDERING}
 var currentState = State.IDLE
@@ -73,6 +77,12 @@ func stateTransition(newState):
 
 func takeDamage(damageTaken):
 	hp -= damageTaken
+	if PlayerData.wassabi:
+		isOnFire = true
+	if PlayerData.iceCreamCone:
+		speed /= 2
+		$AnimatedSprite2D.self_modulate = Color(0,.38,1,1)
+		$slowDownTimer.start()
 	updateHealth()
 
 func shoot():
@@ -90,7 +100,24 @@ func updateHealth():
 		animationLock = true
 		await animated_sprite_2d.animation_finished
 		PlayerData.money += randi_range(1,10)
+		if PlayerData.potatoShield:
+			PlayerData.shieldActive = true
+		if PlayerData.grapeShot:
+			await explode()
 		queue_free()
+
+func explode():
+	for i in range(randi_range(5,10)):  # Change the number for how many bullets you want
+			var bulletInstance = BULLET.instantiate()
+			bulletInstance.global_position = global_position
+
+			var random_angle = randf() * TAU  # TAU is 2*PI, full circle in radians
+			bulletInstance.rotation = random_angle
+			bulletInstance.SPEED = 750
+			if PlayerData.sharpCheddar:
+				bulletInstance.set_collision_mask_value(3, false)
+			
+			get_tree().root.add_child(bulletInstance)
 
 func playAnimation(animName: String, new_state):
 	if not animationLock and animated_sprite_2d.animation != animName:
@@ -133,3 +160,21 @@ func _on_fire_area_body_entered(body: Node2D) -> void:
 			stateTransition(State.SHOOTING)
 		else:
 			stateTransition(State.CHASING)
+
+
+func _on_fire_tick_timeout() -> void:
+	if isOnFire:
+		$AnimatedSprite2D.self_modulate = Color(1,.47,0,1)
+		hp -= PlayerData.fireDamage
+		fireTick += 1
+	else:
+		$AnimatedSprite2D.self_modulate = Color(1,1,1,1)
+	if fireTick >= 5:
+		isOnFire = false
+		fireTick = 0
+
+
+func _on_slow_down_timer_timeout() -> void:
+	speed *= 2
+	$AnimatedSprite2D.self_modulate = Color(1,1,1,1)
+	$slowDownTimer.stop()

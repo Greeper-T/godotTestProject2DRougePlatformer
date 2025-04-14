@@ -7,6 +7,10 @@ extends CharacterBody2D
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 @onready var hitbox: Area2D = $hitbox
 
+const BULLET = preload("res://assets/scenes/playerStuff/bullet.tscn")
+
+var isOnFire = false
+var fireTick = 0
 
 @export var speed: float = 50
 @export var damage: float = 10
@@ -43,10 +47,33 @@ func updateHealth():
 	health_bar.value = hp
 	if hp <= 0:
 		PlayerData.money += randi() % 6
+		if PlayerData.potatoShield:
+			PlayerData.shieldActive = true
+		if PlayerData.grapeShot:
+			await explode()
 		queue_free()
+
+func explode():
+	for i in range(randi_range(5,10)):  # Change the number for how many bullets you want
+			var bulletInstance = BULLET.instantiate()
+			bulletInstance.global_position = global_position
+
+			var random_angle = randf() * TAU  # TAU is 2*PI, full circle in radians
+			bulletInstance.rotation = random_angle
+			bulletInstance.SPEED = 750
+			if PlayerData.sharpCheddar:
+				bulletInstance.set_collision_mask_value(3, false)
+			
+			get_tree().root.add_child(bulletInstance)
 
 func takeDamage(damageTaken):
 	hp -= damageTaken
+	if PlayerData.wassabi:
+		isOnFire = true
+	if PlayerData.iceCreamCone:
+		speed /= 2
+		$AnimatedSprite2D.self_modulate = Color(0,.38,1,1)
+		$slowDownTimer.start()
 	updateHealth()
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
@@ -64,3 +91,21 @@ func _on_timer_timeout() -> void:
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	print("in hitbox")
 	body.takeDamage(damage)
+
+
+func _on_fire_tick_damage_timeout() -> void:
+	if isOnFire:
+		$AnimatedSprite2D.self_modulate = Color(1,.47,0,1)
+		hp -= PlayerData.fireDamage
+		fireTick += 1
+	else:
+		$AnimatedSprite2D.self_modulate = Color(1,1,1,1)
+	if fireTick >= 5:
+		isOnFire = false
+		fireTick = 0
+
+
+func _on_slow_down_timer_timeout() -> void:
+	speed *= 2
+	$AnimatedSprite2D.self_modulate = Color(1,1,1,1)
+	$slowDownTimer.stop()
