@@ -178,4 +178,5 @@ func _on_after_image_timer_timeout() -> void:
 
 
 func _on_contact_damage_body_entered(body: Node2D) -> void:
-	body.takeDamage(PlayerData.rangedDamage*2)
+	if body.has_method("takeDamage") and PlayerData.contactDamage:
+		body.takeDamage(PlayerData.rangedDamage*2)

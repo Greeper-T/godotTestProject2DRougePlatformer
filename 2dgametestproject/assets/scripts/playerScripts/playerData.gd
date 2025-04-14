@@ -26,6 +26,8 @@ var grapeShot = false
 
 var shotGun = false
 
+var contactDamage = false
+
 var money = 0
 
 var pc : PlayerController
