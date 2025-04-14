@@ -15,6 +15,12 @@ enum State { Idle, Follow, MeleeAttack, HomingMissile, LaserBeam, ArmourBuff, Da
 var currentState = State.Idle
 var previousState: State 
 
+var isOnFire = false
+var fireTick = 0
+
+var isSlow = false
+var speed = 40
+
 var direction : Vector2
 
 var health = 100
@@ -28,7 +34,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	checkForMelee()
 	if currentState == State.Follow:
-			velocity = direction.normalized() *40
+			velocity = direction.normalized() * speed
 	move_and_collide(velocity * delta)
 
 func _process(delta: float) -> void:
@@ -107,6 +113,8 @@ func playAnimations():
 		await boss_texure.animation_finished
 		PlayerData.money += randi_range(20,50)
 		GameManager.golemUnlocked = true
+		if PlayerData.potatoShield:
+			PlayerData.shieldActive = true
 		queue_free()
 
 func _on_player_detector_body_entered(body: Node2D) -> void:
@@ -138,6 +146,12 @@ func updateHealthValue():
 
 func takeDamage(damageTaken):
 	health -= damageTaken
+	if PlayerData.wassabi:
+		isOnFire = true
+	if PlayerData.iceCreamCone:
+		speed /= 2
+		$bossTexure.self_modulate = Color(0,.38,1,1)
+		$slowDownTimer.start()
 	updateHealthValue()
 
 func _on_boss_texure_animation_looped() -> void:
@@ -155,3 +169,21 @@ func _on_player_in_laser_body_exited(body: Node2D) -> void:
 func _on_lazer_eye_frame_changed() -> void:
 	if playerInLaserDamage and currentState == State.LaserBeam and lazer_eye.frame >= 9:
 		player.takeDamage(5)
+
+
+func _on_fire_tick_timeout() -> void:
+	if isOnFire:
+		$bossTexure.self_modulate = Color(1,.47,0,1)
+		health -= PlayerData.fireDamage
+		fireTick += 1
+	else:
+		$bossTexure.self_modulate = Color(1,1,1,1)
+	if fireTick >= 5:
+		isOnFire = false
+		fireTick = 0
+
+
+func _on_slow_down_timer_timeout() -> void:
+	speed *= 2
+	$bossTexure.self_modulate = Color(1,1,1,1)
+	$slowDownTimer.stop()

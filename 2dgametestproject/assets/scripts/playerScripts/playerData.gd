@@ -5,12 +5,26 @@ var maxHp = 100.0
 var critRate = 5.0
 var rangedDamage = 4.0
 var meleeDamage = 6.0
+var fireDamage = 2.0
 var speed = 5.0
 var sprintSpeed = 10.0
 var jumpsLeft = 1
 var totalJumps = 2
 var defense = 0
 var lives = 1
+
+var potatoShield = false
+var shieldActive = false
+
+var wassabi = false
+
+var sharpCheddar = false
+
+var iceCreamCone = false
+
+var grapeShot = false
+
+var shotGun = false
 
 var money = 0
 
@@ -21,7 +35,10 @@ enum PlayerState { IDLE, MOVING, JUMPING, FALLING, GROUND_POUND, SPRINTING, DEAT
 var currentState = PlayerState.IDLE
 
 func takeDamage(amount: float):
-	hp = max(hp - amount, 0)  # Prevents negative HP
+	if not shieldActive:
+		hp = max(hp - amount, 0)  # Prevents negative HP
+	else:
+		shieldActive = false
 	
 
 func die():
