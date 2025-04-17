@@ -5,7 +5,6 @@ extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var timer: Timer = $Timer
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
-@onready var hitbox: Area2D = $hitbox
 
 const BULLET = preload("res://assets/scenes/playerStuff/bullet.tscn")
 
@@ -23,7 +22,6 @@ var direction: int = 1
 func _ready() -> void:
 	health_bar.max_value = hp
 	updateHealth()
-	hitbox.damage = damage
 
 func getDamage() -> float:
 	return damage
@@ -78,29 +76,19 @@ func takeDamage(damageTaken):
 		$slowDownTimer.start()
 	updateHealth()
 
-func _on_hurtbox_body_entered(body: Node2D) -> void:
-	hp -= PlayerData.rangedDamage
-	updateHealth()
-
-
 func _on_timer_timeout() -> void:
 	self.scale.x *= -1
 	direction *= -1
 	await get_tree().create_timer(0.1).timeout
 	isStopped = false
 
-
-func _on_hitbox_body_entered(body: Node2D) -> void:
-	print("in hitbox")
-	body.takeDamage(damage)
-
-
 func _on_fire_tick_damage_timeout() -> void:
 	if isOnFire:
 		$AnimatedSprite2D.self_modulate = Color(1,.47,0,1)
 		hp -= PlayerData.fireDamage
+		updateHealth()
 		fireTick += 1
-	else:
+	elif $slowDownTimer.is_stopped():
 		$AnimatedSprite2D.self_modulate = Color(1,1,1,1)
 	if fireTick >= 5:
 		isOnFire = false
@@ -111,3 +99,8 @@ func _on_slow_down_timer_timeout() -> void:
 	speed *= 2
 	$AnimatedSprite2D.self_modulate = Color(1,1,1,1)
 	$slowDownTimer.stop()
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	print("in hitbox")
+	body.takeDamage(damage)

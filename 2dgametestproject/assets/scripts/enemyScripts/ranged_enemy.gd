@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var edge_detector: RayCast2D = $edgeDetector
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var muzzle: Node2D = $muzzle
+
 var player = null
 
 @export var damage: float = 10
@@ -46,18 +47,9 @@ func _physics_process(delta: float) -> void:
 	if not isStopped and currentState != State.SHOOTING:
 		velocity.x = direction * speed
 		playAnimation("move", State.WANDERING)
-	else:
+	elif currentState != State.SHOOTING:
 		velocity.x = 0
 		playAnimation("idle", State.IDLE)
-	
-	if player_detector.is_colliding():
-		var target = player_detector.get_collider()
-		if target.name == "player":
-			player = target
-			if global_position.distance_to(player.global_position) < shootingDistance:
-				stateTransition(State.SHOOTING)
-			else:
-				stateTransition(State.CHASING)
 	
 	if (is_on_wall() or not edge_detector.is_colliding()) and switch_side_timer.is_stopped() and not isStopped:
 		isStopped = true
@@ -84,7 +76,7 @@ func takeDamage(damageTaken):
 		$AnimatedSprite2D.self_modulate = Color(0,.38,1,1)
 		$slowDownTimer.start()
 	updateHealth()
-
+	
 func shoot():
 	if Bullet and player:
 		var bullet = Bullet.instantiate()
@@ -154,20 +146,17 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 
 func _on_fire_area_body_entered(body: Node2D) -> void:
 	var target = body
-	if target.name == "player":
-		player = target
-		if global_position.distance_to(player.global_position) < shootingDistance:
-			stateTransition(State.SHOOTING)
-		else:
-			stateTransition(State.CHASING)
+	player = target
+	stateTransition(State.SHOOTING)
 
 
 func _on_fire_tick_timeout() -> void:
 	if isOnFire:
 		$AnimatedSprite2D.self_modulate = Color(1,.47,0,1)
 		hp -= PlayerData.fireDamage
+		updateHealth()
 		fireTick += 1
-	else:
+	elif $slowDownTimer.is_stopped():
 		$AnimatedSprite2D.self_modulate = Color(1,1,1,1)
 	if fireTick >= 5:
 		isOnFire = false
@@ -178,3 +167,13 @@ func _on_slow_down_timer_timeout() -> void:
 	speed *= 2
 	$AnimatedSprite2D.self_modulate = Color(1,1,1,1)
 	$slowDownTimer.stop()
+
+
+func _on_fire_area_body_exited(body: Node2D) -> void:
+	player = null
+	playAnimation("move", State.WANDERING)
+
+
+func _on_animated_sprite_2d_animation_looped() -> void:
+	if currentState == State.SHOOTING:
+		shoot()

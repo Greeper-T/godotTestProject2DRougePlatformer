@@ -52,6 +52,11 @@ func _process(delta):
 	var screen_width = get_viewport_rect().size.x
 	var mouse_position = get_viewport().get_mouse_position()
 
+	if PlayerData.potatoShield and PlayerData.shieldActive:
+		$Shield.visible = true
+	else:
+		$Shield.visible = false
+	
 	if mouse_position.x < screen_width / 2:
 		gun_position.scale.x = -1  # Flip weapon to the left
 	else:

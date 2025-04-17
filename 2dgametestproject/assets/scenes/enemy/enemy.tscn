@@ -1,9 +1,7 @@
-[gd_scene load_steps=22 format=3 uid="uid://d1qoas5kwqj1n"]
+[gd_scene load_steps=19 format=3 uid="uid://d1qoas5kwqj1n"]
 
 [ext_resource type="Texture2D" uid="uid://q2gn568u8qi3" path="res://assets/sprites/enemySprites/enemy_1.png" id="1_5otrj"]
-[ext_resource type="Script" uid="uid://d28gg1hsnfmd8" path="res://assets/scripts/enemyScripts/enemy.gd" id="1_xsx5n"]
-[ext_resource type="PackedScene" uid="uid://8nw6luhhkyku" path="res://assets/scenes/areaFunctions/hurtbox.tscn" id="3_kase7"]
-[ext_resource type="PackedScene" uid="uid://bh5yx8khqtcmt" path="res://assets/scenes/areaFunctions/hitbox.tscn" id="4_b7wsr"]
+[ext_resource type="Script" path="res://assets/scripts/enemyScripts/enemy.gd" id="1_xsx5n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lrdjc"]
 bg_color = Color(0, 0, 0, 1)
@@ -110,13 +108,7 @@ animations = [{
 radius = 6.0
 height = 14.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5sscd"]
-radius = 9.0
-height = 18.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_islau"]
-radius = 9.0
-height = 18.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_bq5n5"]
 
 [node name="enemy" type="CharacterBody2D"]
 collision_layer = 4
@@ -142,26 +134,8 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(0, -7)
-shape = SubResource("CapsuleShape2D_bhum1")
-
-[node name="hurtbox" parent="." instance=ExtResource("3_kase7")]
-visible = false
-collision_layer = 8
-collision_mask = 2
-
-[node name="CollisionShape2D" parent="hurtbox" index="0"]
 position = Vector2(-1, -7)
-shape = SubResource("CapsuleShape2D_5sscd")
-
-[node name="hitbox" parent="." instance=ExtResource("4_b7wsr")]
-visible = false
-collision_layer = 16
-
-[node name="CollisionShape2D" parent="hitbox" index="0"]
-position = Vector2(-1, -8)
-shape = SubResource("CapsuleShape2D_islau")
+shape = SubResource("CapsuleShape2D_bhum1")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
@@ -180,11 +154,14 @@ autostart = true
 [node name="slowDownTimer" type="Timer" parent="."]
 wait_time = 5.0
 
-[connection signal="body_entered" from="hurtbox" to="." method="_on_hurtbox_body_entered"]
-[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -8)
+shape = SubResource("CircleShape2D_bq5n5")
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="fireTickDamage" to="." method="_on_fire_tick_damage_timeout"]
 [connection signal="timeout" from="slowDownTimer" to="." method="_on_slow_down_timer_timeout"]
-
-[editable path="hurtbox"]
-[editable path="hitbox"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

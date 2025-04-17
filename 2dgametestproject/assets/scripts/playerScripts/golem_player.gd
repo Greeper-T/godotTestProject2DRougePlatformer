@@ -58,6 +58,11 @@ func _input(event: InputEvent) -> void:
 func _process(delta):
 	hp = PlayerData.hp
 	maxHp = PlayerData.maxHp
+	
+	if PlayerData.potatoShield and PlayerData.shieldActive:
+		$Shield.visible = true
+	else:
+		$Shield.visible = false
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
