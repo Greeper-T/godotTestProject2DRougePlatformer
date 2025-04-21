@@ -1,6 +1,6 @@
 [gd_scene load_steps=94 format=3 uid="uid://c5cn6meonwyc6"]
 
-[ext_resource type="Script" uid="uid://bshgnae5j4mld" path="res://assets/scripts/enemyScripts/golem_boss.gd" id="1_28b07"]
+[ext_resource type="Script" path="res://assets/scripts/enemyScripts/golem_boss.gd" id="1_28b07"]
 [ext_resource type="Texture2D" uid="uid://bn7cyooo7fa42" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/PNG sheet/Character_sheet.png" id="1_70eby"]
 [ext_resource type="Texture2D" uid="uid://c1qahh5nelr6b" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/weapon PNG/Laser_sheet.png" id="2_dpiqa"]
 [ext_resource type="PackedScene" uid="uid://bilwkiiatrxww" path="res://assets/scenes/enemy/golem_bullet.tscn" id="2_yr4wc"]

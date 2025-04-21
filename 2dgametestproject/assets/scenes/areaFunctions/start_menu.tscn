@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://k310g4vbv47l"]
+[gd_scene load_steps=8 format=3 uid="uid://k310g4vbv47l"]
 
-[ext_resource type="Script" uid="uid://vwno4yrstvlp" path="res://assets/scripts/managers/start_menu.gd" id="1_kpe8y"]
+[ext_resource type="Script" path="res://assets/scripts/managers/start_menu.gd" id="1_kpe8y"]
 [ext_resource type="Texture2D" uid="uid://bahgoskwk6xfo" path="res://assets/sprites/background.png" id="2_4mwwh"]
 [ext_resource type="FontFile" uid="uid://b1hueq17atyif" path="res://assets/Fonts/superstar_memesbruh03.ttf" id="3_llngm"]
 [ext_resource type="Texture2D" uid="uid://deftk0uojiwxs" path="res://assets/sprites/playerSprites/move/frame1.png" id="4_tdgvm"]
 [ext_resource type="Texture2D" uid="uid://bn7cyooo7fa42" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/PNG sheet/Character_sheet.png" id="5_p7wrh"]
 [ext_resource type="FontFile" uid="uid://8sgb1bqkm23q" path="res://assets/Fonts/04B_30__.TTF" id="6_ohu5o"]
+[ext_resource type="Texture2D" uid="uid://crr6io3bfecx6" path="res://assets/sprites/yellowArrow.png" id="7_myrqu"]
 
 [node name="startMenu" type="Control"]
 layout_mode = 3
@@ -59,6 +60,11 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_llngm")
 text = "banana player"
 
+[node name="YellowArrow" type="Sprite2D" parent="banana"]
+position = Vector2(-61, 152)
+scale = Vector2(0.202797, 0.243119)
+texture = ExtResource("7_myrqu")
+
 [node name="golem" type="Button" parent="."]
 layout_mode = 0
 offset_left = 595.0
@@ -69,30 +75,52 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_llngm")
 text = "rock candy player"
 
-[node name="Player" type="Sprite2D" parent="."]
-position = Vector2(578, 371)
-scale = Vector2(1.27778, 1.3245)
-texture = ExtResource("4_tdgvm")
-region_rect = Rect2(0, 0, 16, 16)
-
-[node name="golem2" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(572, 393)
-scale = Vector2(4.8, 4.86)
-texture = ExtResource("5_p7wrh")
-region_enabled = true
-region_rect = Rect2(0, 0, 100, 100)
+[node name="YellowArrow2" type="Sprite2D" parent="golem"]
+position = Vector2(174, 148)
+rotation = 3.14159
+scale = Vector2(0.203, 0.243)
+texture = ExtResource("7_myrqu")
 
 [node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 148.0
-offset_top = 78.0
-offset_right = 1070.0
-offset_bottom = 135.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.111979
+anchor_top = 0.0771605
+anchor_right = 0.912326
+anchor_bottom = 0.165123
+grow_horizontal = 2
 theme_override_colors/font_color = Color(0.976471, 0.8, 0, 1)
 theme_override_fonts/font = ExtResource("6_ohu5o")
 theme_override_font_sizes/font_size = 56
 text = "Banana with a Weapon"
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -15.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Player" type="Sprite2D" parent="HBoxContainer"]
+position = Vector2(575, 24.5)
+scale = Vector2(1.27778, 1.3245)
+texture = ExtResource("4_tdgvm")
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="golem2" type="Sprite2D" parent="HBoxContainer"]
+visible = false
+position = Vector2(582, 58.5)
+scale = Vector2(4.8, 4.86)
+texture = ExtResource("5_p7wrh")
+region_enabled = true
+region_rect = Rect2(0, 0, 100, 100)
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/leaveGame" to="." method="_on_leave_game_pressed"]

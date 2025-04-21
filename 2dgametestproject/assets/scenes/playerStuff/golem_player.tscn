@@ -1,6 +1,6 @@
 [gd_scene load_steps=77 format=3 uid="uid://c4j4kyt7a5n01"]
 
-[ext_resource type="Script" uid="uid://db3upx852kgmw" path="res://assets/scripts/playerScripts/golem_player.gd" id="1_gvf5v"]
+[ext_resource type="Script" path="res://assets/scripts/playerScripts/golem_player.gd" id="1_gvf5v"]
 [ext_resource type="Texture2D" uid="uid://bn7cyooo7fa42" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/PNG sheet/Character_sheet.png" id="1_m3def"]
 [ext_resource type="PackedScene" uid="uid://8nw6luhhkyku" path="res://assets/scenes/areaFunctions/hurtbox.tscn" id="2_ui8pa"]
 [ext_resource type="Texture2D" uid="uid://06jdwiv67uld" path="res://assets/sprites/playerSprites/shield.png" id="4_160fl"]

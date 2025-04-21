@@ -59,10 +59,10 @@ func _input(event: InputEvent) -> void:
 		gamePaused = !gamePaused
 		if gamePaused:
 			Engine.time_scale = 0
-			self.setVisibility()
+			#self.setVisibility()
 		else:
 			Engine.time_scale = 1
-			self.setVisibility()
+			#self.setVisibility()
 	if isRemapping:
 		if event is InputEventKey or event is InputEventMouseButton:
 			InputMap.action_erase_events(actionToRemap)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://bilwkiiatrxww"]
 
-[ext_resource type="Script" uid="uid://bqpvpy0mk8pyu" path="res://assets/scripts/enemyScripts/golem_bullet.gd" id="1_hg67t"]
+[ext_resource type="Script" path="res://assets/scripts/enemyScripts/golem_bullet.gd" id="1_hg67t"]
 [ext_resource type="Texture2D" uid="uid://dvbt0jxqup1ll" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/weapon PNG/arm_projectile_glowing.png" id="2_1fbvb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ledf7"]
