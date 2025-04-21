@@ -115,7 +115,7 @@ func playAnimations():
 		GameManager.golemUnlocked = true
 		if PlayerData.potatoShield:
 			PlayerData.shieldActive = true
-		GameManager.playerScene = preload("res://assets/scenes/playerStuff/golem_player.tscn")
+		#GameManager.playerScene = preload("res://assets/scenes/playerStuff/golem_player.tscn")
 		queue_free()
 
 func _on_player_detector_body_entered(body: Node2D) -> void:
