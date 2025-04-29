@@ -24,6 +24,7 @@ var inputActions = {
 }
 
 func _ready() -> void:
+	load_keybinds()
 	createActionList()
 
 func createActionList():
@@ -59,15 +60,17 @@ func _input(event: InputEvent) -> void:
 		gamePaused = !gamePaused
 		if gamePaused:
 			Engine.time_scale = 0
-			#self.setVisibility()
+			self.setVisibility()
 		else:
 			Engine.time_scale = 1
-			#self.setVisibility()
+			self.setVisibility()
 	if isRemapping:
 		if event is InputEventKey or event is InputEventMouseButton:
 			InputMap.action_erase_events(actionToRemap)
 			InputMap.action_add_event(actionToRemap, event)
 			updateActionList(remappingButton, event)
+			
+			save_keybind(actionToRemap, event)
 			
 			isRemapping = false
 			actionToRemap = null
@@ -84,6 +87,50 @@ func setVisibility():
 
 func _on_reset_button_pressed() -> void:
 	createActionList()
+
+func save_keybind(action_name: String, event: InputEvent):
+	var config = ConfigFile.new()
+	var path = "user://keybinds.cfg"
+
+	if FileAccess.file_exists(path):
+		config.load(path)
+
+	var event_dict = event.serialize()  # ✅ Store full data as dict
+	config.set_value("keybinds", action_name, event_dict)
+	config.save(path)
+
+
+
+func load_keybinds():
+	var config = ConfigFile.new()
+	var path = "user://keybinds.cfg"
+
+	if config.load(path) == OK:
+		for action_name in inputActions.keys():
+			if config.has_section_key("keybinds", action_name):
+				var event_dict = config.get_value("keybinds", action_name)
+
+				if typeof(event_dict) != TYPE_DICTIONARY:
+					continue  # skip invalid data
+
+				var event: InputEvent
+
+				match event_dict.get("class", ""):
+					"InputEventKey":
+						event = InputEventKey.new()
+					"InputEventMouseButton":
+						event = InputEventMouseButton.new()
+					"InputEventJoypadMotion":
+						event = InputEventJoypadMotion.new()
+					_:
+						continue  # unsupported or invalid input
+
+				event.deserialize(event_dict)
+				InputMap.action_erase_events(action_name)
+				InputMap.action_add_event(action_name, event)
+
+
+
 
 
 func _on_title_screen_pressed() -> void:

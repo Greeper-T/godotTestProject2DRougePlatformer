@@ -1,7 +1,7 @@
 extends Control
 
-@onready var player: Sprite2D = $Player
 var canPlay = true
+var selection = 500
 
 func _on_play_pressed() -> void:
 	if canPlay:
@@ -14,26 +14,26 @@ func _on_play_pressed() -> void:
 func _on_leave_game_pressed() -> void:
 	get_tree().quit()
 
-
-func _on_banana_pressed() -> void:
-	GameManager.playerScene = preload("res://assets/scenes/playerStuff/player.tscn")
-	player.visible = true
-	#$banana.add_theme_color_override("font_color", Color(1,0.85,0,1))
-	$golem.add_theme_color_override("font_color", Color("#000000"))
-	$golem2.visible = false
-	canPlay = true
-
-
-func _on_golem_pressed() -> void:
-	GameManager.playerScene = preload("res://assets/scenes/playerStuff/golem_player.tscn")
-	if not GameManager.golemUnlocked:
-		$golem2.modulate = Color(0,0,0,1)
-		canPlay = false
+func updateTheSprite():
+	if selection % 2 == 0:
+		$HBoxContainer/Player.visible = true
+		$HBoxContainer/golem2.visible = false
 	else:
-		$golem2.modulate = Color(1,1,1,1)
-		canPlay = true
-	$banana.add_theme_color_override("font_color", Color("#000000"))
-	#$golem.add_theme_color_override("font_color", Color("#0059fd"))
-	$golem2.visible = true
-	player.visible = false
-	
+		$HBoxContainer/golem2.visible = true
+		$HBoxContainer/Player.visible = false
+
+func _on_left_button_pressed() -> void:
+	selection -= 1
+	updateTheSprite()
+
+
+func _on_right_button_pressed() -> void:
+	selection += 1
+	updateTheSprite()
+
+
+func _on_keybinds_pressed() -> void:
+	if $InputSetting.visible:
+		$InputSetting.visible = false
+	else:
+		$InputSetting.visible = true

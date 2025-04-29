@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://k310g4vbv47l"]
+[gd_scene load_steps=9 format=3 uid="uid://k310g4vbv47l"]
 
 [ext_resource type="Script" path="res://assets/scripts/managers/start_menu.gd" id="1_kpe8y"]
 [ext_resource type="Texture2D" uid="uid://bahgoskwk6xfo" path="res://assets/sprites/background.png" id="2_4mwwh"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bn7cyooo7fa42" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/PNG sheet/Character_sheet.png" id="5_p7wrh"]
 [ext_resource type="FontFile" uid="uid://8sgb1bqkm23q" path="res://assets/Fonts/04B_30__.TTF" id="6_ohu5o"]
 [ext_resource type="Texture2D" uid="uid://crr6io3bfecx6" path="res://assets/sprites/yellowArrow.png" id="7_myrqu"]
+[ext_resource type="PackedScene" uid="uid://bfr6ewukk7gw0" path="res://assets/UI Settings/inputSettings/inputSetting.tscn" id="8_344ye"]
 
 [node name="startMenu" type="Control"]
 layout_mode = 3
@@ -45,41 +46,15 @@ theme_override_fonts/font = ExtResource("3_llngm")
 theme_override_font_sizes/font_size = 46
 text = "play"
 
+[node name="Keybinds" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_llngm")
+text = "Keybinds"
+
 [node name="leaveGame" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_llngm")
 text = "quit"
-
-[node name="banana" type="Button" parent="."]
-layout_mode = 0
-offset_left = 438.0
-offset_top = 190.0
-offset_right = 557.0
-offset_bottom = 221.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("3_llngm")
-text = "banana player"
-
-[node name="YellowArrow" type="Sprite2D" parent="banana"]
-position = Vector2(-61, 152)
-scale = Vector2(0.202797, 0.243119)
-texture = ExtResource("7_myrqu")
-
-[node name="golem" type="Button" parent="."]
-layout_mode = 0
-offset_left = 595.0
-offset_top = 190.0
-offset_right = 704.0
-offset_bottom = 221.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_llngm")
-text = "rock candy player"
-
-[node name="YellowArrow2" type="Sprite2D" parent="golem"]
-position = Vector2(174, 148)
-rotation = 3.14159
-scale = Vector2(0.203, 0.243)
-texture = ExtResource("7_myrqu")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -122,7 +97,42 @@ texture = ExtResource("5_p7wrh")
 region_enabled = true
 region_rect = Rect2(0, 0, 100, 100)
 
+[node name="YellowArrow" type="Sprite2D" parent="."]
+position = Vector2(377, 342)
+scale = Vector2(0.202797, 0.243119)
+texture = ExtResource("7_myrqu")
+
+[node name="leftButton" type="Button" parent="YellowArrow"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -271.0
+offset_top = -193.0
+offset_right = 301.0
+offset_bottom = 193.0
+
+[node name="YellowArrow2" type="Sprite2D" parent="."]
+position = Vector2(769, 338)
+rotation = 3.14159
+scale = Vector2(0.203, 0.243)
+texture = ExtResource("7_myrqu")
+
+[node name="rightButton" type="Button" parent="YellowArrow2"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -278.0
+offset_top = -211.0
+offset_right = 281.0
+offset_bottom = 216.0
+
+[node name="InputSetting" parent="." instance=ExtResource("8_344ye")]
+visible = false
+layout_mode = 1
+
+[node name="titleScreen" parent="InputSetting/PanelContainer/MarginContainer/VBoxContainer" index="2"]
+text = "Close"
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Keybinds" to="." method="_on_keybinds_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/leaveGame" to="." method="_on_leave_game_pressed"]
-[connection signal="pressed" from="banana" to="." method="_on_banana_pressed"]
-[connection signal="pressed" from="golem" to="." method="_on_golem_pressed"]
+[connection signal="pressed" from="YellowArrow/leftButton" to="." method="_on_left_button_pressed"]
+[connection signal="pressed" from="YellowArrow2/rightButton" to="." method="_on_right_button_pressed"]
+
+[editable path="InputSetting"]
