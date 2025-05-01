@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bn48o68en2ssh"]
 
-[ext_resource type="Script" uid="uid://bpmoie0lothdh" path="res://assets/scripts/terrainScripts/dungeonGeneration.gd" id="1_40usv"]
+[ext_resource type="Script" path="res://assets/scripts/terrainScripts/dungeonGeneration.gd" id="1_40usv"]
 [ext_resource type="Texture2D" uid="uid://b6g31073h8if8" path="res://assets/sprites/blue.jpg" id="2_dbdqo"]
 [ext_resource type="Texture2D" uid="uid://b0q78ik8ygp5y" path="res://assets/sprites/terrainSprites/tiles_1.png" id="2_jdr7m"]
 [ext_resource type="PackedScene" uid="uid://drrnwii5dn4f0" path="res://assets/UI/HUD.tscn" id="4_1o4fa"]
@@ -64,8 +64,8 @@ sources/0 = SubResource("TileSetAtlasSource_wjyg5")
 script = ExtResource("1_40usv")
 
 [node name="Blue" type="Sprite2D" parent="."]
-position = Vector2(90560.8, 51987.8)
-scale = Vector2(38.0581, 32.9599)
+position = Vector2(90558.1, 51955.5)
+scale = Vector2(38.0593, 32.9804)
 texture = ExtResource("2_dbdqo")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]

@@ -103,4 +103,5 @@ func _on_slow_down_timer_timeout() -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	print("in hitbox")
-	body.takeDamage(damage)
+	if body.is_in_group("player"):
+		body.takeDamage(damage)

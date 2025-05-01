@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://d33y4w8ixynua"]
+[gd_scene load_steps=9 format=3 uid="uid://d33y4w8ixynua"]
 
-[ext_resource type="Script" uid="uid://b1tpx3mbt7xyb" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
+[ext_resource type="Script" path="res://assets/GUI/GUI.gd" id="1_3eeni"]
 [ext_resource type="Texture2D" uid="uid://cwikpujxskop0" path="res://assets/sprites/GUI/heart.png" id="2_eofit"]
 [ext_resource type="Texture2D" uid="uid://bnjdoyw0jwr83" path="res://assets/sprites/GUI/inventory.png" id="2_rjx25"]
 [ext_resource type="PackedScene" uid="uid://bsl2vlwe7bus" path="res://assets/GUI/slot.tscn" id="3_lvwsk"]
+[ext_resource type="FontFile" uid="uid://b1hueq17atyif" path="res://assets/Fonts/superstar_memesbruh03.ttf" id="6_gqjb7"]
 [ext_resource type="Texture2D" uid="uid://dyslnd6gyj306" path="res://assets/sprites/GUI/money.jpg" id="8_ft8rc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6h8v4"]
@@ -183,3 +184,12 @@ theme_override_styles/background = SubResource("StyleBoxFlat_6h8v4")
 theme_override_styles/fill = SubResource("StyleBoxFlat_iqijg")
 value = 100.0
 show_percentage = false
+
+[node name="speedrunTimer" type="Label" parent="."]
+offset_left = 5.0
+offset_top = 591.0
+offset_right = 180.0
+offset_bottom = 647.0
+theme_override_fonts/font = ExtResource("6_gqjb7")
+theme_override_font_sizes/font_size = 56
+text = "0:00"

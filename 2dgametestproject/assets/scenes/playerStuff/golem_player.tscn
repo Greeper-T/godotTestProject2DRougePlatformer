@@ -1,8 +1,9 @@
-[gd_scene load_steps=77 format=3 uid="uid://c4j4kyt7a5n01"]
+[gd_scene load_steps=78 format=3 uid="uid://c4j4kyt7a5n01"]
 
 [ext_resource type="Script" path="res://assets/scripts/playerScripts/golem_player.gd" id="1_gvf5v"]
 [ext_resource type="Texture2D" uid="uid://bn7cyooo7fa42" path="res://assets/sprites/enemySprites/Mecha-stone Golem 0.1/PNG sheet/Character_sheet.png" id="1_m3def"]
 [ext_resource type="PackedScene" uid="uid://8nw6luhhkyku" path="res://assets/scenes/areaFunctions/hurtbox.tscn" id="2_ui8pa"]
+[ext_resource type="Texture2D" uid="uid://dudcq2i1lt2kj" path="res://assets/sprites/white.png" id="3_etwb7"]
 [ext_resource type="Texture2D" uid="uid://06jdwiv67uld" path="res://assets/sprites/playerSprites/shield.png" id="4_160fl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4u2nj"]
@@ -558,6 +559,12 @@ collision_mask = 12
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bossTexure/enemyInMelee"]
 position = Vector2(14, -10)
 shape = SubResource("RectangleShape2D_bk4rh")
+
+[node name="White" type="Sprite2D" parent="bossTexure/enemyInMelee"]
+self_modulate = Color(1, 1, 1, 0.329412)
+position = Vector2(14.5, -9.99999)
+scale = Vector2(0.0980393, 0.10101)
+texture = ExtResource("3_etwb7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -9)

@@ -10,7 +10,7 @@ var rotationSpeed: float = 2.0
 
 
 func _physics_process(delta: float) -> void:
-	
+	var targetPosition: Vector2
 	#var direction = (player.global_position - global_position).normalized()
 	#
 	#var targetAngle = direction.angle()
@@ -18,21 +18,28 @@ func _physics_process(delta: float) -> void:
 	#
 	#position += Vector2.RIGHT.rotated(rotation) * speed * delta
 	if enemy:
-		acceleration = (enemy.global_position - position).normalized() * 700
+		targetPosition = enemy.global_position
+	else:
+		targetPosition = get_global_mouse_position()
+	acceleration = (targetPosition - position).normalized() * 700
 		
-		speed += acceleration * delta
-		rotation = speed.angle()
+	speed += acceleration * delta
+	rotation = speed.angle()
 		
-		speed = speed.limit_length(150)
+	speed = speed.limit_length(150)
 		
-		position += speed * delta	
+	position += speed * delta	
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.has_method("takeDamage"):
-		body.takeDamage(PlayerData.rangedDamage)
+		body.takeDamage(PlayerData.rangedDamage * 2)
 		queue_free()
 
 
 func _on_check_for_first_enemy_body_entered(body: Node2D) -> void:
-	if body.has_method("takeDamage"):
+	if body.has_method("takeDamage") and !enemy:
 		enemy = body
+
+
+func _on_timer_timeout() -> void:
+	queue_free()

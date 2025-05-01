@@ -170,14 +170,19 @@ func checkIfDead():
 func playerAnimations():
 	if PlayerData.currentState == PlayerData.PlayerState.IDLE:
 		boss_texure.play("idle")
+		$bossTexure/enemyInMelee/White.visible = false
 	elif  PlayerData.currentState == PlayerData.PlayerState.MOVING:
 		boss_texure.play("idle")
+		$bossTexure/enemyInMelee/White.visible = false
 	elif PlayerData.currentState == PlayerData.PlayerState.JUMPING:
 		boss_texure.play("idle")
+		$bossTexure/enemyInMelee/White.visible = false
 	elif PlayerData.currentState == PlayerData.PlayerState.FALLING:
 		boss_texure.play("idle")
+		$bossTexure/enemyInMelee/White.visible = false
 	elif PlayerData.currentState == PlayerData.PlayerState.MELEE_ATTACK:
 		boss_texure.play("meleeAttack")
+		$bossTexure/enemyInMelee/White.visible = true
 	elif PlayerData.currentState == PlayerData.PlayerState.SHOOTING:
 		boss_texure.play("rangedAttack")
 	elif PlayerData.currentState == PlayerData.PlayerState.DEATH:

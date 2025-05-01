@@ -3,6 +3,7 @@ class_name GUI
 
 @export var healthLabel : Label
 @export var moneyLabel : Label
+@onready var speedrun_timer: Label = $speedrunTimer
 var hidden = true
 
 # Called when the node enters the scene tree for the first time.
@@ -17,6 +18,7 @@ func _process(delta):
 	$hp_bar.value = PlayerData.hp
 	updateHealthLabel()
 	updateMoneyLabel()
+	speedrun_timer.text = GameManager.speedRunText
 
 
 func updateHealthLabel():

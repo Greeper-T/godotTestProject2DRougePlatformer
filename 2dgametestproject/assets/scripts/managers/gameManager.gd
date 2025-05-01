@@ -14,6 +14,10 @@ var hud: HUD
 var gui: GUI
 var resources: Array[Item] = []  # Holds Item resources
 
+var SpeedrunTime = 0.0
+var timerRunning = false
+var speedRunText: String
+
 func _ready():
 	hud = get_tree().get_first_node_in_group("hud")
 	gui = get_tree().get_first_node_in_group("gui")
@@ -21,6 +25,14 @@ func _ready():
 
 	if resources.is_empty():
 		print("Warning: No items loaded into GameManager!")
+
+func _process(delta: float) -> void:
+	if timerRunning:
+		SpeedrunTime += delta
+		var minutes = int(SpeedrunTime / 60)
+		var seconds = int(SpeedrunTime) % 60
+		var milliseconds = int((SpeedrunTime - int(SpeedrunTime)) * 100)
+		speedRunText = "%02d:%02d.%02d" % [minutes, seconds, milliseconds]
 
 # -- Level Management --
 func nextLevel():
