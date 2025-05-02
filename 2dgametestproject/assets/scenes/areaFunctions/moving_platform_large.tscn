@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bhti4ybxk2aot"]
 
 [ext_resource type="Texture2D" uid="uid://btlv7imkldldu" path="res://assets/sprites/terrainSprites/platform1_large.png" id="1_36q8h"]
-[ext_resource type="Script" uid="uid://cidoyh85651bd" path="res://assets/scripts/terrainScripts/moving_platform.gd" id="1_jnp1l"]
+[ext_resource type="Script" path="res://assets/scripts/terrainScripts/moving_platform.gd" id="1_jnp1l"]
 
 [sub_resource type="Curve2D" id="Curve2D_s0qir"]
 resource_local_to_scene = true
