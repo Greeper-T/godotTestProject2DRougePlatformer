@@ -7,7 +7,7 @@ var areaPath = "res://assets/scenes/playable/"
 var shop = "res://assets/scenes/playable/Shop.tscn"
 
 var playerScene = preload("res://assets/scenes/playerStuff/player.tscn")
-var golemUnlocked = true
+var golemUnlocked = false
 
 var potions = 20
 var hud: HUD

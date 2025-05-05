@@ -72,7 +72,7 @@ func update_pickup_label():
 	if pickup_label:
 		var events = InputMap.action_get_events("Interact")
 		if events.size() > 0:
-			pickup_label.text = "Press '" + events[0].as_text().trim_suffix(" (Physical)") + "' to pick up"
+			pickup_label.text = "Press '" + events[0].as_text().trim_suffix(" (Physical)") + "' to pick up ($15)"
 		else:
 			pickup_label.text = "Press 'Unknown' to pick up"
 	else:

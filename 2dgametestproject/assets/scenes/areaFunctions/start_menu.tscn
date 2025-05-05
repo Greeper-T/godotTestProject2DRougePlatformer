@@ -91,6 +91,7 @@ region_rect = Rect2(0, 0, 16, 16)
 
 [node name="golem2" type="Sprite2D" parent="HBoxContainer"]
 visible = false
+self_modulate = Color(0, 0, 0, 1)
 position = Vector2(582, 58.5)
 scale = Vector2(4.8, 4.86)
 texture = ExtResource("5_p7wrh")
