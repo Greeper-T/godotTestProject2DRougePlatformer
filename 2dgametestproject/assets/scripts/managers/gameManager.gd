@@ -50,6 +50,7 @@ func nextLevel():
 	elif currentPhase % 3 == 2:
 		get_tree().change_scene_to_file("res://assets/scenes/playable/area_0.tscn")
 		currentPhase += 1 
+		playerScene = preload("res://assets/scenes/playerStuff/golem_player.tscn")
 		print("go to zero")
 	var fullPath = areaPath + "area_" + str(currentArea) + ".tscn"
 	if hud:

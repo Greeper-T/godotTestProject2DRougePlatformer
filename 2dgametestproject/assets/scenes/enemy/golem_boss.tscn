@@ -727,6 +727,7 @@ theme_override_font_sizes/font_size = 56
 text = "Golem Boss"
 
 [node name="debug" type="Label" parent="."]
+visible = false
 offset_left = -24.0
 offset_top = -47.0
 offset_right = 25.0
