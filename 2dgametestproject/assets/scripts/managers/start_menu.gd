@@ -24,6 +24,8 @@ func updateTheSprite():
 		$HBoxContainer/golem2.visible = true
 		$HBoxContainer/Player.visible = false
 		GameManager.playerScene = preload("res://assets/scenes/playerStuff/golem_player.tscn")
+		if GameManager.golemUnlocked:
+			$HBoxContainer/golem2.self_modulate = Color(1,1,1,1)
 
 func _on_left_button_pressed() -> void:
 	selection -= 1
