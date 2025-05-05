@@ -81,21 +81,21 @@ func changeState(newState):
 		debug.text = State.keys()[currentState]
 
 func playAnimations():
-	if currentState == State.Idle or currentState == State.Follow:
+	if currentState == State.Idle or currentState == State.Follow and currentState != State.Death:
 		boss_texure.play("idle")
-	elif currentState == State.MeleeAttack:
+	elif currentState == State.MeleeAttack and currentState != State.Death:
 		boss_texure.play("meleeAttack")
-	elif currentState == State.HomingMissile:
+	elif currentState == State.HomingMissile and currentState != State.Death:
 		boss_texure.play("rangedAttack")
 		await boss_texure.animation_finished
 		shoot()
 		changeState(State.Dash)
-	elif  currentState == State.Dash:
+	elif  currentState == State.Dash and currentState != State.Death:
 		boss_texure.play("glowing")
 		await get_tree().create_timer(1.0).timeout
 		await dash()
 		changeState(State.Follow)
-	elif currentState == State.LaserBeam:
+	elif currentState == State.LaserBeam and currentState != State.Death:
 		boss_texure.play("lazarCast")
 		await boss_texure.animation_finished
 		lazer_eye.play("charge")
@@ -103,12 +103,13 @@ func playAnimations():
 		await lazer_eye.animation_finished
 		lazer_eye.stop()
 		changeState(State.Dash)
-	elif currentState == State.ArmourBuff:
+	elif currentState == State.ArmourBuff and currentState != State.Death:
 		boss_texure.play("armorBuff")
 		await boss_texure.animation_finished
 		health += 25
 		changeState(State.Follow)
 	elif currentState == State.Death:
+		set_physics_process(false)
 		boss_texure.play("death")
 		await boss_texure.animation_finished
 		PlayerData.money += randi_range(20,50)
